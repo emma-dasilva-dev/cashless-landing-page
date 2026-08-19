@@ -7,11 +7,8 @@
   display: flex;
   flex-direction: column;
   padding: 24px 44px 22px;
-  background: #ffffff;
-  background-image: url("/images/bcg.png");
-  background-position: center;
-  background-repeat: no-repeat;
-  background-size: cover;
+  /* background: #ffffff; */
+  
   color: #111111;
   isolation: isolate;
   

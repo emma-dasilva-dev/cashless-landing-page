@@ -21,7 +21,7 @@ export default function InvestorAccessPage() {
 
   return (
     <main className={styles.page}>
-      <FlowArtwork variant="investors" />
+      {/* <FlowArtwork variant="investors" /> */}
 
       <header className={styles.header}>
         <Link href="/" className={styles.brandLink} aria-label={copy.back}>
