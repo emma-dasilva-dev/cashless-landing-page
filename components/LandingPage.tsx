@@ -15,7 +15,7 @@ export default function LandingPage() {
 
     >
       {/* <FlowArtwork variant="landing" /> */}
-      <div className={styles.bcg} />
+      {/* <div className={styles.bcg} /> */}
       <Header language={language} onLanguageChange={setLanguage} />
       <Hero language={language} />
     </main>
