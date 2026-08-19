@@ -21,7 +21,7 @@ const content = {
     eyebrow: "FOR INVESTORS",
     title: "Investor access",
     description:
-      "Enter your details to continue to private Cashless investor access.",
+      "Enter your details to continue to Cashless investor access.",
     fullName: "Full name",
     fullNamePlaceholder: "Your full name",
     email: "Email",
@@ -43,7 +43,7 @@ const content = {
     eyebrow: "POUR LES INVESTISSEURS",
     title: "Espace investisseurs",
     description:
-      "Renseignez vos informations pour continuer vers l’espace privé Cashless.",
+      "Renseignez vos informations pour continuer vers l’espace investisseurs Cashless.",
     fullName: "Nom complet",
     fullNamePlaceholder: "Votre nom complet",
     email: "Email",

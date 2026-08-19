@@ -1,36 +1,106 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Cashless Landing Page
 
-## Getting Started
+A responsive, bilingual landing page for **Cashless**, designed to introduce the Cashless ecosystem, direct users to the mobile applications, and provide controlled access to investor resources.
 
-First, run the development server:
+The interface focuses on a minimal fintech aesthetic, subtle motion, responsive behavior, and a clear user journey across desktop and mobile devices.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Live Website
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+https://cashless-landing-page.vercel.app
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Overview
 
-## Learn More
+The Cashless Landing Page serves as a lightweight entry point into the Cashless ecosystem.
 
-To learn more about Next.js, take a look at the following resources:
+The experience includes:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- Cashless brand animation
+- English and French language support
+- App Store and Google Play access
+- Responsive desktop and mobile layouts
+- Subtle interface animations and micro-interactions
+- Investor access flow
+- Protected investor area
+- Reduced-motion accessibility support
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+The visual direction is intentionally minimal, with the Cashless animation acting as the primary visual element and subtle abstract line artwork providing background depth.
 
-## Deploy on Vercel
+---
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Objectives
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+The project was designed to:
+
+- Present Cashless through a clean and modern digital experience
+- Provide a responsive interface across desktop and mobile devices
+- Support both English and French audiences
+- Direct users toward the Cashless mobile applications
+- Provide a structured entry point for investors
+- Maintain fast loading and lightweight frontend behavior
+- Use restrained motion to make the interface feel polished without overwhelming the content
+
+---
+
+## Tech Stack
+
+### Frontend
+
+- Next.js 16
+- React 19
+- TypeScript
+- CSS Modules
+- React Icons
+
+### Backend
+
+- Next.js Route Handlers
+- Server-side environment variables
+- HttpOnly cookies
+- HMAC-signed investor sessions
+
+### Deployment
+
+- Vercel
+
+No external animation framework is required.
+
+Animations and interactions are implemented using CSS and lightweight React/JavaScript behavior.
+
+---
+
+## Design Principles
+
+The interface follows several core principles:
+
+**Minimalism**  
+Only elements that contribute to the user journey are given visual prominence.
+
+**Hierarchy**  
+The Cashless animation acts as the primary visual, followed by the headline, supporting copy, application CTAs, and investor access.
+
+**Motion with purpose**  
+Animations reinforce hierarchy and interaction rather than functioning as decoration.
+
+**Responsive consistency**  
+Desktop and mobile layouts adapt independently while maintaining the same Cashless identity.
+
+**Accessibility**  
+Motion preferences, semantic HTML, keyboard-accessible controls, and responsive typography are considered throughout the interface.
+
+---
+
+## Author
+
+**Emma Da Silva**
+
+Junior Full-Stack Developer
+
+GitHub: `emma-dasilva-dev`
+
+---
+
+## Status
+
+Active development.

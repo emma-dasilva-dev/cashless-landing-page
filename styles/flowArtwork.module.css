@@ -6,64 +6,113 @@
   pointer-events: none;
 }
 
-.canvas {
+.wave {
+  position: absolute;
+  width: min(520px, 38vw);
+  aspect-ratio: 13 / 6;
+  color: #111111;
+  opacity: 0.018;
+  transform: translateZ(0);
+}
+
+.wave svg {
   width: 100%;
   height: 100%;
+  display: block;
 }
 
-.waveGroup {
-  transform-box: fill-box;
-  transform-origin: center;
-}
-
-.waveGroup path {
-  stroke: #111111;
-  stroke-width: 1;
+.wave path {
+  stroke: currentColor;
+  stroke-width: 1.15;
   stroke-linecap: round;
   vector-effect: non-scaling-stroke;
 }
 
-.landing .waveGroup {
-  opacity: 0.052;
+.waveTop {
+  top: 7%;
+  right: -9%;
+  transform: rotate(-7deg);
+  animation: ambientDriftTop 22s ease-in-out infinite alternate;
 }
 
-.investors .waveGroup {
-  opacity: 0.04;
+.waveBottom {
+  left: -12%;
+  bottom: 7%;
+  transform: rotate(8deg);
+  animation: ambientDriftBottom 26s ease-in-out infinite alternate;
 }
 
-.waveTopRight {
-  animation: driftRight 18s ease-in-out infinite alternate;
+.investors .wave {
+  opacity: 0.014;
 }
 
-.waveMiddleLeft {
-  animation: driftLeft 22s ease-in-out infinite alternate;
+.investors .waveTop {
+  top: 10%;
+  right: -12%;
 }
 
-.waveBottomRight {
-  animation: driftRight 24s ease-in-out infinite alternate-reverse;
+.investors .waveBottom {
+  left: -14%;
+  bottom: 9%;
 }
 
-@keyframes driftRight {
-  from { transform: translate3d(-10px, -3px, 0); }
-  to { transform: translate3d(16px, 5px, 0); }
+@keyframes ambientDriftTop {
+  from {
+    translate: 0 0;
+  }
+
+  to {
+    translate: -14px 8px;
+  }
 }
 
-@keyframes driftLeft {
-  from { transform: translate3d(12px, 4px, 0); }
-  to { transform: translate3d(-14px, -4px, 0); }
+@keyframes ambientDriftBottom {
+  from {
+    translate: 0 0;
+  }
+
+  to {
+    translate: 16px -7px;
+  }
 }
 
 @media (max-width: 700px) {
-  .landing .waveTopRight { opacity: 0.72; }
-  .landing .waveMiddleLeft { opacity: 0.85; }
-  .landing .waveBottomRight { opacity: 0.6; }
-  .investors .waveGroup { opacity: 0.045; }
+  .wave {
+    width: 270px;
+    opacity: 0.015;
+  }
+
+  .waveTop {
+    top: 9%;
+    right: -32%;
+    transform: rotate(-7deg);
+  }
+
+  .waveBottom {
+    left: -34%;
+    bottom: 8%;
+    transform: rotate(8deg);
+  }
+
+  .investors .wave {
+    width: 250px;
+    opacity: 0.012;
+  }
+
+  .investors .waveTop {
+    top: 14%;
+    right: -34%;
+  }
+
+  .investors .waveBottom {
+    left: -36%;
+    bottom: 10%;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .waveTopRight,
-  .waveMiddleLeft,
-  .waveBottomRight {
+  .waveTop,
+  .waveBottom {
     animation: none;
   }
 }
