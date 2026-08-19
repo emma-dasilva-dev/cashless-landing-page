@@ -6,113 +6,106 @@
   pointer-events: none;
 }
 
-.wave {
+.field {
   position: absolute;
-  width: min(520px, 38vw);
-  aspect-ratio: 13 / 6;
+  width: min(600px, 44vw);
+  aspect-ratio: 52 / 25;
   color: #111111;
-  opacity: 0.034;
+  opacity: 0.075;
   transform: translateZ(0);
 }
 
-.wave svg {
+.field svg {
+  display: block;
   width: 100%;
   height: 100%;
-  display: block;
 }
 
-.wave path {
+.connections path {
   stroke: currentColor;
-  stroke-width: 1.15;
+  stroke-width: 0.65;
   stroke-linecap: round;
+  stroke-linejoin: round;
   vector-effect: non-scaling-stroke;
 }
 
-.waveTop {
-  top: 7%;
-  right: -9%;
-  transform: rotate(-7deg);
-  animation: ambientDriftTop 22s ease-in-out infinite alternate;
+.nodes circle {
+  fill: currentColor;
 }
 
-.waveBottom {
-  left: -12%;
-  bottom: 7%;
-  transform: rotate(8deg);
-  animation: ambientDriftBottom 26s ease-in-out infinite alternate;
-}
-
-.investors .wave {
-  opacity: 0.027;
-}
-
-.investors .waveTop {
+.fieldTop {
   top: 10%;
-  right: -12%;
+  right: -13%;
+  transform: rotate(-8deg);
+  animation: digitalDriftTop 24s ease-in-out infinite alternate;
 }
 
-.investors .waveBottom {
-  left: -14%;
-  bottom: 9%;
+.fieldBottom {
+  left: -16%;
+  bottom: 5%;
+  transform: rotate(7deg);
+  animation: digitalDriftBottom 28s ease-in-out infinite alternate;
 }
 
-@keyframes ambientDriftTop {
-  from {
-    translate: 0 0;
-  }
-
-  to {
-    translate: -14px 8px;
-  }
+.investors .field {
+  opacity: 0.06;
 }
 
-@keyframes ambientDriftBottom {
-  from {
-    translate: 0 0;
-  }
+.investors .fieldTop {
+  top: 13%;
+  right: -15%;
+}
 
-  to {
-    translate: 16px -7px;
-  }
+.investors .fieldBottom {
+  left: -17%;
+  bottom: 7%;
+}
+
+@keyframes digitalDriftTop {
+  from { translate: 0 0; }
+  to { translate: -12px 7px; }
+}
+
+@keyframes digitalDriftBottom {
+  from { translate: 0 0; }
+  to { translate: 13px -6px; }
 }
 
 @media (max-width: 700px) {
-  .wave {
-    width: 270px;
-    opacity: 0.029;
+  .field {
+    width: 330px;
+    opacity: 0.065;
   }
 
-  .waveTop {
-    top: 9%;
-    right: -32%;
-    transform: rotate(-7deg);
+  .fieldTop {
+    top: 12%;
+    right: -42%;
   }
 
-  .waveBottom {
-    left: -34%;
+  .fieldBottom {
+    left: -45%;
+    bottom: 5%;
+  }
+
+  .investors .field {
+    width: 300px;
+    opacity: 0.052;
+  }
+
+  .investors .fieldTop {
+    top: 17%;
+    right: -43%;
+  }
+
+  .investors .fieldBottom {
+    left: -44%;
     bottom: 8%;
-    transform: rotate(8deg);
-  }
-
-  .investors .wave {
-    width: 250px;
-    opacity: 0.023;
-  }
-
-  .investors .waveTop {
-    top: 14%;
-    right: -34%;
-  }
-
-  .investors .waveBottom {
-    left: -36%;
-    bottom: 10%;
   }
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .waveTop,
-  .waveBottom {
+  .fieldTop,
+  .fieldBottom {
     animation: none;
   }
 }

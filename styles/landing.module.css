@@ -152,6 +152,7 @@
 
 .animationStage {
   position: relative;
+  transform: translateY(-48px);
   width: min(1080px, 88vw);
   height: clamp(310px, 43vh, 455px);
   overflow: hidden;
@@ -203,7 +204,7 @@
 .heroCopy {
   position: relative;
   z-index: 3;
-  margin-top: -16px;
+  margin-top: -62px;
   width: 100%;
 }
 
@@ -528,6 +529,7 @@
 
   .animationStage {
     width: calc(100% + 18px);
+    transform: translateY(-34px);
     height: clamp(170px, 25vh, 215px);
     -webkit-mask-image: linear-gradient(
       to bottom,
@@ -557,7 +559,7 @@
 
   .heroCopy {
     width: 100%;
-    margin-top: -6px;
+    margin-top: -44px;
   }
 
   .heroTitle {

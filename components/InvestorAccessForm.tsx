@@ -89,6 +89,7 @@ export default function InvestorAccessForm({
   });
   const [accessCode, setAccessCode] = useState("");
   const [error, setError] = useState("");
+  const [detailsValidationError, setDetailsValidationError] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const copy = content[language];
@@ -105,9 +106,10 @@ export default function InvestorAccessForm({
   const handleDetailsSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setError("");
+    setDetailsValidationError(false);
 
     if (!isDetailsValid) {
-      setError(copy.invalidDetails);
+      setDetailsValidationError(true);
       return;
     }
 
@@ -117,6 +119,7 @@ export default function InvestorAccessForm({
   const handleCodeSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setError("");
+    setDetailsValidationError(false);
     setIsSubmitting(true);
 
     try {
@@ -225,9 +228,9 @@ export default function InvestorAccessForm({
                 <HiArrowRight aria-hidden="true" />
               </button>
 
-              {error && (
+              {(detailsValidationError || error) && (
                 <p className={styles.statusError} role="alert">
-                  {error}
+                  {detailsValidationError ? copy.invalidDetails : error}
                 </p>
               )}
             </form>
