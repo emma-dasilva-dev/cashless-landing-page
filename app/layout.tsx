@@ -1,12 +1,15 @@
 import type { Metadata } from "next";
-import { Geist } from "next/font/google";
+import { Manrope } from "next/font/google";
 import "./globals.css";
 
-const geist = Geist({ subsets: ["latin"], display: "swap" });
+const manrope = Manrope({
+  subsets: ["latin"],
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "Cashless",
-  description: "Money made for Africa.",
+  description: "Manage your money with Cashless, wherever you are.",
 };
 
 export default function RootLayout({
@@ -14,7 +17,7 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
-      <body className={geist.className}>{children}</body>
+      <body className={manrope.className}>{children}</body>
     </html>
   );
 }

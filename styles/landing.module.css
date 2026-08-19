@@ -1,11 +1,12 @@
 .page {
+  position: relative;
   width: 100%;
   height: 100dvh;
   min-height: 100dvh;
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  padding: 26px 44px 28px;
+  padding: 24px 44px;
   background: #ffffff;
   color: #111111;
 }
@@ -24,9 +25,22 @@
   animation: headerEnter 480ms cubic-bezier(0.22, 1, 0.36, 1) 40ms forwards;
 }
 
-.headerBrand { justify-self: start; display: flex; align-items: center; }
-.headerLogo { width: auto; height: 30px; object-fit: contain; }
-.desktopLanguageSelector { position: relative; justify-self: end; }
+.headerBrand {
+  justify-self: start;
+  display: flex;
+  align-items: center;
+}
+
+.headerLogo {
+  width: auto;
+  height: 30px;
+  object-fit: contain;
+}
+
+.desktopLanguageSelector {
+  position: relative;
+  justify-self: end;
+}
 
 .desktopLanguageButton {
   border: 0;
@@ -41,9 +55,23 @@
   cursor: pointer;
 }
 
-.flag { display: block; width: 28px; height: 19px; border-radius: 2px; pointer-events: none; }
-.languageChevron { width: 14px; height: 14px; transition: transform 180ms ease; }
-.languageChevronOpen { transform: rotate(180deg); }
+.flag {
+  display: block;
+  width: 28px;
+  height: 19px;
+  border-radius: 2px;
+  pointer-events: none;
+}
+
+.languageChevron {
+  width: 14px;
+  height: 14px;
+  transition: transform 180ms ease;
+}
+
+.languageChevronOpen {
+  transform: rotate(180deg);
+}
 
 .languageMenu {
   position: absolute;
@@ -56,7 +84,7 @@
   gap: 2px;
   padding: 6px;
   border: 1px solid #e5e5e5;
-  border-radius: 10px;
+  border-radius: 12px;
   background: #ffffff;
   box-shadow: 0 14px 35px rgba(0, 0, 0, 0.1);
   transform-origin: top right;
@@ -72,19 +100,30 @@
   gap: 10px;
   min-height: 40px;
   padding: 8px;
-  border-radius: 7px;
+  border-radius: 8px;
   color: #111111;
   font-size: 12px;
-  font-weight: 500;
+  font-weight: 600;
   cursor: pointer;
 }
 
-.languageOption:hover { background: #f4f4f4; }
-.languageOption .flag { width: 24px; height: 16px; }
-.mobileLanguageControl { display: none; }
+.languageOption:hover {
+  background: #f4f4f4;
+}
+
+.languageOption .flag {
+  width: 24px;
+  height: 16px;
+}
+
+.mobileLanguageControl {
+  display: none;
+}
 
 .hero {
-  width: min(980px, 100%);
+  position: relative;
+  z-index: 2;
+  width: min(1180px, 100%);
   flex: 1;
   min-height: 0;
   margin: 0 auto;
@@ -93,7 +132,7 @@
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding: 20px 0 8px;
+  padding-top: 2px;
 }
 
 .animationReveal {
@@ -102,12 +141,12 @@
   justify-content: center;
   opacity: 0;
   transform: translateY(14px) scale(0.985);
-  animation: contentEnter 650ms cubic-bezier(0.22, 1, 0.36, 1) 120ms forwards;
+  animation: contentEnter 680ms cubic-bezier(0.22, 1, 0.36, 1) 100ms forwards;
 }
 
 .animationStage {
-  width: min(680px, 70vw);
-  height: clamp(180px, 30vh, 320px);
+  width: min(920px, 78vw);
+  height: clamp(240px, 36vh, 390px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -115,45 +154,84 @@
   background: transparent;
 }
 
-.animationVideo { width: 100%; height: 100%; object-fit: contain; display: block; }
-.animationFallback { display: flex; align-items: center; justify-content: center; width: 100%; height: 100%; }
-.animationFallback strong { font-size: clamp(42px, 7vw, 86px); font-weight: 400; letter-spacing: -0.055em; }
+.animationVideo {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  pointer-events: none;
+}
 
-.heroCopy { margin-top: 2px; max-width: 720px; }
+.animationFallback {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+}
+
+.animationFallback strong {
+  font-size: clamp(60px, 8vw, 110px);
+  font-weight: 500;
+  letter-spacing: -0.055em;
+}
+
+.heroCopy {
+  margin-top: -8px;
+  max-width: none;
+}
 
 .heroTitle {
   margin: 0;
-  font-size: clamp(30px, 4vw, 48px);
-  font-weight: 500;
+  font-size: clamp(30px, 3.4vw, 46px);
+  font-weight: 650;
   line-height: 1;
-  letter-spacing: -0.045em;
+  letter-spacing: -0.04em;
+  white-space: nowrap;
   opacity: 0;
   transform: translateY(18px);
-  animation: contentEnter 600ms cubic-bezier(0.22, 1, 0.36, 1) 260ms forwards;
+  animation: contentEnter 600ms cubic-bezier(0.22, 1, 0.36, 1) 250ms forwards;
+}
+
+.heroTitleFrench {
+  font-size: clamp(28px, 3.1vw, 42px);
 }
 
 .heroDescription {
-  max-width: 560px;
-  margin: 14px auto 0;
+  margin: 13px auto 0;
   color: #555555;
-  font-size: clamp(14px, 1.3vw, 17px);
-  line-height: 1.45;
+  font-size: clamp(14px, 1.2vw, 16px);
+  font-weight: 500;
+  line-height: 1.4;
+  white-space: nowrap;
   opacity: 0;
   transform: translateY(12px);
-  animation: contentEnter 560ms cubic-bezier(0.22, 1, 0.36, 1) 390ms forwards;
+  animation: contentEnter 560ms cubic-bezier(0.22, 1, 0.36, 1) 380ms forwards;
 }
 
-.heroActions { margin-top: 24px; display: flex; flex-direction: column; align-items: center; gap: 12px; }
-.storeLinks { display: flex; align-items: center; justify-content: center; gap: 12px; }
+.heroActions {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.storeLinks {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+}
 
 .storeButton {
   min-width: 198px;
-  min-height: 58px;
+  min-height: 56px;
   display: grid;
   grid-template-columns: auto 1fr auto;
   align-items: center;
   gap: 12px;
-  padding: 10px 16px;
+  padding: 9px 16px;
   border-radius: 999px;
   background: #111111;
   color: #ffffff;
@@ -164,49 +242,124 @@
   transition: transform 190ms ease, opacity 190ms ease;
 }
 
-.storeButtonOne { animation-delay: 500ms; }
-.storeButtonTwo { animation-delay: 590ms; }
-.storeIcon { width: 22px; height: 22px; }
-.storeLabel { display: flex; flex-direction: column; line-height: 1.08; text-align: left; }
-.storeLabel small { font-size: 9px; font-weight: 400; opacity: 0.7; }
-.storeLabel strong { margin-top: 3px; font-size: 15px; font-weight: 500; }
-.storeArrow { width: 16px; height: 16px; transition: transform 190ms ease; }
+.storeButtonOne { animation-delay: 490ms; }
+.storeButtonTwo { animation-delay: 580ms; }
+
+.storeIcon {
+  width: 22px;
+  height: 22px;
+}
+
+.storeLabel {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.08;
+  text-align: left;
+}
+
+.storeLabel small {
+  font-size: 9px;
+  font-weight: 500;
+  opacity: 0.72;
+}
+
+.storeLabel strong {
+  margin-top: 3px;
+  font-size: 15px;
+  font-weight: 600;
+}
+
+.storeArrow {
+  width: 16px;
+  height: 16px;
+  transition: transform 190ms ease;
+}
 
 .investorLink {
   display: inline-flex;
   align-items: center;
   gap: 10px;
-  min-height: 42px;
+  min-height: 40px;
   padding: 0 16px;
   border: 1px solid #d9d9d9;
   border-radius: 999px;
   color: #111111;
+  background: rgba(255, 255, 255, 0.78);
+  backdrop-filter: blur(8px);
   text-decoration: none;
   font-size: 12px;
-  font-weight: 500;
+  font-weight: 650;
   opacity: 0;
   transform: translateY(10px);
-  animation: contentEnter 500ms cubic-bezier(0.22, 1, 0.36, 1) 700ms forwards;
+  animation: contentEnter 500ms cubic-bezier(0.22, 1, 0.36, 1) 690ms forwards;
   transition: transform 190ms ease, border-color 190ms ease;
 }
 
-.investorLink svg { width: 15px; height: 15px; transition: transform 190ms ease; }
+.investorLink svg {
+  width: 15px;
+  height: 15px;
+  transition: transform 190ms ease;
+}
 
 @media (hover: hover) and (pointer: fine) {
-  .storeButton:hover { transform: translateY(-2px); opacity: 0.88; }
-  .storeButton:hover .storeArrow { transform: translateX(4px); }
-  .investorLink:hover { transform: translateY(-2px); border-color: #111111; }
-  .investorLink:hover svg { transform: translateX(4px); }
+  .storeButton:hover {
+    transform: translateY(-2px);
+    opacity: 0.88;
+  }
+
+  .storeButton:hover .storeArrow {
+    transform: translateX(4px);
+  }
+
+  .investorLink:hover {
+    transform: translateY(-2px);
+    border-color: #111111;
+  }
+
+  .investorLink:hover svg {
+    transform: translateX(4px);
+  }
 }
 
 .storeButton:active,
-.investorLink:active { transform: scale(0.98); }
+.investorLink:active {
+  transform: scale(0.98);
+}
 
-@keyframes headerEnter { to { opacity: 1; transform: translateY(0); } }
-@keyframes contentEnter { to { opacity: 1; transform: translateY(0) scale(1); } }
+@keyframes headerEnter {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes contentEnter {
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
 @keyframes menuEnter {
   from { opacity: 0; transform: translateY(-4px) scale(0.98); }
   to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+@media (max-width: 900px) and (min-width: 701px) {
+  .page {
+    padding-inline: 28px;
+  }
+
+  .animationStage {
+    width: min(820px, 86vw);
+    height: clamp(220px, 34vh, 350px);
+  }
+
+  .heroTitle {
+    font-size: clamp(28px, 4vw, 38px);
+  }
+
+  .heroTitleFrench {
+    font-size: clamp(25px, 3.5vw, 34px);
+  }
+
+  .heroDescription {
+    font-size: 14px;
+  }
 }
 
 @media (max-width: 700px) {
@@ -215,123 +368,83 @@
   }
 
   .header {
-  position: relative;
-  z-index: 100;
+    position: relative;
+    z-index: 100;
+    width: 100%;
+    min-height: 36px;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    align-items: center;
+    pointer-events: auto;
+  }
 
-  width: 100%;
-  min-height: 36px;
+  .headerBrand {
+    position: relative;
+    z-index: 103;
+    grid-column: 1;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    min-width: 48px;
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+  }
 
-  display: grid;
-  grid-template-columns: auto 1fr auto;
-  align-items: center;
+  .headerLogo {
+    display: block;
+    width: auto !important;
+    height: 25px !important;
+    max-width: none;
+    object-fit: contain;
+    opacity: 1;
+    visibility: visible;
+    flex-shrink: 0;
+  }
 
-  pointer-events: auto;
-}
-
-.headerBrand {
-  position: relative;
-  z-index: 103;
-
-  grid-column: 1;
-
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-
-  width: auto;
-  min-width: 48px;
-
-  opacity: 1;
-  visibility: visible;
-
-  pointer-events: auto;
-}
-
-.headerLogo {
-  display: block;
-
-  width: auto !important;
-  height: 25px !important;
-  max-width: none;
-
-  object-fit: contain;
-
-  opacity: 1;
-  visibility: visible;
-
-  flex-shrink: 0;
-}
-
-  /*
-   * Desktop selector must be completely removed
-   * from the mobile interaction layer.
-   */
   .desktopLanguageSelector {
     display: none !important;
     pointer-events: none;
   }
 
-  /*
-   * Mobile language selector.
-   * It lives explicitly above the hero/video layer.
-   */
   .mobileLanguageControl {
     position: relative;
-    z-index: 102;
-
-    margin-left: auto;
-
+    z-index: 103;
+    grid-column: 3;
+    justify-self: end;
     display: flex;
     align-items: center;
     justify-content: flex-end;
-
     gap: 4px;
-
     pointer-events: auto;
-
     isolation: isolate;
   }
 
   .mobileFlagButton {
     position: relative;
-
     width: 40px;
     height: 36px;
-
     flex: 0 0 40px;
-
     border: 1px solid transparent;
     border-radius: 8px;
-
     background: transparent;
-
     display: flex;
     align-items: center;
     justify-content: center;
-
     padding: 5px;
-
     color: #111111;
-
     appearance: none;
     -webkit-appearance: none;
-
     cursor: pointer;
-
     touch-action: manipulation;
-
     user-select: none;
     -webkit-user-select: none;
-
     -webkit-tap-highlight-color: transparent;
-
     pointer-events: auto;
-
     transition:
       border-color 160ms ease,
       background-color 160ms ease,
-      transform 120ms ease,
-      opacity 160ms ease;
+      transform 120ms ease;
   }
 
   .mobileFlagButtonActive {
@@ -345,84 +458,68 @@
 
   .mobileFlagButton .flag {
     display: block;
-
     width: 25px;
     height: 17px;
-
     flex-shrink: 0;
-
     border-radius: 2px;
-
     pointer-events: none;
   }
 
   .hero {
-    position: relative;
-    z-index: 1;
-
     width: 100%;
-
-    padding-top: 8px;
+    padding-top: 4px;
   }
 
   .animationStage {
-    position: relative;
-    z-index: 1;
-
     width: 100%;
-    height: clamp(170px, 28vh, 250px);
-
-    pointer-events: none;
-  }
-
-  .animationVideo {
+    height: clamp(180px, 29vh, 260px);
     pointer-events: none;
   }
 
   .animationFallback strong {
-    font-size: clamp(38px, 13vw, 58px);
+    font-size: clamp(44px, 14vw, 64px);
   }
 
   .heroCopy {
     width: 100%;
-    margin-top: 0;
+    margin-top: -4px;
   }
 
-  .heroTitle {
-    font-size: clamp(27px, 7.8vw, 34px);
-    line-height: 1.02;
+  .heroTitle,
+  .heroTitleFrench {
+    max-width: 360px;
+    margin-inline: auto;
+    font-size: clamp(26px, 7.4vw, 33px);
+    line-height: 1.04;
+    white-space: normal;
+    text-wrap: balance;
   }
 
   .heroDescription {
-    max-width: 330px;
-
-    margin-top: 10px;
-
+    max-width: 340px;
+    margin-top: 9px;
     font-size: 13px;
+    line-height: 1.38;
+    white-space: normal;
+    text-wrap: balance;
   }
 
   .heroActions {
     width: 100%;
-
-    margin-top: 18px;
-
-    gap: 10px;
+    margin-top: 16px;
+    gap: 9px;
   }
 
   .storeLinks {
     width: 100%;
-
     gap: 8px;
   }
 
   .storeButton {
     flex: 1;
-
     min-width: 0;
-    min-height: 47px;
-
+    min-height: 46px;
     gap: 7px;
-
     padding: 8px 10px;
   }
 
@@ -445,23 +542,58 @@
   }
 
   .investorLink {
-    min-height: 38px;
-
+    min-height: 37px;
     padding: 0 13px;
-
     font-size: 10px;
   }
-  .animationVideo {
-  pointer-events: none;
-}
 }
 
 @media (max-width: 420px) {
-  .page { padding: 16px 14px 14px; }
-  .animationStage { height: clamp(150px, 25vh, 210px); }
-  .heroTitle { font-size: 27px; }
-  .storeButton { min-height: 44px; padding-inline: 8px; }
-  .storeLabel strong { font-size: 10px; }
+  .page {
+    padding: 15px 14px 13px;
+  }
+
+  .animationStage {
+    height: clamp(160px, 26vh, 220px);
+  }
+
+  .heroTitle,
+  .heroTitleFrench {
+    font-size: 26px;
+  }
+
+  .heroDescription {
+    max-width: 300px;
+    font-size: 12px;
+  }
+
+  .storeButton {
+    min-height: 44px;
+    padding-inline: 8px;
+  }
+
+  .storeLabel strong {
+    font-size: 10px;
+  }
+}
+
+@media (max-height: 720px) and (min-width: 701px) {
+  .page {
+    padding-top: 18px;
+    padding-bottom: 18px;
+  }
+
+  .animationStage {
+    height: 250px;
+  }
+
+  .heroCopy {
+    margin-top: -12px;
+  }
+
+  .heroActions {
+    margin-top: 16px;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

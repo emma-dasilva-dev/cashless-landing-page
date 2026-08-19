@@ -1,0 +1,69 @@
+.artwork {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.canvas {
+  width: 100%;
+  height: 100%;
+}
+
+.waveGroup {
+  transform-box: fill-box;
+  transform-origin: center;
+}
+
+.waveGroup path {
+  stroke: #111111;
+  stroke-width: 1;
+  stroke-linecap: round;
+  vector-effect: non-scaling-stroke;
+}
+
+.landing .waveGroup {
+  opacity: 0.052;
+}
+
+.investors .waveGroup {
+  opacity: 0.04;
+}
+
+.waveTopRight {
+  animation: driftRight 18s ease-in-out infinite alternate;
+}
+
+.waveMiddleLeft {
+  animation: driftLeft 22s ease-in-out infinite alternate;
+}
+
+.waveBottomRight {
+  animation: driftRight 24s ease-in-out infinite alternate-reverse;
+}
+
+@keyframes driftRight {
+  from { transform: translate3d(-10px, -3px, 0); }
+  to { transform: translate3d(16px, 5px, 0); }
+}
+
+@keyframes driftLeft {
+  from { transform: translate3d(12px, 4px, 0); }
+  to { transform: translate3d(-14px, -4px, 0); }
+}
+
+@media (max-width: 700px) {
+  .landing .waveTopRight { opacity: 0.72; }
+  .landing .waveMiddleLeft { opacity: 0.85; }
+  .landing .waveBottomRight { opacity: 0.6; }
+  .investors .waveGroup { opacity: 0.045; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .waveTopRight,
+  .waveMiddleLeft,
+  .waveBottomRight {
+    animation: none;
+  }
+}
