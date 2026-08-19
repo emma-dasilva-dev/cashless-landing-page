@@ -273,11 +273,16 @@
 }
 
 .statusError {
-  margin: 0;
-  color: #7c2525;
+  margin: 2px 0 0;
+  padding: 9px 11px;
+  border: 1px solid rgba(124, 37, 37, 0.14);
+  border-radius: 10px;
+  background: rgba(124, 37, 37, 0.035);
+  color: #6f2323;
   font-size: 10.5px;
+  font-weight: 600;
   line-height: 1.4;
-  text-align: center;
+  text-align: left;
   animation: statusEnter 220ms ease both;
 }
 

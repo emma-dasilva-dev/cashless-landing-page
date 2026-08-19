@@ -134,8 +134,9 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: flex-start;
   text-align: center;
+  padding-top: clamp(2px, 1.6vh, 14px);
 }
 
 .animationReveal {
@@ -143,6 +144,8 @@
   display: flex;
   justify-content: center;
   opacity: 0;
+  margin-top: -22px;
+  margin-bottom: -24px;
   transform: translateY(10px) scale(0.99);
   animation: contentEnter 620ms cubic-bezier(0.22, 1, 0.36, 1) 100ms forwards;
 }
@@ -150,7 +153,7 @@
 .animationStage {
   position: relative;
   width: min(1080px, 88vw);
-  height: clamp(270px, 39vh, 410px);
+  height: clamp(310px, 43vh, 455px);
   overflow: hidden;
   display: grid;
   place-items: center;
@@ -514,16 +517,18 @@
 
   .hero {
     width: 100%;
-    justify-content: center;
+    justify-content: flex-start;
+    padding-top: 0;
   }
 
   .animationReveal {
-    margin-top: 2px;
+    margin-top: -12px;
+    margin-bottom: -15px;
   }
 
   .animationStage {
     width: calc(100% + 18px);
-    height: clamp(150px, 23vh, 190px);
+    height: clamp(170px, 25vh, 215px);
     -webkit-mask-image: linear-gradient(
       to bottom,
       transparent 0%,

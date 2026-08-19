@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
-import { Manrope } from "next/font/google";
+import { Nunito } from "next/font/google";
 import "./globals.css";
 
-const manrope = Manrope({
+const nunito = Nunito({
   subsets: ["latin"],
   display: "swap",
 });
@@ -17,7 +17,7 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
-      <body className={manrope.className}>{children}</body>
+      <body className={nunito.className}>{children}</body>
     </html>
   );
 }

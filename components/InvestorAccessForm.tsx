@@ -36,7 +36,7 @@ const content = {
     codePlaceholder: "XXXX-XXX-XX",
     enter: "Enter investor space",
     edit: "Edit information",
-    invalidDetails: "Please complete all required fields correctly.",
+    invalidDetails: "Please complete your name, email and phone number correctly before proceeding to the access code.",
     genericError: "Unable to verify access right now.",
   },
   fr: {
@@ -59,7 +59,7 @@ const content = {
     enter: "Entrer dans l’espace investisseurs",
     edit: "Modifier les informations",
     invalidDetails:
-      "Veuillez remplir correctement tous les champs obligatoires.",
+      "Veuillez renseigner correctement votre nom, votre email et votre numéro de téléphone avant de passer au code d’accès.",
     genericError: "Impossible de vérifier l’accès pour le moment.",
   },
 };
@@ -158,7 +158,7 @@ export default function InvestorAccessForm({
               <p className={styles.description}>{copy.description}</p>
             </div>
 
-            <form className={styles.form} onSubmit={handleDetailsSubmit}>
+            <form className={styles.form} onSubmit={handleDetailsSubmit} noValidate>
               <div className={styles.field}>
                 <label className={styles.label} htmlFor="full-name">
                   {copy.fullName} *
@@ -176,7 +176,6 @@ export default function InvestorAccessForm({
                       fullName: event.target.value,
                     }))
                   }
-                  required
                 />
               </div>
 
@@ -197,7 +196,6 @@ export default function InvestorAccessForm({
                       email: event.target.value,
                     }))
                   }
-                  required
                 />
               </div>
 
@@ -219,7 +217,6 @@ export default function InvestorAccessForm({
                       phone: event.target.value,
                     }))
                   }
-                  required
                 />
               </div>
 

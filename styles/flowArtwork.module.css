@@ -11,7 +11,7 @@
   width: min(520px, 38vw);
   aspect-ratio: 13 / 6;
   color: #111111;
-  opacity: 0.018;
+  opacity: 0.034;
   transform: translateZ(0);
 }
 
@@ -43,7 +43,7 @@
 }
 
 .investors .wave {
-  opacity: 0.014;
+  opacity: 0.027;
 }
 
 .investors .waveTop {
@@ -79,7 +79,7 @@
 @media (max-width: 700px) {
   .wave {
     width: 270px;
-    opacity: 0.015;
+    opacity: 0.029;
   }
 
   .waveTop {
@@ -96,7 +96,7 @@
 
   .investors .wave {
     width: 250px;
-    opacity: 0.012;
+    opacity: 0.023;
   }
 
   .investors .waveTop {
