@@ -36,7 +36,9 @@ export default function Hero({ language }: HeroProps) {
 
   return (
     <section className={styles.hero}>
-      <LogoAnimation />
+      <div className={styles.animationReveal}>
+        <LogoAnimation />
+      </div>
 
       <div className={styles.heroCopy}>
         <h1 className={styles.heroTitle}>{content.title}</h1>
@@ -45,7 +47,7 @@ export default function Hero({ language }: HeroProps) {
 
       <div className={styles.heroActions}>
         <div className={styles.storeLinks}>
-          <a href={APP_STORE_URL} target="_blank" rel="noopener noreferrer" className={styles.storeButton}>
+          <a href={APP_STORE_URL} target="_blank" rel="noopener noreferrer" className={`${styles.storeButton} ${styles.storeButtonOne}`}>
             <FaApple className={styles.storeIcon} aria-hidden="true" />
             <span className={styles.storeLabel}>
               <small>{content.appStoreSmall}</small>
@@ -54,7 +56,7 @@ export default function Hero({ language }: HeroProps) {
             <HiArrowUpRight className={styles.storeArrow} aria-hidden="true" />
           </a>
 
-          <a href={GOOGLE_PLAY_URL} target="_blank" rel="noopener noreferrer" className={styles.storeButton}>
+          <a href={GOOGLE_PLAY_URL} target="_blank" rel="noopener noreferrer" className={`${styles.storeButton} ${styles.storeButtonTwo}`}>
             <FaGooglePlay className={styles.storeIcon} aria-hidden="true" />
             <span className={styles.storeLabel}>
               <small>{content.playStoreSmall}</small>

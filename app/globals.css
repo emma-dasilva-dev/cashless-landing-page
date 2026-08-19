@@ -1,8 +1,6 @@
 *,
 *::before,
-*::after {
-  box-sizing: border-box;
-}
+*::after { box-sizing: border-box; }
 
 html,
 body {
@@ -18,11 +16,7 @@ body {
 
 button,
 a,
-input {
-  font: inherit;
-}
+input { font: inherit; }
 
 button,
-a {
-  -webkit-tap-highlight-color: transparent;
-}
+a { -webkit-tap-highlight-color: transparent; }

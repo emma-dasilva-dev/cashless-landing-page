@@ -11,9 +11,9 @@ type HeaderProps = {
   onLanguageChange: (language: Language) => void;
 };
 
-function NigeriaFlag() {
+export function NigeriaFlag({ className }: { className?: string }) {
   return (
-    <svg viewBox="0 0 36 24" className={styles.flag} aria-hidden="true" focusable="false">
+    <svg viewBox="0 0 36 24" className={className ?? styles.flag} aria-hidden="true" focusable="false">
       <rect x="0" width="12" height="24" fill="#008751" />
       <rect x="12" width="12" height="24" fill="#ffffff" />
       <rect x="24" width="12" height="24" fill="#008751" />
@@ -21,9 +21,9 @@ function NigeriaFlag() {
   );
 }
 
-function BeninFlag() {
+export function BeninFlag({ className }: { className?: string }) {
   return (
-    <svg viewBox="0 0 36 24" className={styles.flag} aria-hidden="true" focusable="false">
+    <svg viewBox="0 0 36 24" className={className ?? styles.flag} aria-hidden="true" focusable="false">
       <rect x="0" width="14" height="24" fill="#008751" />
       <rect x="14" y="0" width="22" height="12" fill="#FCD116" />
       <rect x="14" y="12" width="22" height="12" fill="#E8112D" />
@@ -103,7 +103,6 @@ export default function Header({ language, onLanguageChange }: HeaderProps) {
         >
           <NigeriaFlag />
         </button>
-
         <button
           type="button"
           className={`${styles.mobileFlagButton} ${language === "fr" ? styles.mobileFlagButtonActive : ""}`}

@@ -18,14 +18,10 @@ export default function LogoAnimation() {
           preload="auto"
           onError={() => setHasVideoError(true)}
         >
-          <source src="/animation/cashless-logo-animation.webm" type="video/webm" />
           <source src="/animation/cashless-logo-animation.mp4" type="video/mp4" />
         </video>
       ) : (
-        <div className={styles.animationFallback} aria-hidden="true">
-          <span className={styles.fallbackShapeOne} />
-          <span className={styles.fallbackShapeTwo} />
-          <span className={styles.fallbackShapeThree} />
+        <div className={styles.animationFallback}>
           <strong>cashless</strong>
         </div>
       )}
