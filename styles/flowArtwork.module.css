@@ -1,205 +1,107 @@
 .artwork {
   position: absolute;
   inset: 0;
-
   z-index: 0;
-
   overflow: hidden;
-
   pointer-events: none;
 }
 
-/* =========================================================
-   DIGITAL ABSTRACT FIELD
-   ========================================================= */
-
 .field {
   position: absolute;
-
-  width: min(620px, 46vw);
-
+  width: min(600px, 44vw);
   aspect-ratio: 52 / 25;
-
   color: #111111;
-
-  /*
-   * Actually visible now.
-   * Still restrained, but not practically invisible.
-   */
-  opacity: 0.07;
-
+  opacity: 0.13;
   transform: translateZ(0);
 }
 
 .field svg {
   display: block;
-
   width: 100%;
   height: 100%;
 }
 
-/* connecting network lines */
-
 .connections path {
   stroke: currentColor;
-
-  stroke-width: 0.7;
-
+  stroke-width: 0.65;
   stroke-linecap: round;
   stroke-linejoin: round;
-
   vector-effect: non-scaling-stroke;
 }
-
-/* digital dots */
 
 .nodes circle {
   fill: currentColor;
 }
 
-/* =========================================================
-   LANDING PAGE POSITIONING
-   ========================================================= */
-
 .fieldTop {
-  top: 10%;
-  right: -12%;
-
+  top: 16%;
+  right: -7%;
   transform: rotate(-8deg);
-
-  animation:
-    digitalDriftTop
-    24s
-    ease-in-out
-    infinite
-    alternate;
+  animation: digitalDriftTop 24s ease-in-out infinite alternate;
 }
 
 .fieldBottom {
-  left: -15%;
-  bottom: 6%;
-
+  left: -8%;
+  bottom: 9%;
   transform: rotate(7deg);
-
-  animation:
-    digitalDriftBottom
-    28s
-    ease-in-out
-    infinite
-    alternate;
+  animation: digitalDriftBottom 28s ease-in-out infinite alternate;
 }
 
-/* =========================================================
-   INVESTOR PAGE VARIANT
-   ========================================================= */
-
 .investors .field {
-  opacity: 0.055;
+  opacity: 0.10;
 }
 
 .investors .fieldTop {
-  top: 14%;
+  top: 13%;
   right: -15%;
 }
 
 .investors .fieldBottom {
   left: -17%;
-  bottom: 8%;
+  bottom: 7%;
 }
 
-/* =========================================================
-   MOTION
-   ========================================================= */
-
 @keyframes digitalDriftTop {
-  from {
-    translate: 0 0;
-  }
-
-  to {
-    translate: -14px 8px;
-  }
+  from { translate: 0 0; }
+  to { translate: -12px 7px; }
 }
 
 @keyframes digitalDriftBottom {
-  from {
-    translate: 0 0;
-  }
-
-  to {
-    translate: 14px -7px;
-  }
+  from { translate: 0 0; }
+  to { translate: 13px -6px; }
 }
-
-/* =========================================================
-   MOBILE
-   ========================================================= */
 
 @media (max-width: 700px) {
   .field {
     width: 330px;
-
-    /*
-     * Slightly lower on mobile,
-     * but still clearly visible.
-     */
-    opacity: 0.06;
+    opacity: 0.11;
   }
 
   .fieldTop {
-    top: 13%;
-    right: -40%;
-
-    transform: rotate(-8deg);
+    top: 12%;
+    right: -28%;
   }
 
   .fieldBottom {
-    left: -42%;
-    bottom: 6%;
-
-    transform: rotate(7deg);
+    left: -30%;
+    bottom: 5%;
   }
 
   .investors .field {
     width: 300px;
-
-    opacity: 0.05;
+    opacity: 0.085;
   }
 
   .investors .fieldTop {
     top: 17%;
-    right: -42%;
+    right: -43%;
   }
 
   .investors .fieldBottom {
     left: -44%;
-    bottom: 9%;
+    bottom: 8%;
   }
 }
-
-/* =========================================================
-   SMALL MOBILE
-   ========================================================= */
-
-@media (max-width: 390px) {
-  .field {
-    width: 290px;
-
-    opacity: 0.055;
-  }
-
-  .fieldTop {
-    right: -45%;
-  }
-
-  .fieldBottom {
-    left: -47%;
-  }
-}
-
-/* =========================================================
-   REDUCED MOTION
-   ========================================================= */
 
 @media (prefers-reduced-motion: reduce) {
   .fieldTop,

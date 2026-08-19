@@ -1,110 +1,75 @@
 .page {
   position: relative;
-
   width: 100%;
   height: 100dvh;
   min-height: 100dvh;
-
   overflow: hidden;
-
   display: flex;
   flex-direction: column;
-
   padding: 24px 44px 22px;
-
   background: #ffffff;
   color: #111111;
-
   isolation: isolate;
 }
-
-/* =========================================================
-   HEADER
-   ========================================================= */
 
 .header {
   position: relative;
   z-index: 20;
-
   width: min(1180px, 100%);
   min-height: 40px;
-
   margin: 0 auto;
-
   display: grid;
   grid-template-columns: 1fr auto;
   align-items: center;
-
   flex-shrink: 0;
-
   opacity: 0;
   transform: translateY(-8px);
-
-  animation:
-    headerEnter 460ms cubic-bezier(0.22, 1, 0.36, 1)
-    40ms forwards;
+  animation: headerEnter 460ms cubic-bezier(0.22, 1, 0.36, 1) 40ms forwards;
 }
 
 .headerBrand {
   justify-self: start;
-
   display: flex;
   align-items: center;
 }
 
 .headerLogo {
   display: block;
-
   width: auto;
   height: 30px;
-
   object-fit: contain;
 }
 
 .desktopLanguageSelector {
   position: relative;
-
   justify-self: end;
 }
 
 .desktopLanguageButton {
-  min-height: 40px;
-
   border: 0;
   background: transparent;
-
+  min-height: 40px;
   display: flex;
   align-items: center;
   justify-content: center;
-
   gap: 7px;
-
   padding: 4px;
-
   color: #111111;
-
   cursor: pointer;
-
-  transition: opacity 180ms ease;
 }
 
 .flag {
   display: block;
-
   width: 28px;
   height: 19px;
-
   border-radius: 2px;
-
   pointer-events: none;
 }
 
 .languageChevron {
   width: 14px;
   height: 14px;
-
   color: #6d6d6d;
-
   transition: transform 180ms ease;
 }
 
@@ -114,54 +79,35 @@
 
 .languageMenu {
   position: absolute;
-
   top: calc(100% + 8px);
   right: 0;
-
   z-index: 30;
-
   width: 136px;
-
   display: flex;
   flex-direction: column;
-
   gap: 2px;
-
   padding: 6px;
-
   border: 1px solid #e8e8e8;
   border-radius: 12px;
-
   background: rgba(255, 255, 255, 0.98);
-
   box-shadow: 0 16px 36px rgba(0, 0, 0, 0.08);
-
   transform-origin: top right;
-
   animation: menuEnter 170ms ease-out both;
 }
 
 .languageOption {
   width: 100%;
   min-height: 40px;
-
   border: 0;
   border-radius: 8px;
-
   background: transparent;
-
   display: flex;
   align-items: center;
-
   gap: 10px;
-
   padding: 8px;
-
   color: #111111;
-
   font-size: 12px;
   font-weight: 600;
-
   cursor: pointer;
 }
 
@@ -178,16 +124,11 @@
   display: none;
 }
 
-/* =========================================================
-   HERO
-   ========================================================= */
-
 .hero {
   position: relative;
   z-index: 2;
 
   width: min(1180px, 100%);
-
   flex: 1;
   min-height: 0;
 
@@ -196,41 +137,24 @@
   display: flex;
   flex-direction: column;
   align-items: center;
-
-  /*
-   * Do not vertically center the whole hero.
-   * This is what lets the animation stay visually high.
-   */
-  justify-content: flex-start;
+  justify-content: center;
 
   text-align: center;
 
-  padding-top: 0;
+  padding: 0;
 }
 
-/* =========================================================
-   CASHLESS ANIMATION
-   ========================================================= */
-
 .animationReveal {
-  position: relative;
-
   width: 100%;
 
   display: flex;
   justify-content: center;
 
-  /*
-   * No negative bottom margin.
-   * The previous negative margin was causing the headline
-   * to physically enter the video area.
-   */
-  margin: -18px 0 0;
+  margin: 0 0 2px;
 
   flex-shrink: 0;
 
   opacity: 0;
-
   transform: translateY(10px) scale(0.99);
 
   animation:
@@ -241,16 +165,8 @@
 .animationStage {
   position: relative;
 
-  /*
-   * Large visual on desktop, as requested.
-   */
-  width: min(1080px, 88vw);
-
-  /*
-   * Controlled viewport.
-   * The headline sits AFTER this box rather than inside it.
-   */
-  height: clamp(275px, 36vh, 365px);
+  width: min(860px, 72vw);
+  height: clamp(225px, 30vh, 315px);
 
   overflow: hidden;
 
@@ -264,22 +180,19 @@
 
   pointer-events: none;
 
-  /*
-   * Softly integrates the white source video into the page.
-   */
   -webkit-mask-image: linear-gradient(
     to bottom,
     transparent 0%,
-    #000 8%,
-    #000 91%,
+    #000 10%,
+    #000 90%,
     transparent 100%
   );
 
   mask-image: linear-gradient(
     to bottom,
     transparent 0%,
-    #000 8%,
-    #000 91%,
+    #000 10%,
+    #000 90%,
     transparent 100%
   );
 }
@@ -292,26 +205,16 @@
 
   display: block;
 
-  /*
-   * Slightly larger than its viewport so the video itself
-   * feels substantial without making its rectangle visible.
-   */
-  width: 106%;
+  width: 102%;
   height: auto;
 
   max-width: none;
 
   object-fit: contain;
 
-  /*
-   * Move the CONTENT of the video upward,
-   * not the entire animation container.
-   *
-   * This is the important fix.
-   */
   transform:
-    translate(-50%, -58%)
-    scale(1.04);
+    translate(-50%, -54%)
+    scale(1.015);
 
   transform-origin: center;
 
@@ -321,7 +224,6 @@
 .animationFallback {
   width: 100%;
   height: 100%;
-
   display: grid;
   place-items: center;
 }
@@ -329,26 +231,17 @@
 .animationFallback strong {
   font-size: clamp(64px, 8vw, 116px);
   font-weight: 500;
-
   letter-spacing: -0.055em;
 }
-
-/* =========================================================
-   HERO COPY
-   ========================================================= */
 
 .heroCopy {
   position: relative;
   z-index: 3;
 
   width: 100%;
-  max-width: 1000px;
+  max-width: 980px;
 
-  /*
-   * Small intentional spacing only.
-   * NO huge negative margin.
-   */
-  margin-top: -4px;
+  margin-top: 0;
 
   display: flex;
   flex-direction: column;
@@ -359,59 +252,32 @@
 
 .heroTitle {
   margin: 0;
-
-  width: 100%;
-
   color: #111111;
-
   font-size: clamp(30px, 3.25vw, 44px);
-  font-weight: 700;
-
+  font-weight: 650;
   line-height: 1;
-
-  letter-spacing: -0.04em;
-
+  letter-spacing: -0.045em;
   white-space: nowrap;
-
   opacity: 0;
-
   transform: translateY(16px);
-
-  animation:
-    contentEnter 570ms cubic-bezier(0.22, 1, 0.36, 1)
-    240ms forwards;
+  animation: contentEnter 570ms cubic-bezier(0.22, 1, 0.36, 1) 240ms forwards;
 }
 
 .heroTitleFrench {
-  font-size: clamp(27px, 2.9vw, 39px);
+  font-size: clamp(28px, 3vw, 40px);
 }
 
 .heroDescription {
-  margin: 12px auto 0;
-
-  max-width: 720px;
-
-  color: #626262;
-
+  margin: 13px auto 0;
+  color: #616161;
   font-size: clamp(14px, 1.18vw, 16px);
   font-weight: 500;
-
   line-height: 1.4;
-
   white-space: nowrap;
-
   opacity: 0;
-
   transform: translateY(11px);
-
-  animation:
-    contentEnter 530ms cubic-bezier(0.22, 1, 0.36, 1)
-    360ms forwards;
+  animation: contentEnter 530ms cubic-bezier(0.22, 1, 0.36, 1) 360ms forwards;
 }
-
-/* =========================================================
-   HERO ACTIONS
-   ========================================================= */
 
 .heroActions {
   position: relative;
@@ -432,37 +298,24 @@
   display: flex;
   align-items: center;
   justify-content: center;
-
   gap: 10px;
 }
 
 .storeButton {
   min-width: 194px;
   min-height: 54px;
-
   display: grid;
   grid-template-columns: auto 1fr auto;
   align-items: center;
-
   gap: 11px;
-
   padding: 9px 15px;
-
   border-radius: 999px;
-
   background: #111111;
   color: #ffffff;
-
   text-decoration: none;
-
   opacity: 0;
-
   transform: translateY(10px);
-
-  animation:
-    contentEnter 490ms cubic-bezier(0.22, 1, 0.36, 1)
-    forwards;
-
+  animation: contentEnter 490ms cubic-bezier(0.22, 1, 0.36, 1) forwards;
   transition:
     transform 190ms ease,
     opacity 190ms ease,
@@ -485,22 +338,18 @@
 .storeLabel {
   display: flex;
   flex-direction: column;
-
   line-height: 1.08;
-
   text-align: left;
 }
 
 .storeLabel small {
   font-size: 8.5px;
   font-weight: 500;
-
   opacity: 0.68;
 }
 
 .storeLabel strong {
   margin-top: 3px;
-
   font-size: 14px;
   font-weight: 600;
 }
@@ -508,44 +357,25 @@
 .storeArrow {
   width: 15px;
   height: 15px;
-
   transition: transform 190ms ease;
 }
 
-/* =========================================================
-   INVESTOR LINK
-   ========================================================= */
-
 .investorLink {
   min-height: 39px;
-
   display: inline-flex;
   align-items: center;
-
   gap: 9px;
-
   padding: 0 15px;
-
   border: 1px solid #dedede;
   border-radius: 999px;
-
   background: rgba(255, 255, 255, 0.94);
-
   color: #111111;
-
   text-decoration: none;
-
   font-size: 11.5px;
   font-weight: 650;
-
   opacity: 0;
-
   transform: translateY(8px);
-
-  animation:
-    contentEnter 470ms cubic-bezier(0.22, 1, 0.36, 1)
-    650ms forwards;
-
+  animation: contentEnter 470ms cubic-bezier(0.22, 1, 0.36, 1) 650ms forwards;
   transition:
     transform 190ms ease,
     border-color 190ms ease,
@@ -555,13 +385,8 @@
 .investorLink svg {
   width: 15px;
   height: 15px;
-
   transition: transform 190ms ease;
 }
-
-/* =========================================================
-   HOVER
-   ========================================================= */
 
 @media (hover: hover) and (pointer: fine) {
   .desktopLanguageButton:hover {
@@ -570,7 +395,6 @@
 
   .storeButton:hover {
     transform: translateY(-2px);
-
     box-shadow: 0 8px 22px rgba(0, 0, 0, 0.1);
   }
 
@@ -580,9 +404,7 @@
 
   .investorLink:hover {
     transform: translateY(-2px);
-
     border-color: #bdbdbd;
-
     background: #ffffff;
   }
 
@@ -596,14 +418,9 @@
   transform: scale(0.985);
 }
 
-/* =========================================================
-   ANIMATIONS
-   ========================================================= */
-
 @keyframes headerEnter {
   to {
     opacity: 1;
-
     transform: translateY(0);
   }
 }
@@ -611,7 +428,6 @@
 @keyframes contentEnter {
   to {
     opacity: 1;
-
     transform: translateY(0) scale(1);
   }
 }
@@ -619,54 +435,31 @@
 @keyframes menuEnter {
   from {
     opacity: 0;
-
-    transform:
-      translateY(-4px)
-      scale(0.98);
+    transform: translateY(-4px) scale(0.98);
   }
 
   to {
     opacity: 1;
-
-    transform:
-      translateY(0)
-      scale(1);
+    transform: translateY(0) scale(1);
   }
 }
-
-/* =========================================================
-   TABLET / SMALL LAPTOP
-   ========================================================= */
 
 @media (max-width: 900px) and (min-width: 701px) {
   .page {
     padding-inline: 28px;
   }
 
-  .animationReveal {
-    margin-top: -14px;
-  }
-
   .animationStage {
     width: min(920px, 92vw);
-
-    height: clamp(250px, 34vh, 325px);
-  }
-
-  .animationVideo {
-    width: 108%;
-
-    transform:
-      translate(-50%, -58%)
-      scale(1.03);
+    height: clamp(250px, 37vh, 350px);
   }
 
   .heroTitle {
-    font-size: clamp(27px, 3.8vw, 37px);
+    font-size: clamp(28px, 4vw, 38px);
   }
 
   .heroTitleFrench {
-    font-size: clamp(24px, 3.35vw, 32px);
+    font-size: clamp(25px, 3.45vw, 33px);
   }
 
   .heroDescription {
@@ -674,16 +467,11 @@
   }
 }
 
-/* =========================================================
-   MOBILE
-   ========================================================= */
 
 @media (max-width: 700px) {
   .page {
     padding: 16px 15px 13px;
   }
-
-  /* ---------------- HEADER ---------------- */
 
   .header {
     position: relative;
@@ -729,7 +517,6 @@
 
   .desktopLanguageSelector {
     display: none !important;
-
     pointer-events: none;
   }
 
@@ -738,7 +525,6 @@
     z-index: 103;
 
     grid-column: 3;
-
     justify-self: end;
 
     display: flex;
@@ -773,7 +559,6 @@
     -webkit-appearance: none;
 
     cursor: pointer;
-
     touch-action: manipulation;
 
     user-select: none;
@@ -791,7 +576,6 @@
 
   .mobileFlagButtonActive {
     border-color: #111111;
-
     background: #fafafa;
   }
 
@@ -810,65 +594,57 @@
     pointer-events: none;
   }
 
-  /* ---------------- HERO ---------------- */
-
   .hero {
     width: 100%;
 
-    justify-content: flex-start;
+    justify-content: center;
 
     padding-top: 0;
   }
 
-  /* ---------------- MOBILE ANIMATION ---------------- */
-
   .animationReveal {
-    margin-top: -6px;
-    margin-bottom: 0;
+    margin: 0 0 0;
   }
 
   .animationStage {
-    width: calc(100% + 16px);
-
-    height: clamp(165px, 22vh, 205px);
+    width: calc(100% + 6px);
+    height: clamp(150px, 20vh, 180px);
 
     flex-shrink: 0;
 
     -webkit-mask-image: linear-gradient(
       to bottom,
       transparent 0%,
-      #000 8%,
-      #000 92%,
+      #000 10%,
+      #000 90%,
       transparent 100%
     );
 
     mask-image: linear-gradient(
       to bottom,
       transparent 0%,
-      #000 8%,
-      #000 92%,
+      #000 10%,
+      #000 90%,
       transparent 100%
     );
   }
 
   .animationVideo {
-    width: 124%;
+    width: 107%;
 
     transform:
-      translate(-50%, -59%)
-      scale(1.03);
+      translate(-50%, -54%)
+      scale(1.01);
   }
 
   .animationFallback strong {
     font-size: clamp(42px, 13vw, 60px);
   }
 
-  /* ---------------- MOBILE COPY ---------------- */
-
   .heroCopy {
     width: 100%;
 
-    margin-top: -2px;
+    margin-top: 0;
   }
 
   .heroTitle {
@@ -878,12 +654,7 @@
 
     color: #111111;
 
-    /*
-     * Small enough that normal mobile widths
-     * can keep English on one line.
-     */
     font-size: clamp(19px, 5.7vw, 24px);
-
     font-weight: 700;
 
     line-height: 1.03;
@@ -894,9 +665,6 @@
   }
 
   .heroTitleFrench {
-    /*
-     * French is longer, so deliberately slightly smaller.
-     */
     font-size: clamp(17px, 4.9vw, 20.5px);
   }
 
@@ -906,15 +674,11 @@
     margin-top: 8px;
 
     font-size: 12.5px;
-
     line-height: 1.38;
 
     white-space: normal;
-
     text-wrap: balance;
   }
-
-  /* ---------------- MOBILE ACTIONS ---------------- */
 
   .heroActions {
     width: 100%;
@@ -968,120 +732,66 @@
   }
 }
 
-/* =========================================================
-   VERY NARROW PHONES
-   ========================================================= */
-
-@media (max-width: 350px) {
+@media (max-width: 350px)
+ {
   .heroTitle,
   .heroTitleFrench {
-    max-width: 310px;
-
+    max-width: 300px;
     white-space: normal;
-
     text-wrap: balance;
   }
 
   .heroTitle {
-    font-size: 21px;
+    font-size: 22px;
   }
 
   .heroTitleFrench {
-    font-size: 18px;
+    font-size: 19px;
   }
 
   .heroDescription {
     max-width: 285px;
-
     font-size: 11.5px;
   }
-
-  .animationStage {
-    height: 155px;
-  }
 }
-
-/* =========================================================
-   SHORT DESKTOP SCREENS
-   ========================================================= */
 
 @media (max-height: 700px) and (min-width: 701px) {
   .page {
     padding-top: 18px;
-    padding-bottom: 15px;
-  }
-
-  .animationReveal {
-    margin-top: -20px;
+    padding-bottom: 16px;
   }
 
   .animationStage {
-    height: 235px;
-  }
-
-  .animationVideo {
-    transform:
-      translate(-50%, -59%)
-      scale(1.04);
+    height: 245px;
   }
 
   .heroCopy {
-    margin-top: -3px;
-  }
-
-  .heroDescription {
-    margin-top: 9px;
+    margin-top: -18px;
   }
 
   .heroActions {
-    margin-top: 14px;
+    margin-top: 15px;
   }
 }
-
-/* =========================================================
-   SHORT MOBILE SCREENS
-   ========================================================= */
 
 @media (max-height: 700px) and (max-width: 700px) {
   .page {
-    padding-top: 12px;
-    padding-bottom: 10px;
-  }
-
-  .animationReveal {
-    margin-top: -10px;
+    padding-top: 13px;
+    padding-bottom: 11px;
   }
 
   .animationStage {
-    height: 140px;
-  }
-
-  .animationVideo {
-    transform:
-      translate(-50%, -60%)
-      scale(1.02);
+    height: 135px;
   }
 
   .heroDescription {
-    margin-top: 6px;
+    margin-top: 7px;
   }
 
   .heroActions {
-    margin-top: 10px;
-  }
-
-  .storeButton {
-    min-height: 42px;
-  }
-
-  .investorLink {
-    min-height: 34px;
+    margin-top: 11px;
   }
 }
-
-/* =========================================================
-   REDUCED MOTION
-   ========================================================= */
 
 @media (prefers-reduced-motion: reduce) {
   .header,
@@ -1091,9 +801,7 @@
   .storeButton,
   .investorLink {
     opacity: 1;
-
     transform: none;
-
     animation: none;
   }
 }
