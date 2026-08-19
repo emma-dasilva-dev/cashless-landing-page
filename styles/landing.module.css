@@ -215,36 +215,52 @@
   }
 
   .header {
-    position: relative;
-    z-index: 100;
+  position: relative;
+  z-index: 100;
 
-    width: 100%;
+  width: 100%;
+  min-height: 36px;
 
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
 
-    pointer-events: auto;
-  }
+  pointer-events: auto;
+}
 
-  .headerBrand {
-    position: relative;
-    z-index: 101;
+.headerBrand {
+  position: relative;
+  z-index: 103;
 
-    display: flex;
-    align-items: center;
+  grid-column: 1;
 
-    justify-self: auto;
-  }
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
 
-  .headerLogo {
-    display: block;
+  width: auto;
+  min-width: 48px;
 
-    width: auto;
-    height: 25px;
+  opacity: 1;
+  visibility: visible;
 
-    object-fit: contain;
-  }
+  pointer-events: auto;
+}
+
+.headerLogo {
+  display: block;
+
+  width: auto !important;
+  height: 25px !important;
+  max-width: none;
+
+  object-fit: contain;
+
+  opacity: 1;
+  visibility: visible;
+
+  flex-shrink: 0;
+}
 
   /*
    * Desktop selector must be completely removed
