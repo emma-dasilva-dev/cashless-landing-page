@@ -210,58 +210,234 @@
 }
 
 @media (max-width: 700px) {
-  .page { padding: 18px 16px 16px; }
+  .page {
+    padding: 18px 16px 16px;
+  }
 
   .header {
+    position: relative;
+    z-index: 100;
+
     width: 100%;
+
     display: flex;
     align-items: center;
     justify-content: space-between;
+
+    pointer-events: auto;
   }
 
-  .headerBrand { justify-self: auto; }
-  .headerLogo { height: 25px; }
-  .desktopLanguageSelector { display: none; }
+  .headerBrand {
+    position: relative;
+    z-index: 101;
 
-  .mobileLanguageControl {
-    margin-left: auto;
     display: flex;
     align-items: center;
-    gap: 5px;
+
+    justify-self: auto;
+  }
+
+  .headerLogo {
+    display: block;
+
+    width: auto;
+    height: 25px;
+
+    object-fit: contain;
+  }
+
+  /*
+   * Desktop selector must be completely removed
+   * from the mobile interaction layer.
+   */
+  .desktopLanguageSelector {
+    display: none !important;
+    pointer-events: none;
+  }
+
+  /*
+   * Mobile language selector.
+   * It lives explicitly above the hero/video layer.
+   */
+  .mobileLanguageControl {
+    position: relative;
+    z-index: 102;
+
+    margin-left: auto;
+
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+
+    gap: 4px;
+
+    pointer-events: auto;
+
+    isolation: isolate;
   }
 
   .mobileFlagButton {
-    width: 36px;
-    height: 31px;
+    position: relative;
+
+    width: 40px;
+    height: 36px;
+
+    flex: 0 0 40px;
+
     border: 1px solid transparent;
+    border-radius: 8px;
+
     background: transparent;
+
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 4px;
-    border-radius: 7px;
+
+    padding: 5px;
+
+    color: #111111;
+
+    appearance: none;
+    -webkit-appearance: none;
+
     cursor: pointer;
-    transition: border-color 160ms ease, background 160ms ease, transform 160ms ease;
+
+    touch-action: manipulation;
+
+    user-select: none;
+    -webkit-user-select: none;
+
+    -webkit-tap-highlight-color: transparent;
+
+    pointer-events: auto;
+
+    transition:
+      border-color 160ms ease,
+      background-color 160ms ease,
+      transform 120ms ease,
+      opacity 160ms ease;
   }
 
-  .mobileFlagButtonActive { border-color: #111111; background: #f7f7f7; }
-  .mobileFlagButton:active { transform: scale(0.95); }
-  .mobileFlagButton .flag { width: 23px; height: 15px; }
+  .mobileFlagButtonActive {
+    border-color: #111111;
+    background: #f7f7f7;
+  }
 
-  .hero { width: 100%; padding-top: 8px; }
-  .animationStage { width: 100%; height: clamp(170px, 28vh, 250px); }
-  .animationFallback strong { font-size: clamp(38px, 13vw, 58px); }
-  .heroCopy { width: 100%; margin-top: 0; }
-  .heroTitle { font-size: clamp(27px, 7.8vw, 34px); line-height: 1.02; }
-  .heroDescription { max-width: 330px; margin-top: 10px; font-size: 13px; }
-  .heroActions { width: 100%; margin-top: 18px; gap: 10px; }
-  .storeLinks { width: 100%; gap: 8px; }
-  .storeButton { flex: 1; min-width: 0; min-height: 47px; gap: 7px; padding: 8px 10px; }
-  .storeIcon { width: 18px; height: 18px; }
-  .storeLabel small { font-size: 7px; }
-  .storeLabel strong { font-size: 10.5px; }
-  .storeArrow { width: 13px; height: 13px; }
-  .investorLink { min-height: 38px; padding: 0 13px; font-size: 10px; }
+  .mobileFlagButton:active {
+    transform: scale(0.94);
+  }
+
+  .mobileFlagButton .flag {
+    display: block;
+
+    width: 25px;
+    height: 17px;
+
+    flex-shrink: 0;
+
+    border-radius: 2px;
+
+    pointer-events: none;
+  }
+
+  .hero {
+    position: relative;
+    z-index: 1;
+
+    width: 100%;
+
+    padding-top: 8px;
+  }
+
+  .animationStage {
+    position: relative;
+    z-index: 1;
+
+    width: 100%;
+    height: clamp(170px, 28vh, 250px);
+
+    pointer-events: none;
+  }
+
+  .animationVideo {
+    pointer-events: none;
+  }
+
+  .animationFallback strong {
+    font-size: clamp(38px, 13vw, 58px);
+  }
+
+  .heroCopy {
+    width: 100%;
+    margin-top: 0;
+  }
+
+  .heroTitle {
+    font-size: clamp(27px, 7.8vw, 34px);
+    line-height: 1.02;
+  }
+
+  .heroDescription {
+    max-width: 330px;
+
+    margin-top: 10px;
+
+    font-size: 13px;
+  }
+
+  .heroActions {
+    width: 100%;
+
+    margin-top: 18px;
+
+    gap: 10px;
+  }
+
+  .storeLinks {
+    width: 100%;
+
+    gap: 8px;
+  }
+
+  .storeButton {
+    flex: 1;
+
+    min-width: 0;
+    min-height: 47px;
+
+    gap: 7px;
+
+    padding: 8px 10px;
+  }
+
+  .storeIcon {
+    width: 18px;
+    height: 18px;
+  }
+
+  .storeLabel small {
+    font-size: 7px;
+  }
+
+  .storeLabel strong {
+    font-size: 10.5px;
+  }
+
+  .storeArrow {
+    width: 13px;
+    height: 13px;
+  }
+
+  .investorLink {
+    min-height: 38px;
+
+    padding: 0 13px;
+
+    font-size: 10px;
+  }
+  .animationVideo {
+  pointer-events: none;
+}
 }
 
 @media (max-width: 420px) {
