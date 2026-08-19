@@ -1,1 +1,0 @@
-Keep your existing cashless-mark.png and any other Cashless image assets in this folder.
