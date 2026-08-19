@@ -16,89 +16,93 @@ export default function CashlessMotion() {
       return;
     }
 
-    const precisePointerQuery = window.matchMedia(
+    const finePointer = window.matchMedia(
       "(hover: hover) and (pointer: fine)",
     );
 
-    const reducedMotionQuery = window.matchMedia(
+    const reducedMotion = window.matchMedia(
       "(prefers-reduced-motion: reduce)",
     );
 
-    if (!precisePointerQuery.matches || reducedMotionQuery.matches) {
+    if (!finePointer.matches || reducedMotion.matches) {
       return;
     }
 
-    let animationFrameId: number | null = null;
+    let frameId: number | null = null;
 
-    let targetRotateX = 0;
-    let targetRotateY = 0;
+    let targetX = 0;
+    let targetY = 0;
 
-    let currentRotateX = 0;
-    let currentRotateY = 0;
+    let currentX = 0;
+    let currentY = 0;
 
     const MAX_ROTATION = 5;
-    const SMOOTHING = 0.12;
+    const EASING = 0.13;
 
-    const animateTilt = () => {
-      currentRotateX +=
-        (targetRotateX - currentRotateX) * SMOOTHING;
-
-      currentRotateY +=
-        (targetRotateY - currentRotateY) * SMOOTHING;
+    const updateTilt = () => {
+      currentX += (targetX - currentX) * EASING;
+      currentY += (targetY - currentY) * EASING;
 
       tilt.style.transform = `
-        rotateX(${currentRotateX.toFixed(3)}deg)
-        rotateY(${currentRotateY.toFixed(3)}deg)
+        rotateX(${currentX.toFixed(3)}deg)
+        rotateY(${currentY.toFixed(3)}deg)
       `;
 
-      const stillMoving =
-        Math.abs(targetRotateX - currentRotateX) > 0.01 ||
-        Math.abs(targetRotateY - currentRotateY) > 0.01;
+      const unsettled =
+        Math.abs(targetX - currentX) > 0.01 ||
+        Math.abs(targetY - currentY) > 0.01;
 
-      if (stillMoving) {
-        animationFrameId = window.requestAnimationFrame(animateTilt);
+      if (unsettled) {
+        frameId = window.requestAnimationFrame(updateTilt);
       } else {
-        animationFrameId = null;
+        frameId = null;
       }
     };
 
-    const requestTiltFrame = () => {
-      if (animationFrameId === null) {
-        animationFrameId = window.requestAnimationFrame(animateTilt);
+    const requestUpdate = () => {
+      if (frameId === null) {
+        frameId = window.requestAnimationFrame(updateTilt);
       }
     };
 
     const handlePointerMove = (event: PointerEvent) => {
       const bounds = stage.getBoundingClientRect();
 
-      const pointerX = event.clientX - bounds.left;
-      const pointerY = event.clientY - bounds.top;
+      const x =
+        (event.clientX - bounds.left) / bounds.width - 0.5;
 
-      const normalizedX = pointerX / bounds.width - 0.5;
-      const normalizedY = pointerY / bounds.height - 0.5;
+      const y =
+        (event.clientY - bounds.top) / bounds.height - 0.5;
 
-      targetRotateY = normalizedX * MAX_ROTATION * 2;
-      targetRotateX = normalizedY * MAX_ROTATION * -2;
+      targetY = x * MAX_ROTATION * 2;
+      targetX = -y * MAX_ROTATION * 2;
 
-      requestTiltFrame();
+      requestUpdate();
     };
 
     const handlePointerLeave = () => {
-      targetRotateX = 0;
-      targetRotateY = 0;
+      targetX = 0;
+      targetY = 0;
 
-      requestTiltFrame();
+      requestUpdate();
     };
 
     stage.addEventListener("pointermove", handlePointerMove);
     stage.addEventListener("pointerleave", handlePointerLeave);
 
     return () => {
-      stage.removeEventListener("pointermove", handlePointerMove);
-      stage.removeEventListener("pointerleave", handlePointerLeave);
+      stage.removeEventListener(
+        "pointermove",
+        handlePointerMove,
+      );
 
-      if (animationFrameId !== null) {
-        window.cancelAnimationFrame(animationFrameId);
+      stage.removeEventListener(
+        "pointerleave",
+        handlePointerLeave,
+      );
+
+      if (frameId !== null) {
+        window.cancelAnimationFrame(frameId);
       }
     };
   }, []);
@@ -109,20 +113,25 @@ export default function CashlessMotion() {
       className={styles.cardStage}
       aria-label="Cashless virtual Visa card"
     >
-      <div className={styles.cardFloat}>
-        <div ref={tiltRef} className={styles.cardTilt}>
-          <Image
-            src="/images/cashless-virtual-card.png"
-            alt="Cashless virtual Visa card"
-            width={1536}
-            height={1024}
-            priority
-            className={styles.cardImage}
-          />
+      <div className={styles.cardEntrance}>
+        <div className={styles.cardFloat}>
+          <div ref={tiltRef} className={styles.cardTilt}>
+            <Image
+              src="/images/cashless-virtual-card.png"
+              alt="Cashless virtual Visa card"
+              width={1536}
+              height={1024}
+              priority
+              className={styles.cardImage}
+            />
+          </div>
         </div>
       </div>
 
-      <div className={styles.cardShadow} aria-hidden="true" />
+      <div
+        className={styles.cardShadow}
+        aria-hidden="true"
+      />
     </div>
   );
 }

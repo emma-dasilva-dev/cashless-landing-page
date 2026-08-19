@@ -14,47 +14,57 @@ const APP_STORE_URL =
 const GOOGLE_PLAY_URL =
   "https://play.google.com/store/apps/details?id=com.cashlessapp.africa&pcampaignid=web_share";
 
+const content = {
+  en: {
+    lineOne: "BUILT BY AFRICA,",
+    lineTwo: "FOR AFRICA AND ITS DIASPORA.",
+    appStoreSmall: "Download on the",
+    appStoreLarge: "App Store",
+    playStoreSmall: "Get it on",
+    playStoreLarge: "Google Play",
+  },
+
+  fr: {
+    lineOne: "CONÇUE PAR L’AFRIQUE,",
+    lineTwo: "POUR L’AFRIQUE ET SA DIASPORA.",
+    appStoreSmall: "Télécharger sur",
+    appStoreLarge: "App Store",
+    playStoreSmall: "Disponible sur",
+    playStoreLarge: "Google Play",
+  },
+};
+
 export default function Hero({ language }: HeroProps) {
-  const content =
-    language === "en"
-      ? {
-          welcome: "WELCOME TO",
-          description:
-            "The fintech built by Africa, for Africa and its diaspora.",
-          appStoreSmall: "Download on the",
-          appStoreLarge: "App Store",
-          playStoreSmall: "Get it on",
-          playStoreLarge: "Google Play",
-        }
-      : {
-          welcome: "BIENVENUE",
-          description:
-            "La fintech pensée par l’Afrique, pour l’Afrique et sa diaspora.",
-          appStoreSmall: "Télécharger sur",
-          appStoreLarge: "App Store",
-          playStoreSmall: "Disponible sur",
-          playStoreLarge: "Google Play",
-        };
+  const copy = content[language];
 
   return (
     <section className={styles.hero}>
       <div className={styles.heroCopy}>
-        <h1 className={styles.welcomeTitle}>{content.welcome}</h1>
+        <h1 className={styles.heroTitle}>
+          <span className={styles.heroTitleLineOne}>
+            {copy.lineOne}
+          </span>
 
-        <p className={styles.heroDescription}>{content.description}</p>
+          <span className={styles.heroTitleLineTwo}>
+            {copy.lineTwo}
+          </span>
+        </h1>
 
         <div className={styles.storeLinks}>
           <a
             href={APP_STORE_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className={styles.storeButton}
+            className={`${styles.storeButton} ${styles.storeButtonFirst}`}
           >
-            <FaApple className={styles.storeIcon} aria-hidden="true" />
+            <FaApple
+              className={styles.storeIcon}
+              aria-hidden="true"
+            />
 
             <span className={styles.storeLabel}>
-              <small>{content.appStoreSmall}</small>
-              <strong>{content.appStoreLarge}</strong>
+              <small>{copy.appStoreSmall}</small>
+              <strong>{copy.appStoreLarge}</strong>
             </span>
 
             <HiArrowUpRight
@@ -67,13 +77,16 @@ export default function Hero({ language }: HeroProps) {
             href={GOOGLE_PLAY_URL}
             target="_blank"
             rel="noopener noreferrer"
-            className={styles.storeButton}
+            className={`${styles.storeButton} ${styles.storeButtonSecond}`}
           >
-            <FaGooglePlay className={styles.storeIcon} aria-hidden="true" />
+            <FaGooglePlay
+              className={styles.storeIcon}
+              aria-hidden="true"
+            />
 
             <span className={styles.storeLabel}>
-              <small>{content.playStoreSmall}</small>
-              <strong>{content.playStoreLarge}</strong>
+              <small>{copy.playStoreSmall}</small>
+              <strong>{copy.playStoreLarge}</strong>
             </span>
 
             <HiArrowUpRight

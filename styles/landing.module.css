@@ -2,6 +2,7 @@
   width: 100%;
   height: 100dvh;
   min-height: 100dvh;
+
   overflow: hidden;
 
   display: flex;
@@ -22,35 +23,63 @@
   z-index: 1000;
 
   width: min(1240px, 100%);
+
   margin: 0 auto;
 
-  display: flex;
+  display: grid;
+  grid-template-columns: 1fr auto;
+
   align-items: center;
-  justify-content: space-between;
 
   flex-shrink: 0;
 
-  pointer-events: auto;
+  opacity: 0;
+
+  transform: translateY(-8px);
+
+  animation:
+    headerReveal
+    430ms
+    cubic-bezier(0.22, 1, 0.36, 1)
+    forwards;
+}
+
+.headerBrand {
+  justify-self: start;
+
+  display: flex;
+  align-items: center;
 }
 
 .headerLogo {
+  display: block;
+
   width: auto;
   height: 30px;
 
   object-fit: contain;
 }
 
-.languageSelector {
+.desktopHeaderControls {
+  justify-self: end;
+
+  display: flex;
+  align-items: center;
+
+  gap: 22px;
+}
+
+.desktopLanguageSelector {
   position: relative;
   z-index: 1100;
+}
 
-  pointer-events: auto;
+.mobileLanguageControl,
+.mobileAfricaMark {
+  display: none;
 }
 
 .languageButton {
-  position: relative;
-  z-index: 1200;
-
   border: 0;
   background: transparent;
 
@@ -58,50 +87,32 @@
   align-items: center;
   justify-content: center;
 
-  gap: 8px;
+  gap: 7px;
 
-  min-width: 48px;
-  min-height: 44px;
+  min-height: 42px;
 
-  padding: 8px;
+  padding: 4px;
 
   color: #111111;
 
   cursor: pointer;
 
-  pointer-events: auto;
   touch-action: manipulation;
+
   -webkit-tap-highlight-color: transparent;
-
-  transition:
-    opacity 180ms ease,
-    transform 180ms ease;
-}
-
-.flag,
-.languageChevron {
-  pointer-events: none;
-}
-
-.languageButton:hover {
-  opacity: 0.68;
-}
-
-.languageButton:active {
-  transform: scale(0.96);
 }
 
 .flag {
   display: block;
 
-  width: 29px;
+  width: 28px;
   height: 19px;
 
   flex-shrink: 0;
 
   border-radius: 2px;
 
-  overflow: hidden;
+  pointer-events: none;
 }
 
 .languageChevron {
@@ -110,7 +121,10 @@
 
   flex-shrink: 0;
 
-  transition: transform 180ms ease;
+  pointer-events: none;
+
+  transition:
+    transform 180ms ease;
 }
 
 .languageChevronOpen {
@@ -141,13 +155,9 @@
 
   box-shadow:
     0 14px 35px rgba(0, 0, 0, 0.1);
-
-  pointer-events: auto;
 }
 
 .languageOption {
-  position: relative;
-
   width: 100%;
 
   border: 0;
@@ -173,17 +183,12 @@
 
   cursor: pointer;
 
-  pointer-events: auto;
   touch-action: manipulation;
+
   -webkit-tap-highlight-color: transparent;
-}
 
-.languageOption:hover {
-  background: #f4f4f4;
-}
-
-.languageOption:active {
-  background: #eeeeee;
+  transition:
+    background 150ms ease;
 }
 
 .languageOption:hover {
@@ -195,12 +200,36 @@
   height: 16px;
 }
 
+.africaMark,
+.mobileAfricaMark {
+  width: 21px;
+  height: 25px;
+
+  color: #111111;
+
+  flex-shrink: 0;
+
+  transition:
+    color 180ms ease,
+    transform 180ms ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .africaMark:hover,
+  .mobileAfricaMark:hover {
+    color: #008751;
+
+    transform: scale(1.05);
+  }
+}
+
 /* =========================================================
    PAGE CONTENT
    ========================================================= */
 
 .content {
   position: relative;
+
   z-index: 1;
 
   width: min(1240px, 100%);
@@ -230,41 +259,58 @@
 
   gap: clamp(28px, 4vw, 64px);
 
-  padding: clamp(30px, 6vh, 72px) 0 clamp(22px, 4vh, 48px);
+  padding:
+    clamp(30px, 6vh, 72px)
+    0
+    clamp(22px, 4vh, 48px);
 }
 
 .heroCopy {
-  max-width: 540px;
+  max-width: 560px;
 
   align-self: center;
 
   padding-left: clamp(0px, 1vw, 12px);
 }
 
-.welcomeTitle {
+.heroTitle {
   margin: 0;
 
-  font-size: clamp(48px, 5vw, 68px);
+  max-width: 560px;
+
+  font-size:
+    clamp(36px, 4.2vw, 58px);
+
   font-weight: 520;
 
-  line-height: 0.92;
+  line-height: 0.98;
 
-  letter-spacing: -0.055em;
-
-  max-width: 500px;
+  letter-spacing: -0.045em;
 }
 
-.heroDescription {
-  max-width: 420px;
+.heroTitleLineOne,
+.heroTitleLineTwo {
+  display: block;
 
-  margin: 24px 0 0;
+  opacity: 0;
 
-  font-size: clamp(17px, 1.35vw, 19px);
-  font-weight: 400;
+  transform: translateY(20px);
 
-  line-height: 1.5;
+  animation:
+    heroReveal
+    620ms
+    cubic-bezier(0.22, 1, 0.36, 1)
+    forwards;
+}
 
-  color: #555555;
+.heroTitleLineOne {
+  animation-delay: 140ms;
+}
+
+.heroTitleLineTwo {
+  margin-top: 4px;
+
+  animation-delay: 210ms;
 }
 
 /* =========================================================
@@ -285,7 +331,10 @@
   min-height: 60px;
 
   display: grid;
-  grid-template-columns: auto 1fr auto;
+  grid-template-columns:
+    auto
+    1fr
+    auto;
 
   align-items: center;
 
@@ -300,14 +349,27 @@
 
   text-decoration: none;
 
+  opacity: 0;
+
+  transform: translateY(12px);
+
+  animation:
+    storeButtonReveal
+    500ms
+    cubic-bezier(0.22, 1, 0.36, 1)
+    forwards;
+
   transition:
-    transform 180ms ease,
-    opacity 180ms ease;
+    transform 200ms ease,
+    opacity 200ms ease;
 }
 
-.storeButton:hover {
-  transform: translateY(-2px);
-  opacity: 0.88;
+.storeButtonFirst {
+  animation-delay: 360ms;
+}
+
+.storeButtonSecond {
+  animation-delay: 460ms;
 }
 
 .storeIcon {
@@ -343,6 +405,27 @@
   height: 17px;
 
   flex-shrink: 0;
+
+  transition:
+    transform 200ms ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .storeButton:hover {
+    transform: translateY(-2px);
+
+    opacity: 0.88;
+  }
+
+  .storeButton:hover .storeArrow {
+    transform: translateX(4px);
+  }
+}
+
+.storeButton:active {
+  transform:
+    translateY(0)
+    scale(0.98);
 }
 
 /* =========================================================
@@ -353,7 +436,9 @@
   min-height: 112px;
 
   display: grid;
-  grid-template-columns: 1fr auto;
+  grid-template-columns:
+    1fr
+    auto;
 
   align-items: center;
 
@@ -368,13 +453,24 @@
 
 .investorCopy {
   display: grid;
-  grid-template-columns: auto minmax(0, 1fr);
+  grid-template-columns:
+    auto
+    minmax(0, 1fr);
 
   align-items: center;
 
   column-gap: 24px;
 
   max-width: 760px;
+
+  opacity: 0;
+
+  transform: translateY(18px);
+
+  transition:
+    opacity 560ms ease,
+    transform 560ms
+      cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 .investorLabel {
@@ -405,7 +501,6 @@
 
 .investorButton {
   border: 0;
-  background: #111111;
 
   min-height: 48px;
 
@@ -419,6 +514,7 @@
 
   border-radius: 999px;
 
+  background: #111111;
   color: #ffffff;
 
   font: inherit;
@@ -429,23 +525,81 @@
 
   cursor: pointer;
 
+  opacity: 0;
+
+  transform: translateX(15px);
+
   transition:
-    transform 180ms ease,
-    opacity 180ms ease,
-    gap 180ms ease;
+    opacity 560ms ease 100ms,
+    transform 560ms
+      cubic-bezier(0.22, 1, 0.36, 1)
+      100ms,
+    gap 200ms ease;
 }
 
 .investorButton svg {
   width: 16px;
   height: 16px;
+
+  transition:
+    transform 200ms ease;
 }
 
-.investorButton:hover {
-  gap: 16px;
+.investorSectionVisible
+.investorCopy {
+  opacity: 1;
 
-  transform: translateY(-2px);
+  transform: translateY(0);
+}
 
-  opacity: 0.86;
+.investorSectionVisible
+.investorButton {
+  opacity: 1;
+
+  transform: translateX(0);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .investorSectionVisible
+  .investorButton:hover {
+    transform: translateY(-2px);
+  }
+
+  .investorButton:hover svg {
+    transform: translateX(4px);
+  }
+}
+
+.investorButton:active {
+  transform: scale(0.98);
+}
+
+/* =========================================================
+   ENTRANCE KEYFRAMES
+   ========================================================= */
+
+@keyframes headerReveal {
+  to {
+    opacity: 1;
+
+    transform: translateY(0);
+  }
+}
+
+@keyframes heroReveal {
+  to {
+    opacity: 1;
+
+    transform: translateY(0);
+  }
+}
+
+@keyframes storeButtonReveal {
+  to {
+    opacity: 1;
+
+    transform: translateY(0);
+  }
 }
 
 /* =========================================================
@@ -454,7 +608,10 @@
 
 @media (max-width: 1000px) {
   .page {
-    padding: 24px 28px 26px;
+    padding:
+      24px
+      28px
+      26px;
   }
 
   .hero {
@@ -465,8 +622,9 @@
     gap: 28px;
   }
 
-  .welcomeTitle {
-    font-size: clamp(42px, 5vw, 54px);
+  .heroTitle {
+    font-size:
+      clamp(34px, 4.5vw, 48px);
   }
 
   .storeLinks {
@@ -494,163 +652,109 @@
    ========================================================= */
 
 @media (max-width: 700px) {
-
-    .header {
-  position: relative;
-  z-index: 1000;
-
-  overflow: visible;
-}
-
-.desktopLanguageSelector {
-  position: relative;
-  z-index: 100;
-}
-
-.mobileLanguageSelector {
-  display: none;
-}
-
-.languageButton {
-  border: 0;
-  background: transparent;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  gap: 8px;
-
-  min-height: 42px;
-
-  padding: 5px;
-
-  color: #111111;
-
-  cursor: pointer;
-
-  transition:
-    opacity 180ms ease,
-    transform 180ms ease;
-}
-
-.languageButton:hover {
-  opacity: 0.68;
-}
-
-.languageButton:active {
-  transform: scale(0.96);
-}
-
-.flag {
-  display: block;
-
-  width: 29px;
-  height: 19px;
-
-  flex-shrink: 0;
-
-  border-radius: 2px;
-}
-
-.languageChevron {
-  width: 15px;
-  height: 15px;
-
-  transition: transform 180ms ease;
-}
-
-.languageChevronOpen {
-  transform: rotate(180deg);
-}
-
-.languageMenu {
-  position: absolute;
-
-  top: calc(100% + 8px);
-  right: 0;
-
-  z-index: 200;
-
-  width: 136px;
-
-  display: flex;
-  flex-direction: column;
-
-  gap: 2px;
-
-  padding: 6px;
-
-  border: 1px solid #e5e5e5;
-  border-radius: 10px;
-
-  background: #ffffff;
-
-  box-shadow: 0 14px 35px rgba(0, 0, 0, 0.1);
-}
-
-.languageOption {
-  width: 100%;
-
-  border: 0;
-  background: transparent;
-
-  display: flex;
-  align-items: center;
-
-  gap: 10px;
-
-  min-height: 42px;
-
-  padding: 8px 9px;
-
-  border-radius: 7px;
-
-  color: #111111;
-
-  font-size: 12px;
-  font-weight: 500;
-
-  text-align: left;
-
-  cursor: pointer;
-
-  transition: background 150ms ease;
-}
-
-.languageOption:hover {
-  background: #f4f4f4;
-}
-
-.languageOption .flag {
-  width: 24px;
-  height: 16px;
-}
-
-.languageMenu {
-  z-index: 1300;
-}
   .page {
-    padding: 18px 18px 18px;
+    padding:
+      18px
+      18px
+      18px;
   }
 
   .header {
     width: 100%;
+
+    grid-template-columns:
+      1fr
+      auto
+      1fr;
+
+    overflow: visible;
+  }
+
+  .headerBrand {
+    grid-column: 1;
+
+    justify-self: start;
   }
 
   .headerLogo {
     height: 26px;
   }
 
-  .flag {
-    width: 27px;
-    height: 18px;
+  .desktopHeaderControls {
+    display: none;
+  }
+
+  .mobileLanguageControl {
+    grid-column: 2;
+
+    justify-self: center;
+
+    display: flex;
+    align-items: center;
+
+    gap: 5px;
+  }
+
+  .mobileAfricaMark {
+    grid-column: 3;
+
+    justify-self: end;
+
+    display: block;
+
+    width: 20px;
+    height: 24px;
+  }
+
+  .mobileFlagButton {
+    width: 37px;
+    height: 32px;
+
+    border:
+      1px
+      solid
+      transparent;
+
+    background: transparent;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 4px;
+
+    border-radius: 7px;
+
+    cursor: pointer;
+
+    touch-action: manipulation;
+
+    -webkit-tap-highlight-color:
+      transparent;
+
+    transition:
+      border-color 160ms ease,
+      background 160ms ease,
+      transform 160ms ease;
+  }
+
+  .mobileFlagButton:active {
+    transform: scale(0.95);
+  }
+
+  .mobileFlagButtonActive {
+    border-color: #111111;
+
+    background: #f7f7f7;
+  }
+
+  .mobileFlagButton .flag {
+    width: 24px;
+    height: 16px;
   }
 
   .content {
     width: 100%;
-
-    grid-template-rows: minmax(0, 1fr) auto;
   }
 
   .hero {
@@ -659,9 +763,12 @@
 
     justify-content: center;
 
-    gap: 12px;
+    gap: 10px;
 
-    padding: 14px 0 12px;
+    padding:
+      12px
+      0
+      10px;
   }
 
   .heroCopy {
@@ -673,24 +780,15 @@
     padding-left: 0;
   }
 
-  .welcomeTitle {
-    max-width: none;
+  .heroTitle {
+    max-width: 360px;
 
-    font-size: clamp(32px, 9vw, 42px);
-    font-weight: 520;
+    font-size:
+      clamp(28px, 8vw, 38px);
 
-    line-height: 0.95;
+    line-height: 1;
 
-    letter-spacing: -0.045em;
-  }
-
-  .heroDescription {
-    max-width: 330px;
-
-    margin-top: 14px;
-
-    font-size: 14px;
-    line-height: 1.42;
+    letter-spacing: -0.04em;
   }
 
   .storeLinks {
@@ -704,57 +802,6 @@
     margin-top: 18px;
   }
 
-  .desktopLanguageSelector {
-  display: none;
-}
-
-.mobileLanguageSelector {
-  display: flex;
-  align-items: center;
-
-  gap: 7px;
-}
-
-.mobileFlagButton {
-  width: 39px;
-  height: 34px;
-
-  border: 1px solid transparent;
-  background: transparent;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  padding: 4px;
-
-  border-radius: 7px;
-
-  cursor: pointer;
-
-  touch-action: manipulation;
-  -webkit-tap-highlight-color: transparent;
-
-  transition:
-    border-color 160ms ease,
-    background 160ms ease,
-    transform 160ms ease;
-}
-
-.mobileFlagButton:active {
-  transform: scale(0.94);
-}
-
-.mobileFlagButtonActive {
-  border-color: #111111;
-  background: #f7f7f7;
-}
-
-.mobileFlagButton .flag {
-  width: 25px;
-  height: 17px;
-}
-
   .storeButton {
     flex: 1;
 
@@ -764,7 +811,9 @@
 
     gap: 7px;
 
-    padding: 8px 11px;
+    padding:
+      8px
+      11px;
   }
 
   .storeIcon {
@@ -785,21 +834,19 @@
     height: 14px;
   }
 
-  /* INVESTORS MOBILE */
-
   .investorSection {
     min-height: 108px;
 
-    display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
-
-    align-items: center;
+    grid-template-columns:
+      minmax(0, 1fr)
+      auto;
 
     gap: 16px;
 
-    padding: 16px 0 2px;
-
-    border-top: 1px solid #d9d9d9;
+    padding:
+      16px
+      0
+      2px;
   }
 
   .investorCopy {
@@ -820,13 +867,16 @@
     margin-top: 7px;
 
     font-size: 11px;
+
     line-height: 1.35;
   }
 
   .investorButton {
     min-height: 42px;
 
-    padding: 0 14px;
+    padding:
+      0
+      14px;
 
     gap: 7px;
 
@@ -845,25 +895,22 @@
 
 @media (max-width: 420px) {
   .page {
-    padding: 17px 15px 16px;
+    padding:
+      17px
+      15px
+      16px;
   }
 
   .hero {
     gap: 8px;
 
-    padding-top: 10px;
+    padding-top: 9px;
   }
 
-  .welcomeTitle {
-    font-size: 31px;
-  }
+  .heroTitle {
+    font-size: 28px;
 
-  .heroDescription {
-    max-width: 300px;
-
-    margin-top: 11px;
-
-    font-size: 13px;
+    max-width: 330px;
   }
 
   .storeLinks {
@@ -897,17 +944,22 @@
   .investorButton {
     min-height: 38px;
 
-    padding: 0 11px;
+    padding:
+      0
+      11px;
 
     font-size: 9px;
   }
 }
 
 /* =========================================================
-   SHORT LAPTOP SCREENS
+   SHORT LAPTOPS
    ========================================================= */
 
-@media (max-height: 720px) and (min-width: 701px) {
+@media
+  (max-height: 720px)
+  and
+  (min-width: 701px) {
   .page {
     padding-top: 20px;
     padding-bottom: 22px;
@@ -918,14 +970,8 @@
     padding-bottom: 20px;
   }
 
-  .welcomeTitle {
-    font-size: 46px;
-  }
-
-  .heroDescription {
-    margin-top: 16px;
-
-    font-size: 16px;
+  .heroTitle {
+    font-size: 42px;
   }
 
   .storeLinks {
@@ -936,5 +982,33 @@
     min-height: 88px;
 
     padding-top: 16px;
+  }
+}
+
+/* =========================================================
+   REDUCED MOTION
+   ========================================================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .header,
+  .heroTitleLineOne,
+  .heroTitleLineTwo,
+  .storeButton,
+  .investorCopy,
+  .investorButton {
+    opacity: 1;
+
+    transform: none;
+
+    animation: none;
+
+    transition: none;
+  }
+
+  .africaMark,
+  .mobileAfricaMark,
+  .storeArrow,
+  .investorButton svg {
+    transition: none;
   }
 }
