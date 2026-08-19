@@ -2,1013 +2,280 @@
   width: 100%;
   height: 100dvh;
   min-height: 100dvh;
-
   overflow: hidden;
-
   display: flex;
   flex-direction: column;
-
   padding: 26px 44px 28px;
-
   background: #ffffff;
   color: #111111;
 }
-
-/* =========================================================
-   HEADER
-   ========================================================= */
 
 .header {
   position: relative;
-  z-index: 1000;
-
-  width: min(1240px, 100%);
-
+  z-index: 20;
+  width: min(1180px, 100%);
   margin: 0 auto;
-
   display: grid;
   grid-template-columns: 1fr auto;
-
   align-items: center;
-
   flex-shrink: 0;
-
-  opacity: 0;
-
-  transform: translateY(-8px);
-
-  animation:
-    headerReveal
-    430ms
-    cubic-bezier(0.22, 1, 0.36, 1)
-    forwards;
 }
 
-.headerBrand {
-  justify-self: start;
+.headerBrand { justify-self: start; display: flex; align-items: center; }
+.headerLogo { width: auto; height: 30px; object-fit: contain; }
 
-  display: flex;
-  align-items: center;
-}
-
-.headerLogo {
-  display: block;
-
-  width: auto;
-  height: 30px;
-
-  object-fit: contain;
-}
-
-.desktopHeaderControls {
-  justify-self: end;
-
-  display: flex;
-  align-items: center;
-
-  gap: 22px;
-}
-
-.desktopLanguageSelector {
-  position: relative;
-  z-index: 1100;
-}
-
-.mobileLanguageControl,
-.mobileAfricaMark {
-  display: none;
-}
-
-.languageButton {
+.desktopLanguageSelector { position: relative; justify-self: end; }
+.desktopLanguageButton {
   border: 0;
   background: transparent;
-
   display: flex;
   align-items: center;
   justify-content: center;
-
   gap: 7px;
-
-  min-height: 42px;
-
+  min-height: 40px;
   padding: 4px;
-
   color: #111111;
-
   cursor: pointer;
-
-  touch-action: manipulation;
-
-  -webkit-tap-highlight-color: transparent;
 }
 
-.flag {
-  display: block;
-
-  width: 28px;
-  height: 19px;
-
-  flex-shrink: 0;
-
-  border-radius: 2px;
-
-  pointer-events: none;
-}
-
-.languageChevron {
-  width: 15px;
-  height: 15px;
-
-  flex-shrink: 0;
-
-  pointer-events: none;
-
-  transition:
-    transform 180ms ease;
-}
-
-.languageChevronOpen {
-  transform: rotate(180deg);
-}
-
+.flag { display: block; width: 28px; height: 19px; border-radius: 2px; pointer-events: none; }
+.languageChevron { width: 14px; height: 14px; transition: transform 180ms ease; }
+.languageChevronOpen { transform: rotate(180deg); }
 .languageMenu {
   position: absolute;
-
   top: calc(100% + 8px);
   right: 0;
-
-  z-index: 1300;
-
+  z-index: 30;
   width: 136px;
-
   display: flex;
   flex-direction: column;
-
   gap: 2px;
-
   padding: 6px;
-
   border: 1px solid #e5e5e5;
   border-radius: 10px;
-
   background: #ffffff;
-
-  box-shadow:
-    0 14px 35px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 14px 35px rgba(0, 0, 0, 0.1);
 }
 
 .languageOption {
   width: 100%;
-
   border: 0;
   background: transparent;
-
   display: flex;
   align-items: center;
-
   gap: 10px;
-
-  min-height: 42px;
-
-  padding: 8px 9px;
-
+  min-height: 40px;
+  padding: 8px;
   border-radius: 7px;
-
   color: #111111;
-
   font-size: 12px;
   font-weight: 500;
-
-  text-align: left;
-
   cursor: pointer;
-
-  touch-action: manipulation;
-
-  -webkit-tap-highlight-color: transparent;
-
-  transition:
-    background 150ms ease;
 }
-
-.languageOption:hover {
-  background: #f4f4f4;
-}
-
-.languageOption .flag {
-  width: 24px;
-  height: 16px;
-}
-
-.africaMark,
-.mobileAfricaMark {
-  width: 21px;
-  height: 25px;
-
-  color: #111111;
-
-  flex-shrink: 0;
-
-  transition:
-    color 180ms ease,
-    transform 180ms ease;
-}
-
-@media (hover: hover) and (pointer: fine) {
-  .africaMark:hover,
-  .mobileAfricaMark:hover {
-    color: #008751;
-
-    transform: scale(1.05);
-  }
-}
-
-/* =========================================================
-   PAGE CONTENT
-   ========================================================= */
-
-.content {
-  position: relative;
-
-  z-index: 1;
-
-  width: min(1240px, 100%);
-  min-height: 0;
-
-  margin: 0 auto;
-
-  flex: 1;
-
-  display: grid;
-  grid-template-rows: minmax(0, 1fr) auto;
-}
-
-/* =========================================================
-   HERO
-   ========================================================= */
+.languageOption:hover { background: #f4f4f4; }
+.languageOption .flag { width: 24px; height: 16px; }
+.mobileLanguageControl { display: none; }
 
 .hero {
+  width: min(980px, 100%);
+  flex: 1;
   min-height: 0;
-
-  display: grid;
-  grid-template-columns:
-    minmax(380px, 0.9fr)
-    minmax(440px, 1.1fr);
-
-  align-items: center;
-
-  gap: clamp(28px, 4vw, 64px);
-
-  padding:
-    clamp(30px, 6vh, 72px)
-    0
-    clamp(22px, 4vh, 48px);
-}
-
-.heroCopy {
-  max-width: 560px;
-
-  align-self: center;
-
-  padding-left: clamp(0px, 1vw, 12px);
-}
-
-.heroTitle {
-  margin: 0;
-
-  max-width: 560px;
-
-  font-size:
-    clamp(36px, 4.2vw, 58px);
-
-  font-weight: 520;
-
-  line-height: 0.98;
-
-  letter-spacing: -0.045em;
-}
-
-.heroTitleLineOne,
-.heroTitleLineTwo {
-  display: block;
-
-  opacity: 0;
-
-  transform: translateY(20px);
-
-  animation:
-    heroReveal
-    620ms
-    cubic-bezier(0.22, 1, 0.36, 1)
-    forwards;
-}
-
-.heroTitleLineOne {
-  animation-delay: 140ms;
-}
-
-.heroTitleLineTwo {
-  margin-top: 4px;
-
-  animation-delay: 210ms;
-}
-
-/* =========================================================
-   STORE BUTTONS
-   ========================================================= */
-
-.storeLinks {
-  display: flex;
-  flex-wrap: wrap;
-
-  gap: 12px;
-
-  margin-top: 32px;
-}
-
-.storeButton {
-  min-width: 198px;
-  min-height: 60px;
-
-  display: grid;
-  grid-template-columns:
-    auto
-    1fr
-    auto;
-
-  align-items: center;
-
-  gap: 12px;
-
-  padding: 10px 16px;
-
-  border-radius: 999px;
-
-  background: #111111;
-  color: #ffffff;
-
-  text-decoration: none;
-
-  opacity: 0;
-
-  transform: translateY(12px);
-
-  animation:
-    storeButtonReveal
-    500ms
-    cubic-bezier(0.22, 1, 0.36, 1)
-    forwards;
-
-  transition:
-    transform 200ms ease,
-    opacity 200ms ease;
-}
-
-.storeButtonFirst {
-  animation-delay: 360ms;
-}
-
-.storeButtonSecond {
-  animation-delay: 460ms;
-}
-
-.storeIcon {
-  width: 23px;
-  height: 23px;
-
-  flex-shrink: 0;
-}
-
-.storeLabel {
+  margin: 0 auto;
   display: flex;
   flex-direction: column;
-
-  line-height: 1.08;
-}
-
-.storeLabel small {
-  font-size: 9px;
-  font-weight: 400;
-
-  opacity: 0.7;
-}
-
-.storeLabel strong {
-  margin-top: 3px;
-
-  font-size: 15px;
-  font-weight: 500;
-}
-
-.storeArrow {
-  width: 17px;
-  height: 17px;
-
-  flex-shrink: 0;
-
-  transition:
-    transform 200ms ease;
-}
-
-@media (hover: hover) and (pointer: fine) {
-  .storeButton:hover {
-    transform: translateY(-2px);
-
-    opacity: 0.88;
-  }
-
-  .storeButton:hover .storeArrow {
-    transform: translateX(4px);
-  }
-}
-
-.storeButton:active {
-  transform:
-    translateY(0)
-    scale(0.98);
-}
-
-/* =========================================================
-   INVESTOR SECTION
-   ========================================================= */
-
-.investorSection {
-  min-height: 112px;
-
-  display: grid;
-  grid-template-columns:
-    1fr
-    auto;
-
-  align-items: center;
-
-  gap: 40px;
-
-  padding: 22px 2px 4px;
-
-  border-top: 1px solid #d9d9d9;
-
-  flex-shrink: 0;
-}
-
-.investorCopy {
-  display: grid;
-  grid-template-columns:
-    auto
-    minmax(0, 1fr);
-
-  align-items: center;
-
-  column-gap: 24px;
-
-  max-width: 760px;
-
-  opacity: 0;
-
-  transform: translateY(18px);
-
-  transition:
-    opacity 560ms ease,
-    transform 560ms
-      cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.investorLabel {
-  margin: 0;
-
-  font-size: 11px;
-  font-weight: 650;
-
-  line-height: 1;
-
-  letter-spacing: 0.14em;
-
-  white-space: nowrap;
-}
-
-.investorDescription {
-  margin: 0;
-
-  max-width: 430px;
-
-  font-size: 16px;
-  font-weight: 400;
-
-  line-height: 1.4;
-
-  color: #555555;
-}
-
-.investorButton {
-  border: 0;
-
-  min-height: 48px;
-
-  display: inline-flex;
   align-items: center;
   justify-content: center;
+  text-align: center;
+  padding: 20px 0 8px;
+}
 
+.animationStage {
+  width: min(680px, 70vw);
+  height: clamp(180px, 30vh, 320px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  background: transparent;
+}
+.animationVideo { width: 100%; height: 100%; object-fit: contain; display: block; }
+.animationFallback {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+.animationFallback strong {
+  position: relative;
+  z-index: 2;
+  font-size: clamp(42px, 7vw, 86px);
+  font-weight: 400;
+  letter-spacing: -0.055em;
+  animation: fallbackWordmark 5s ease-in-out infinite;
+}
+.fallbackShapeOne,
+.fallbackShapeTwo,
+.fallbackShapeThree {
+  position: absolute;
+  width: 34px;
+  height: 34px;
+  border: 1px solid #cfcfcf;
+  border-radius: 8px;
+  opacity: 0;
+}
+.fallbackShapeOne { left: 22%; animation: fallbackShapeOne 5s ease-in-out infinite; }
+.fallbackShapeTwo { left: 50%; border-radius: 50%; animation: fallbackShapeTwo 5s ease-in-out infinite; }
+.fallbackShapeThree { right: 22%; animation: fallbackShapeThree 5s ease-in-out infinite; }
+
+.heroCopy { margin-top: 2px; max-width: 720px; }
+.heroTitle {
+  margin: 0;
+  font-size: clamp(30px, 4vw, 48px);
+  font-weight: 500;
+  line-height: 1;
+  letter-spacing: -0.045em;
+}
+.heroDescription {
+  max-width: 560px;
+  margin: 14px auto 0;
+  color: #555555;
+  font-size: clamp(14px, 1.3vw, 17px);
+  line-height: 1.45;
+}
+
+.heroActions { margin-top: 24px; display: flex; flex-direction: column; align-items: center; gap: 12px; }
+.storeLinks { display: flex; align-items: center; justify-content: center; gap: 12px; }
+.storeButton {
+  min-width: 198px;
+  min-height: 58px;
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
   gap: 12px;
-
-  padding: 0 20px;
-
+  padding: 10px 16px;
   border-radius: 999px;
-
   background: #111111;
   color: #ffffff;
+  text-decoration: none;
+  transition: transform 190ms ease, opacity 190ms ease;
+}
+.storeIcon { width: 22px; height: 22px; }
+.storeLabel { display: flex; flex-direction: column; line-height: 1.08; text-align: left; }
+.storeLabel small { font-size: 9px; font-weight: 400; opacity: 0.7; }
+.storeLabel strong { margin-top: 3px; font-size: 15px; font-weight: 500; }
+.storeArrow { width: 16px; height: 16px; transition: transform 190ms ease; }
 
-  font: inherit;
-  font-size: 13px;
+.investorLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 42px;
+  padding: 0 16px;
+  border: 1px solid #d9d9d9;
+  border-radius: 999px;
+  color: #111111;
+  text-decoration: none;
+  font-size: 12px;
   font-weight: 500;
-
-  white-space: nowrap;
-
-  cursor: pointer;
-
-  opacity: 0;
-
-  transform: translateX(15px);
-
-  transition:
-    opacity 560ms ease 100ms,
-    transform 560ms
-      cubic-bezier(0.22, 1, 0.36, 1)
-      100ms,
-    gap 200ms ease;
+  transition: transform 190ms ease, border-color 190ms ease;
 }
-
-.investorButton svg {
-  width: 16px;
-  height: 16px;
-
-  transition:
-    transform 200ms ease;
-}
-
-.investorSectionVisible
-.investorCopy {
-  opacity: 1;
-
-  transform: translateY(0);
-}
-
-.investorSectionVisible
-.investorButton {
-  opacity: 1;
-
-  transform: translateX(0);
-}
+.investorLink svg { width: 15px; height: 15px; transition: transform 190ms ease; }
 
 @media (hover: hover) and (pointer: fine) {
-  .investorSectionVisible
-  .investorButton:hover {
-    transform: translateY(-2px);
-  }
-
-  .investorButton:hover svg {
-    transform: translateX(4px);
-  }
+  .storeButton:hover { transform: translateY(-2px); opacity: 0.88; }
+  .storeButton:hover .storeArrow { transform: translateX(4px); }
+  .investorLink:hover { transform: translateY(-2px); border-color: #111111; }
+  .investorLink:hover svg { transform: translateX(4px); }
 }
 
-.investorButton:active {
-  transform: scale(0.98);
+.storeButton:active,
+.investorLink:active { transform: scale(0.98); }
+
+@keyframes fallbackWordmark {
+  0%, 26% { opacity: 0; transform: scale(0.94); }
+  48%, 82% { opacity: 1; transform: scale(1); }
+  100% { opacity: 0; transform: scale(0.98); }
 }
-
-/* =========================================================
-   ENTRANCE KEYFRAMES
-   ========================================================= */
-
-@keyframes headerReveal {
-  to {
-    opacity: 1;
-
-    transform: translateY(0);
-  }
+@keyframes fallbackShapeOne {
+  0% { opacity: 0; transform: translateX(-30px) rotate(-12deg); }
+  16%, 34% { opacity: 1; transform: translateX(0) rotate(0); }
+  50%, 100% { opacity: 0; transform: translateX(90px) scale(0.5); }
 }
-
-@keyframes heroReveal {
-  to {
-    opacity: 1;
-
-    transform: translateY(0);
-  }
+@keyframes fallbackShapeTwo {
+  0%, 6% { opacity: 0; transform: translateY(18px) scale(0.7); }
+  20%, 34% { opacity: 1; transform: translateY(0) scale(1); }
+  50%, 100% { opacity: 0; transform: scale(0.35); }
 }
-
-@keyframes storeButtonReveal {
-  to {
-    opacity: 1;
-
-    transform: translateY(0);
-  }
+@keyframes fallbackShapeThree {
+  0%, 10% { opacity: 0; transform: translateX(30px) rotate(12deg); }
+  24%, 34% { opacity: 1; transform: translateX(0) rotate(0); }
+  50%, 100% { opacity: 0; transform: translateX(-90px) scale(0.5); }
 }
-
-/* =========================================================
-   MEDIUM DESKTOP / TABLET
-   ========================================================= */
-
-@media (max-width: 1000px) {
-  .page {
-    padding:
-      24px
-      28px
-      26px;
-  }
-
-  .hero {
-    grid-template-columns:
-      minmax(320px, 0.9fr)
-      minmax(350px, 1.1fr);
-
-    gap: 28px;
-  }
-
-  .heroTitle {
-    font-size:
-      clamp(34px, 4.5vw, 48px);
-  }
-
-  .storeLinks {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .storeButton {
-    width: 210px;
-  }
-
-  .investorSection {
-    min-height: 104px;
-  }
-
-  .investorCopy {
-    grid-template-columns: 1fr;
-
-    row-gap: 7px;
-  }
-}
-
-/* =========================================================
-   MOBILE
-   ========================================================= */
 
 @media (max-width: 700px) {
-  .page {
-    padding:
-      18px
-      18px
-      18px;
-  }
-
-  .header {
-    width: 100%;
-
-    grid-template-columns:
-      1fr
-      auto
-      1fr;
-
-    overflow: visible;
-  }
-
-  .headerBrand {
-    grid-column: 1;
-
-    justify-self: start;
-  }
-
-  .headerLogo {
-    height: 26px;
-  }
-
-  .desktopHeaderControls {
-    display: none;
-  }
-
+  .page { padding: 18px 16px 16px; }
+  .header { width: 100%; grid-template-columns: 1fr auto 1fr; }
+  .headerBrand { grid-column: 1; justify-self: start; }
+  .headerLogo { height: 25px; }
+  .desktopLanguageSelector { display: none; }
   .mobileLanguageControl {
     grid-column: 2;
-
     justify-self: center;
-
     display: flex;
     align-items: center;
-
     gap: 5px;
   }
-
-  .mobileAfricaMark {
-    grid-column: 3;
-
-    justify-self: end;
-
-    display: block;
-
-    width: 20px;
-    height: 24px;
-  }
-
   .mobileFlagButton {
-    width: 37px;
-    height: 32px;
-
-    border:
-      1px
-      solid
-      transparent;
-
+    width: 36px;
+    height: 31px;
+    border: 1px solid transparent;
     background: transparent;
-
     display: flex;
     align-items: center;
     justify-content: center;
-
     padding: 4px;
-
     border-radius: 7px;
-
     cursor: pointer;
-
-    touch-action: manipulation;
-
-    -webkit-tap-highlight-color:
-      transparent;
-
-    transition:
-      border-color 160ms ease,
-      background 160ms ease,
-      transform 160ms ease;
   }
+  .mobileFlagButtonActive { border-color: #111111; background: #f7f7f7; }
+  .mobileFlagButton .flag { width: 23px; height: 15px; }
 
-  .mobileFlagButton:active {
-    transform: scale(0.95);
-  }
-
-  .mobileFlagButtonActive {
-    border-color: #111111;
-
-    background: #f7f7f7;
-  }
-
-  .mobileFlagButton .flag {
-    width: 24px;
-    height: 16px;
-  }
-
-  .content {
-    width: 100%;
-  }
-
-  .hero {
-    display: flex;
-    flex-direction: column;
-
-    justify-content: center;
-
-    gap: 10px;
-
-    padding:
-      12px
-      0
-      10px;
-  }
-
-  .heroCopy {
-    order: 1;
-
-    width: 100%;
-    max-width: none;
-
-    padding-left: 0;
-  }
-
-  .heroTitle {
-    max-width: 360px;
-
-    font-size:
-      clamp(28px, 8vw, 38px);
-
-    line-height: 1;
-
-    letter-spacing: -0.04em;
-  }
-
-  .storeLinks {
-    flex-direction: row;
-    flex-wrap: nowrap;
-
-    width: 100%;
-
-    gap: 8px;
-
-    margin-top: 18px;
-  }
-
-  .storeButton {
-    flex: 1;
-
-    width: auto;
-    min-width: 0;
-    min-height: 50px;
-
-    gap: 7px;
-
-    padding:
-      8px
-      11px;
-  }
-
-  .storeIcon {
-    width: 18px;
-    height: 18px;
-  }
-
-  .storeLabel small {
-    font-size: 7px;
-  }
-
-  .storeLabel strong {
-    font-size: 11px;
-  }
-
-  .storeArrow {
-    width: 14px;
-    height: 14px;
-  }
-
-  .investorSection {
-    min-height: 108px;
-
-    grid-template-columns:
-      minmax(0, 1fr)
-      auto;
-
-    gap: 16px;
-
-    padding:
-      16px
-      0
-      2px;
-  }
-
-  .investorCopy {
-    display: block;
-
-    max-width: none;
-  }
-
-  .investorLabel {
-    font-size: 9px;
-
-    letter-spacing: 0.13em;
-  }
-
-  .investorDescription {
-    max-width: 210px;
-
-    margin-top: 7px;
-
-    font-size: 11px;
-
-    line-height: 1.35;
-  }
-
-  .investorButton {
-    min-height: 42px;
-
-    padding:
-      0
-      14px;
-
-    gap: 7px;
-
-    font-size: 10px;
-  }
-
-  .investorButton svg {
-    width: 14px;
-    height: 14px;
-  }
+  .hero { width: 100%; padding-top: 8px; }
+  .animationStage { width: 100%; height: clamp(170px, 28vh, 250px); }
+  .animationFallback strong { font-size: clamp(38px, 13vw, 58px); }
+  .heroCopy { width: 100%; margin-top: 0; }
+  .heroTitle { font-size: clamp(27px, 7.8vw, 34px); line-height: 1.02; }
+  .heroDescription { max-width: 330px; margin-top: 10px; font-size: 13px; }
+  .heroActions { width: 100%; margin-top: 18px; gap: 10px; }
+  .storeLinks { width: 100%; gap: 8px; }
+  .storeButton { flex: 1; min-width: 0; min-height: 47px; gap: 7px; padding: 8px 10px; }
+  .storeIcon { width: 18px; height: 18px; }
+  .storeLabel small { font-size: 7px; }
+  .storeLabel strong { font-size: 10.5px; }
+  .storeArrow { width: 13px; height: 13px; }
+  .investorLink { min-height: 38px; padding: 0 13px; font-size: 10px; }
 }
-
-/* =========================================================
-   SMALL PHONES
-   ========================================================= */
 
 @media (max-width: 420px) {
-  .page {
-    padding:
-      17px
-      15px
-      16px;
-  }
-
-  .hero {
-    gap: 8px;
-
-    padding-top: 9px;
-  }
-
-  .heroTitle {
-    font-size: 28px;
-
-    max-width: 330px;
-  }
-
-  .storeLinks {
-    margin-top: 13px;
-  }
-
-  .storeButton {
-    min-height: 46px;
-
-    padding-inline: 9px;
-  }
-
-  .storeLabel strong {
-    font-size: 10px;
-  }
-
-  .investorSection {
-    min-height: 96px;
-
-    gap: 10px;
-
-    padding-top: 13px;
-  }
-
-  .investorDescription {
-    max-width: 185px;
-
-    font-size: 10px;
-  }
-
-  .investorButton {
-    min-height: 38px;
-
-    padding:
-      0
-      11px;
-
-    font-size: 9px;
-  }
+  .page { padding: 16px 14px 14px; }
+  .animationStage { height: clamp(150px, 25vh, 210px); }
+  .heroTitle { font-size: 27px; }
+  .storeButton { min-height: 44px; padding-inline: 8px; }
+  .storeLabel strong { font-size: 10px; }
 }
-
-/* =========================================================
-   SHORT LAPTOPS
-   ========================================================= */
-
-@media
-  (max-height: 720px)
-  and
-  (min-width: 701px) {
-  .page {
-    padding-top: 20px;
-    padding-bottom: 22px;
-  }
-
-  .hero {
-    padding-top: 22px;
-    padding-bottom: 20px;
-  }
-
-  .heroTitle {
-    font-size: 42px;
-  }
-
-  .storeLinks {
-    margin-top: 20px;
-  }
-
-  .investorSection {
-    min-height: 88px;
-
-    padding-top: 16px;
-  }
-}
-
-/* =========================================================
-   REDUCED MOTION
-   ========================================================= */
 
 @media (prefers-reduced-motion: reduce) {
-  .header,
-  .heroTitleLineOne,
-  .heroTitleLineTwo,
-  .storeButton,
-  .investorCopy,
-  .investorButton {
-    opacity: 1;
-
-    transform: none;
-
+  .animationFallback strong,
+  .fallbackShapeOne,
+  .fallbackShapeTwo,
+  .fallbackShapeThree {
     animation: none;
-
-    transition: none;
   }
-
-  .africaMark,
-  .mobileAfricaMark,
-  .storeArrow,
-  .investorButton svg {
-    transition: none;
-  }
+  .animationFallback strong { opacity: 1; transform: none; }
+  .fallbackShapeOne,
+  .fallbackShapeTwo,
+  .fallbackShapeThree { display: none; }
 }

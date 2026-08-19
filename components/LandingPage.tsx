@@ -3,7 +3,6 @@
 import { useState } from "react";
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
-import InvestorAccess from "@/components/InvestorAccess";
 import styles from "@/styles/landing.module.css";
 
 export type Language = "en" | "fr";
@@ -13,16 +12,8 @@ export default function LandingPage() {
 
   return (
     <main className={styles.page}>
-      <Header
-        language={language}
-        onLanguageChange={setLanguage}
-      />
-
-      <div className={styles.content}>
-        <Hero language={language} />
-
-        <InvestorAccess language={language} />
-      </div>
+      <Header language={language} onLanguageChange={setLanguage} />
+      <Hero language={language} />
     </main>
   );
 }
