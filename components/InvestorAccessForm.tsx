@@ -1,13 +1,26 @@
 "use client";
 
-import { FormEvent, useMemo, useState } from "react";
+import {
+  FormEvent,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
+
 import {
   parsePhoneNumberFromString,
   type CountryCode,
 } from "libphonenumber-js";
-import { HiArrowLeft, HiArrowRight } from "react-icons/hi2";
 
-import type { Language } from "@/components/LandingPage";
+import {
+  HiArrowLeft,
+  HiArrowRight,
+} from "react-icons/hi2";
+
+import type {
+  Language,
+} from "@/components/LandingPage";
+
 import InternationalPhoneInput from "@/components/InternationalPhoneInput";
 
 import styles from "@/styles/investors.module.css";
@@ -31,7 +44,7 @@ type ValidationErrorCode =
   | "";
 
 const INVESTOR_DESTINATION_URL =
-  "https://staging.merchant/cashlessflo.com/auth/login";
+  "https://staging.merchant/cashlessflo.com/auth/register";
 
 const MAX_ACCESS_CODE_LENGTH = 64;
 
@@ -39,7 +52,6 @@ const content = {
   en: {
     eyebrow: "FOR INVESTORS",
     title: "Investor access",
-
     description:
       "Enter your details to continue to Cashless investor access.",
 
@@ -56,7 +68,6 @@ const content = {
 
     verifyEyebrow: "PRIVATE ACCESS",
     verifyTitle: "Verify access",
-
     verifyDescription:
       "Enter the code provided directly by Cashless.",
 
@@ -88,7 +99,6 @@ const content = {
   fr: {
     eyebrow: "POUR LES INVESTISSEURS",
     title: "Espace investisseurs",
-
     description:
       "Renseignez vos informations pour continuer vers l’espace investisseurs Cashless.",
 
@@ -105,7 +115,6 @@ const content = {
 
     verifyEyebrow: "ACCÈS PRIVÉ",
     verifyTitle: "Vérifier l’accès",
-
     verifyDescription:
       "Entrez le code fourni directement par Cashless.",
 
@@ -141,32 +150,69 @@ export default function InvestorAccessForm({
   const [step, setStep] =
     useState<"details" | "code">("details");
 
-  const [details, setDetails] = useState<InvestorDetails>({
-    fullName: "",
-    email: "",
-    phoneCountry: "NG",
-    phoneNumber: "",
-  });
+  const [details, setDetails] =
+    useState<InvestorDetails>({
+      fullName: "",
+      email: "",
+      phoneCountry:
+        language === "fr" ? "BJ" : "NG",
+      phoneNumber: "",
+    });
 
-  const [leadId, setLeadId] = useState("");
+  const [leadId, setLeadId] =
+    useState("");
 
-  const [accessCode, setAccessCode] = useState("");
+  const [accessCode, setAccessCode] =
+    useState("");
 
-  const [error, setError] = useState("");
+  const [error, setError] =
+    useState("");
 
-  const [validationError, setValidationError] =
+  const [
+    validationError,
+    setValidationError,
+  ] =
     useState<ValidationErrorCode>("");
 
-  const [codeValidationError, setCodeValidationError] =
+  const [
+    codeValidationError,
+    setCodeValidationError,
+  ] =
     useState(false);
 
-  const [isCheckingDetails, setIsCheckingDetails] =
+  const [
+    isCheckingDetails,
+    setIsCheckingDetails,
+  ] =
     useState(false);
 
-  const [isSubmitting, setIsSubmitting] =
+  const [
+    isSubmitting,
+    setIsSubmitting,
+  ] =
     useState(false);
 
   const copy = content[language];
+
+  /*
+   * Nigeria flag -> Nigeria phone country
+   * Benin flag   -> Benin phone country
+   */
+  useEffect(() => {
+    const defaultCountry: CountryCode =
+      language === "fr"
+        ? "BJ"
+        : "NG";
+
+    setDetails((current) => ({
+      ...current,
+      phoneCountry: defaultCountry,
+      phoneNumber: "",
+    }));
+
+    setValidationError("");
+    setError("");
+  }, [language]);
 
   const parsedPhone = useMemo(
     () =>
@@ -174,32 +220,39 @@ export default function InvestorAccessForm({
         details.phoneNumber,
         details.phoneCountry,
       ),
-    [details.phoneCountry, details.phoneNumber],
+    [
+      details.phoneCountry,
+      details.phoneNumber,
+    ],
   );
 
-  const localDetailsValid = useMemo(() => {
-    const nameValid =
-      details.fullName.trim().length >= 2;
+  const localDetailsValid =
+    useMemo(() => {
+      const nameValid =
+        details.fullName
+          .trim()
+          .length >= 2;
 
-    const emailValid =
-      /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(
-        details.email.trim(),
-      );
+      const emailValid =
+        /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(
+          details.email.trim(),
+        );
 
-    const phoneValid = Boolean(
-      parsedPhone?.isValid(),
-    );
+      const phoneValid =
+        Boolean(
+          parsedPhone?.isValid(),
+        );
 
-    return {
-      nameValid,
-      emailValid,
-      phoneValid,
-    };
-  }, [
-    details.fullName,
-    details.email,
-    parsedPhone,
-  ]);
+      return {
+        nameValid,
+        emailValid,
+        phoneValid,
+      };
+    }, [
+      details.fullName,
+      details.email,
+      parsedPhone,
+    ]);
 
   const validationMessage = (() => {
     switch (validationError) {
@@ -220,211 +273,299 @@ export default function InvestorAccessForm({
     }
   })();
 
-  const handleDetailsSubmit = async (
-    event: FormEvent<HTMLFormElement>,
-  ) => {
-    event.preventDefault();
+  const handleDetailsSubmit =
+    async (
+      event: FormEvent<HTMLFormElement>,
+    ) => {
+      event.preventDefault();
 
-    setError("");
-    setValidationError("");
-    setCodeValidationError(false);
+      setError("");
+      setValidationError("");
+      setCodeValidationError(false);
 
-    if (!localDetailsValid.nameValid) {
-      setValidationError("INVALID_DETAILS");
-      return;
-    }
-
-    if (!localDetailsValid.emailValid) {
-      setValidationError("INVALID_EMAIL");
-      return;
-    }
-
-    if (
-      !localDetailsValid.phoneValid ||
-      !parsedPhone
-    ) {
-      setValidationError("INVALID_PHONE");
-      return;
-    }
-
-    setIsCheckingDetails(true);
-
-    try {
-      const response = await fetch(
-        "/api/validate-investor-details",
-        {
-          method: "POST",
-
-          headers: {
-            "Content-Type": "application/json",
-          },
-
-          body: JSON.stringify({
-            fullName:
-              details.fullName.trim(),
-
-            email:
-              details.email.trim(),
-
-            phoneCountry:
-              details.phoneCountry,
-
-            phoneNumber:
-              details.phoneNumber.trim(),
-
-            phone:
-              parsedPhone.number,
-          }),
-        },
-      );
-
-      const result = await response.json();
-
-      if (!response.ok || !result.ok) {
-        if (result?.code === "INVALID_EMAIL") {
-          setValidationError("INVALID_EMAIL");
-        } else if (
-          result?.code === "EMAIL_DOMAIN"
-        ) {
-          setValidationError("EMAIL_DOMAIN");
-        } else if (
-          result?.code === "INVALID_PHONE"
-        ) {
-          setValidationError("INVALID_PHONE");
-        } else if (
-          result?.code === "INVALID_DETAILS"
-        ) {
-          setValidationError("INVALID_DETAILS");
-        } else {
-          setError(copy.genericError);
-        }
-
+      if (
+        !localDetailsValid.nameValid
+      ) {
+        setValidationError(
+          "INVALID_DETAILS",
+        );
         return;
       }
 
       if (
-        typeof result?.leadId !== "string" ||
-        !result.leadId
+        !localDetailsValid.emailValid
       ) {
-        setError(copy.genericError);
+        setValidationError(
+          "INVALID_EMAIL",
+        );
         return;
       }
 
-      setLeadId(result.leadId);
+      if (
+        !localDetailsValid.phoneValid ||
+        !parsedPhone
+      ) {
+        setValidationError(
+          "INVALID_PHONE",
+        );
+        return;
+      }
 
-      setStep("code");
-    } catch {
-      setError(copy.genericError);
-    } finally {
-      setIsCheckingDetails(false);
-    }
-  };
+      setIsCheckingDetails(true);
 
-  const handleCodeSubmit = async (
-    event: FormEvent<HTMLFormElement>,
-  ) => {
-    event.preventDefault();
+      try {
+        const response =
+          await fetch(
+            "/api/validate-investor-details",
+            {
+              method: "POST",
 
-    setError("");
-    setValidationError("");
-    setCodeValidationError(false);
+              headers: {
+                "Content-Type":
+                  "application/json",
+              },
 
-    if (!accessCode.trim()) {
-      setCodeValidationError(true);
-      return;
-    }
+              body:
+                JSON.stringify({
+                  fullName:
+                    details.fullName.trim(),
 
-    if (!parsedPhone) {
-      setValidationError("INVALID_PHONE");
-      return;
-    }
+                  email:
+                    details.email.trim(),
 
-    if (!leadId) {
-      setError(copy.genericError);
-      return;
-    }
+                  phoneCountry:
+                    details.phoneCountry,
 
-    setIsSubmitting(true);
+                  phoneNumber:
+                    details.phoneNumber.trim(),
 
-    try {
-      const response = await fetch(
-        "/api/investor-access",
-        {
-          method: "POST",
+                  phone:
+                    parsedPhone.number,
+                }),
+            },
+          );
 
-          headers: {
-            "Content-Type": "application/json",
-          },
+        const result =
+          await response.json();
 
-          body: JSON.stringify({
-            fullName:
-              details.fullName.trim(),
+        if (
+          !response.ok ||
+          !result.ok
+        ) {
+          if (
+            result?.code ===
+            "INVALID_EMAIL"
+          ) {
+            setValidationError(
+              "INVALID_EMAIL",
+            );
+          } else if (
+            result?.code ===
+            "EMAIL_DOMAIN"
+          ) {
+            setValidationError(
+              "EMAIL_DOMAIN",
+            );
+          } else if (
+            result?.code ===
+            "INVALID_PHONE"
+          ) {
+            setValidationError(
+              "INVALID_PHONE",
+            );
+          } else if (
+            result?.code ===
+            "INVALID_DETAILS"
+          ) {
+            setValidationError(
+              "INVALID_DETAILS",
+            );
+          } else {
+            setError(
+              copy.genericError,
+            );
+          }
 
-            email:
-              details.email.trim(),
+          return;
+        }
 
-            phone:
-              parsedPhone.number,
+        if (
+          typeof result?.leadId !==
+            "string" ||
+          !result.leadId
+        ) {
+          setError(
+            copy.genericError,
+          );
+          return;
+        }
 
-            accessCode,
-
-            leadId,
-          }),
-        },
-      );
-
-      const result = await response.json();
-
-      if (!response.ok || !result.ok) {
-        setError(
-          typeof result?.error === "string"
-            ? result.error
-            : copy.genericError,
+        setLeadId(
+          result.leadId,
         );
 
+        setStep("code");
+      } catch {
+        setError(
+          copy.genericError,
+        );
+      } finally {
+        setIsCheckingDetails(
+          false,
+        );
+      }
+    };
+
+  const handleCodeSubmit =
+    async (
+      event: FormEvent<HTMLFormElement>,
+    ) => {
+      event.preventDefault();
+
+      setError("");
+      setValidationError("");
+      setCodeValidationError(false);
+
+      if (!accessCode.trim()) {
+        setCodeValidationError(true);
         return;
       }
 
-      window.location.assign(
-        INVESTOR_DESTINATION_URL,
-      );
-    } catch {
-      setError(copy.genericError);
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
+      if (!parsedPhone) {
+        setValidationError(
+          "INVALID_PHONE",
+        );
+        return;
+      }
+
+      if (!leadId) {
+        setError(
+          copy.genericError,
+        );
+        return;
+      }
+
+      setIsSubmitting(true);
+
+      try {
+        const response =
+          await fetch(
+            "/api/investor-access",
+            {
+              method: "POST",
+
+              headers: {
+                "Content-Type":
+                  "application/json",
+              },
+
+              body:
+                JSON.stringify({
+                  fullName:
+                    details.fullName.trim(),
+
+                  email:
+                    details.email.trim(),
+
+                  phone:
+                    parsedPhone.number,
+
+                  accessCode,
+
+                  leadId,
+                }),
+            },
+          );
+
+        const result =
+          await response.json();
+
+        if (
+          !response.ok ||
+          !result.ok
+        ) {
+          setError(
+            typeof result?.error ===
+              "string"
+              ? result.error
+              : copy.genericError,
+          );
+
+          return;
+        }
+
+        window.location.assign(
+          INVESTOR_DESTINATION_URL,
+        );
+      } catch {
+        setError(
+          copy.genericError,
+        );
+      } finally {
+        setIsSubmitting(false);
+      }
+    };
 
   return (
-    <div className={styles.formShell}>
+    <div
+      className={styles.formShell}
+    >
       <div
         key={step}
-        className={styles.stepTransition}
+        className={
+          styles.stepTransition
+        }
       >
         {step === "details" ? (
           <>
-            <div className={styles.headingBlock}>
-              <p className={styles.eyebrow}>
+            <div
+              className={
+                styles.headingBlock
+              }
+            >
+              <p
+                className={
+                  styles.eyebrow
+                }
+              >
                 {copy.eyebrow}
               </p>
 
-              <h1 className={styles.title}>
+              <h1
+                className={
+                  styles.title
+                }
+              >
                 {copy.title}
               </h1>
 
-              <p className={styles.description}>
+              <p
+                className={
+                  styles.description
+                }
+              >
                 {copy.description}
               </p>
             </div>
 
             <form
-              className={styles.form}
-              onSubmit={handleDetailsSubmit}
+              className={
+                styles.form
+              }
+              onSubmit={
+                handleDetailsSubmit
+              }
               noValidate
             >
-              <div className={styles.field}>
+              <div
+                className={
+                  styles.field
+                }
+              >
                 <label
-                  className={styles.label}
+                  className={
+                    styles.label
+                  }
                   htmlFor="full-name"
                 >
                   {copy.fullName} *
@@ -434,21 +575,40 @@ export default function InvestorAccessForm({
                   id="full-name"
                   type="text"
                   autoComplete="name"
-                  className={styles.input}
-                  placeholder={copy.fullNamePlaceholder}
-                  value={details.fullName}
-                  onChange={(event) =>
-                    setDetails((current) => ({
-                      ...current,
-                      fullName: event.target.value,
-                    }))
+                  className={
+                    styles.input
+                  }
+                  placeholder={
+                    copy.fullNamePlaceholder
+                  }
+                  value={
+                    details.fullName
+                  }
+                  onChange={(
+                    event,
+                  ) =>
+                    setDetails(
+                      (current) => ({
+                        ...current,
+
+                        fullName:
+                          event.target
+                            .value,
+                      }),
+                    )
                   }
                 />
               </div>
 
-              <div className={styles.field}>
+              <div
+                className={
+                  styles.field
+                }
+              >
                 <label
-                  className={styles.label}
+                  className={
+                    styles.label
+                  }
                   htmlFor="email"
                 >
                   {copy.email} *
@@ -458,47 +618,90 @@ export default function InvestorAccessForm({
                   id="email"
                   type="email"
                   autoComplete="email"
-                  className={styles.input}
-                  placeholder={copy.emailPlaceholder}
-                  value={details.email}
-                  onChange={(event) =>
-                    setDetails((current) => ({
-                      ...current,
-                      email: event.target.value,
-                    }))
+                  className={
+                    styles.input
+                  }
+                  placeholder={
+                    copy.emailPlaceholder
+                  }
+                  value={
+                    details.email
+                  }
+                  onChange={(
+                    event,
+                  ) =>
+                    setDetails(
+                      (current) => ({
+                        ...current,
+
+                        email:
+                          event.target
+                            .value,
+                      }),
+                    )
                   }
                 />
               </div>
 
-              <div className={styles.field}>
-                <span className={styles.label}>
+              <div
+                className={
+                  styles.field
+                }
+              >
+                <span
+                  className={
+                    styles.label
+                  }
+                >
                   {copy.phone} *
                 </span>
 
                 <InternationalPhoneInput
-                  country={details.phoneCountry}
-                  number={details.phoneNumber}
-                  language={language}
-                  onCountryChange={(phoneCountry) =>
-                    setDetails((current) => ({
-                      ...current,
-                      phoneCountry,
-                      phoneNumber: "",
-                    }))
+                  country={
+                    details.phoneCountry
                   }
-                  onNumberChange={(phoneNumber) =>
-                    setDetails((current) => ({
-                      ...current,
-                      phoneNumber,
-                    }))
+                  number={
+                    details.phoneNumber
+                  }
+                  language={
+                    language
+                  }
+                  onCountryChange={(
+                    phoneCountry,
+                  ) =>
+                    setDetails(
+                      (current) => ({
+                        ...current,
+
+                        phoneCountry,
+
+                        phoneNumber:
+                          "",
+                      }),
+                    )
+                  }
+                  onNumberChange={(
+                    phoneNumber,
+                  ) =>
+                    setDetails(
+                      (current) => ({
+                        ...current,
+
+                        phoneNumber,
+                      }),
+                    )
                   }
                 />
               </div>
 
               <button
-                className={styles.submitButton}
+                className={
+                  styles.submitButton
+                }
                 type="submit"
-                disabled={isCheckingDetails}
+                disabled={
+                  isCheckingDetails
+                }
               >
                 <span>
                   {isCheckingDetails
@@ -506,43 +709,81 @@ export default function InvestorAccessForm({
                     : copy.continue}
                 </span>
 
-                <HiArrowRight aria-hidden="true" />
+                <HiArrowRight
+                  aria-hidden="true"
+                />
               </button>
 
-              {(validationMessage || error) && (
+              {(validationMessage ||
+                error) && (
                 <p
-                  className={styles.statusError}
+                  className={
+                    styles.statusError
+                  }
                   role="alert"
                 >
-                  {validationMessage || error}
+                  {validationMessage ||
+                    error}
                 </p>
               )}
             </form>
           </>
         ) : (
           <>
-            <div className={styles.headingBlock}>
-              <p className={styles.eyebrow}>
-                {copy.verifyEyebrow}
+            <div
+              className={
+                styles.headingBlock
+              }
+            >
+              <p
+                className={
+                  styles.eyebrow
+                }
+              >
+                {
+                  copy.verifyEyebrow
+                }
               </p>
 
-              <h1 className={styles.title}>
-                {copy.verifyTitle}
+              <h1
+                className={
+                  styles.title
+                }
+              >
+                {
+                  copy.verifyTitle
+                }
               </h1>
 
-              <p className={styles.description}>
-                {copy.verifyDescription}
+              <p
+                className={
+                  styles.description
+                }
+              >
+                {
+                  copy.verifyDescription
+                }
               </p>
             </div>
 
             <form
-              className={styles.form}
-              onSubmit={handleCodeSubmit}
+              className={
+                styles.form
+              }
+              onSubmit={
+                handleCodeSubmit
+              }
               noValidate
             >
-              <div className={styles.field}>
+              <div
+                className={
+                  styles.field
+                }
+              >
                 <label
-                  className={styles.label}
+                  className={
+                    styles.label
+                  }
                   htmlFor="access-code"
                 >
                   {copy.code} *
@@ -557,9 +798,15 @@ export default function InvestorAccessForm({
                   autoCorrect="off"
                   spellCheck={false}
                   className={`${styles.input} ${styles.codeInput}`}
-                  placeholder={copy.codePlaceholder}
-                  value={accessCode}
-                  onChange={(event) => {
+                  placeholder={
+                    copy.codePlaceholder
+                  }
+                  value={
+                    accessCode
+                  }
+                  onChange={(
+                    event,
+                  ) => {
                     setAccessCode(
                       event.target.value.slice(
                         0,
@@ -567,17 +814,26 @@ export default function InvestorAccessForm({
                       ),
                     );
 
-                    setCodeValidationError(false);
+                    setCodeValidationError(
+                      false,
+                    );
+
                     setError("");
                   }}
-                  maxLength={MAX_ACCESS_CODE_LENGTH}
+                  maxLength={
+                    MAX_ACCESS_CODE_LENGTH
+                  }
                 />
               </div>
 
               <button
-                className={styles.submitButton}
+                className={
+                  styles.submitButton
+                }
                 type="submit"
-                disabled={isSubmitting}
+                disabled={
+                  isSubmitting
+                }
               >
                 <span>
                   {isSubmitting
@@ -585,20 +841,32 @@ export default function InvestorAccessForm({
                     : copy.enter}
                 </span>
 
-                <HiArrowRight aria-hidden="true" />
+                <HiArrowRight
+                  aria-hidden="true"
+                />
               </button>
 
               <button
                 type="button"
-                className={styles.editButton}
+                className={
+                  styles.editButton
+                }
                 onClick={() => {
                   setError("");
-                  setValidationError("");
-                  setCodeValidationError(false);
-                  setStep("details");
+                  setValidationError(
+                    "",
+                  );
+                  setCodeValidationError(
+                    false,
+                  );
+                  setStep(
+                    "details",
+                  );
                 }}
               >
-                <HiArrowLeft aria-hidden="true" />
+                <HiArrowLeft
+                  aria-hidden="true"
+                />
 
                 <span>
                   {copy.edit}
@@ -607,16 +875,22 @@ export default function InvestorAccessForm({
 
               {codeValidationError && (
                 <p
-                  className={styles.statusError}
+                  className={
+                    styles.statusError
+                  }
                   role="alert"
                 >
-                  {copy.invalidCode}
+                  {
+                    copy.invalidCode
+                  }
                 </p>
               )}
 
               {error && (
                 <p
-                  className={styles.statusError}
+                  className={
+                    styles.statusError
+                  }
                   role="alert"
                 >
                   {error}
