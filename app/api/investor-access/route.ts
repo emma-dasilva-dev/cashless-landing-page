@@ -20,10 +20,7 @@ type RateLimitRecord = {
 };
 
 const attempts =
-  new Map<
-    string,
-    RateLimitRecord
-  >();
+  new Map<string, RateLimitRecord>();
 
 const WINDOW_MS =
   15 * 60 * 1000;
@@ -34,23 +31,22 @@ const BLOCK_MS =
   15 * 60 * 1000;
 
 /*
- * Access codes may contain both
- * letters and numbers.
+ * Access code rules:
  *
- * We normalize them to uppercase
- * so "abc123" and "ABC123" are
- * treated consistently.
+ * - letters are allowed
+ * - numbers are allowed
+ * - special characters are allowed
+ * - spaces are allowed if they are intentionally part of the code
  *
- * Spaces and hyphens are removed
- * before comparison.
+ * We only trim whitespace at the very beginning/end.
+ *
+ * IMPORTANT:
+ * We do NOT remove symbols, hyphens, or letters.
  */
 function normalizeAccessCode(
   value: string,
 ): string {
-  return value
-    .trim()
-    .toUpperCase()
-    .replace(/[\s-]/g, "");
+  return value.trim();
 }
 
 function getClientKey(
@@ -83,7 +79,6 @@ function getRateLimitRecord(
   ) {
     const fresh: RateLimitRecord = {
       count: 0,
-
       resetAt:
         now + WINDOW_MS,
     };
@@ -112,6 +107,9 @@ export async function POST(
 
   const now = Date.now();
 
+  /*
+   * Block repeated failed attempts.
+   */
   if (
     record.blockedUntil &&
     now < record.blockedUntil
@@ -119,7 +117,6 @@ export async function POST(
     return NextResponse.json(
       {
         ok: false,
-
         error:
           "Too many attempts. Please try again later.",
       },
@@ -168,6 +165,9 @@ export async function POST(
       ? body.leadId.trim()
       : "";
 
+  /*
+   * Basic request validation.
+   */
   if (
     !fullName ||
     !email ||
@@ -178,7 +178,6 @@ export async function POST(
     return NextResponse.json(
       {
         ok: false,
-
         error:
           "Missing required information.",
       },
@@ -188,15 +187,24 @@ export async function POST(
     );
   }
 
+  /*
+   * Get the private investor code
+   * from environment variables.
+   *
+   * Never hardcode the real code here.
+   */
   const configuredCode =
     process.env
       .INVESTOR_ACCESS_CODE;
 
   if (!configuredCode) {
+    console.error(
+      "INVESTOR_ACCESS_CODE is not configured.",
+    );
+
     return NextResponse.json(
       {
         ok: false,
-
         error:
           "Investor access is not configured yet.",
       },
@@ -211,6 +219,20 @@ export async function POST(
       configuredCode,
     );
 
+  /*
+   * Compare exactly.
+   *
+   * This means:
+   *
+   * ABC#123
+   *
+   * is NOT the same as:
+   *
+   * abc#123
+   *
+   * This is safer because the access code
+   * may intentionally use uppercase/lowercase.
+   */
   if (
     accessCode !==
     normalizedConfiguredCode
@@ -233,7 +255,6 @@ export async function POST(
     return NextResponse.json(
       {
         ok: false,
-
         error:
           record.count >=
           MAX_ATTEMPTS
@@ -250,8 +271,17 @@ export async function POST(
     );
   }
 
+  /*
+   * Correct access code.
+   *
+   * Clear failed attempts.
+   */
   attempts.delete(clientKey);
 
+  /*
+   * Mark this investor lead
+   * as successfully verified.
+   */
   const {
     data: updatedLead,
     error: updateError,
@@ -274,6 +304,9 @@ export async function POST(
     .select("id")
     .maybeSingle();
 
+  /*
+   * Database update failed.
+   */
   if (updateError) {
     console.error(
       "Failed to mark investor as verified:",
@@ -283,7 +316,6 @@ export async function POST(
     return NextResponse.json(
       {
         ok: false,
-
         error:
           "Unable to complete investor verification.",
       },
@@ -293,11 +325,13 @@ export async function POST(
     );
   }
 
+  /*
+   * No corresponding investor row found.
+   */
   if (!updatedLead) {
     return NextResponse.json(
       {
         ok: false,
-
         error:
           "Investor record could not be found.",
       },
@@ -307,6 +341,10 @@ export async function POST(
     );
   }
 
+  /*
+   * Return success and keep the
+   * signed investor session cookie.
+   */
   const response =
     NextResponse.json({
       ok: true,
@@ -317,9 +355,7 @@ export async function POST(
 
   response.cookies.set(
     INVESTOR_COOKIE_NAME,
-
     createInvestorSessionToken(),
-
     investorCookieOptions,
   );
 

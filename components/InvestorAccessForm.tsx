@@ -33,7 +33,7 @@ type ValidationErrorCode =
 const INVESTOR_DESTINATION_URL =
   "https://staging.merchant/cashlessflo.com/auth/login";
 
-const INVESTOR_CODE_LENGTH = 11;
+const MAX_ACCESS_CODE_LENGTH = 32;
 
 const content = {
   en: {
@@ -59,7 +59,7 @@ const content = {
       "Enter the code provided directly by Cashless.",
 
     code: "Access code",
-    codePlaceholder: "Enter your 11-digit code",
+    codePlaceholder: "Enter your access code",
 
     enter: "Continue to registration",
     edit: "Edit information",
@@ -77,7 +77,7 @@ const content = {
       "Please enter a valid phone number for the selected country.",
 
     invalidCode:
-      "Please enter the complete 11-digit access code.",
+      "Please enter the complete access code provided by Cashless.",
 
     genericError:
       "Unable to verify your information right now. Please try again.",
@@ -106,7 +106,7 @@ const content = {
       "Entrez le code fourni directement par Cashless.",
 
     code: "Code d’accès",
-    codePlaceholder: "Entrez votre code à 11 chiffres",
+    codePlaceholder: "Entrez votre code d’accès",
 
     enter: "Continuer vers l’inscription",
     edit: "Modifier les informations",
@@ -124,7 +124,7 @@ const content = {
       "Veuillez saisir un numéro de téléphone valide pour le pays sélectionné.",
 
     invalidCode:
-      "Veuillez saisir le code d’accès complet à 11 chiffres.",
+      "Veuillez saisir le code d’accès complet fourni par Cashless.",
 
     genericError:
       "Impossible de vérifier vos informations pour le moment. Veuillez réessayer.",
@@ -132,9 +132,7 @@ const content = {
 };
 
 function sanitizeAccessCode(value: string): string {
-  return value
-    .replace(/\D/g, "")
-    .slice(0, INVESTOR_CODE_LENGTH);
+  return value.slice(0, MAX_ACCESS_CODE_LENGTH);
 }
 
 export default function InvestorAccessForm({
@@ -150,10 +148,6 @@ export default function InvestorAccessForm({
     phoneNumber: "",
   });
 
-  /*
-   * This stores the database row ID returned by Supabase
-   * after Step 1 succeeds.
-   */
   const [leadId, setLeadId] = useState("");
 
   const [accessCode, setAccessCode] = useState("");
@@ -290,27 +284,19 @@ export default function InvestorAccessForm({
         if (
           result?.code === "INVALID_EMAIL"
         ) {
-          setValidationError(
-            "INVALID_EMAIL",
-          );
+          setValidationError("INVALID_EMAIL");
         } else if (
           result?.code === "EMAIL_DOMAIN"
         ) {
-          setValidationError(
-            "EMAIL_DOMAIN",
-          );
+          setValidationError("EMAIL_DOMAIN");
         } else if (
           result?.code === "INVALID_PHONE"
         ) {
-          setValidationError(
-            "INVALID_PHONE",
-          );
+          setValidationError("INVALID_PHONE");
         } else if (
           result?.code === "INVALID_DETAILS"
         ) {
-          setValidationError(
-            "INVALID_DETAILS",
-          );
+          setValidationError("INVALID_DETAILS");
         } else {
           setError(copy.genericError);
         }
@@ -326,11 +312,6 @@ export default function InvestorAccessForm({
         return;
       }
 
-      /*
-       * Save the Supabase row ID.
-       * We need this later so the correct database row
-       * can be marked access_verified = true.
-       */
       setLeadId(result.leadId);
 
       setStep("code");
@@ -350,18 +331,13 @@ export default function InvestorAccessForm({
     setValidationError("");
     setCodeValidationError(false);
 
-    if (
-      accessCode.length !==
-      INVESTOR_CODE_LENGTH
-    ) {
+    if (!accessCode.trim()) {
       setCodeValidationError(true);
       return;
     }
 
     if (!parsedPhone) {
-      setValidationError(
-        "INVALID_PHONE",
-      );
+      setValidationError("INVALID_PHONE");
       return;
     }
 
@@ -379,8 +355,7 @@ export default function InvestorAccessForm({
           method: "POST",
 
           headers: {
-            "Content-Type":
-              "application/json",
+            "Content-Type": "application/json",
           },
 
           body: JSON.stringify({
@@ -393,12 +368,9 @@ export default function InvestorAccessForm({
             phone:
               parsedPhone.number,
 
-            accessCode,
+            accessCode:
+              accessCode.trim(),
 
-            /*
-             * This tells the backend which Supabase row
-             * belongs to this investor.
-             */
             leadId,
           }),
         },
@@ -416,14 +388,6 @@ export default function InvestorAccessForm({
         return;
       }
 
-      /*
-       * At this point:
-       *
-       * 1. the investor code was correct
-       * 2. the database row was marked access_verified = true
-       *
-       * Now redirect to Cashless merchant registration.
-       */
       window.location.assign(
         INVESTOR_DESTINATION_URL,
       );
@@ -442,11 +406,7 @@ export default function InvestorAccessForm({
       >
         {step === "details" ? (
           <>
-            <div
-              className={
-                styles.headingBlock
-              }
-            >
+            <div className={styles.headingBlock}>
               <p className={styles.eyebrow}>
                 {copy.eyebrow}
               </p>
@@ -455,25 +415,17 @@ export default function InvestorAccessForm({
                 {copy.title}
               </h1>
 
-              <p
-                className={
-                  styles.description
-                }
-              >
+              <p className={styles.description}>
                 {copy.description}
               </p>
             </div>
 
             <form
               className={styles.form}
-              onSubmit={
-                handleDetailsSubmit
-              }
+              onSubmit={handleDetailsSubmit}
               noValidate
             >
-              <div
-                className={styles.field}
-              >
+              <div className={styles.field}>
                 <label
                   className={styles.label}
                   htmlFor="full-name"
@@ -486,28 +438,18 @@ export default function InvestorAccessForm({
                   type="text"
                   autoComplete="name"
                   className={styles.input}
-                  placeholder={
-                    copy.fullNamePlaceholder
-                  }
-                  value={
-                    details.fullName
-                  }
+                  placeholder={copy.fullNamePlaceholder}
+                  value={details.fullName}
                   onChange={(event) =>
-                    setDetails(
-                      (current) => ({
-                        ...current,
-
-                        fullName:
-                          event.target.value,
-                      }),
-                    )
+                    setDetails((current) => ({
+                      ...current,
+                      fullName: event.target.value,
+                    }))
                   }
                 />
               </div>
 
-              <div
-                className={styles.field}
-              >
+              <div className={styles.field}>
                 <label
                   className={styles.label}
                   htmlFor="email"
@@ -520,75 +462,46 @@ export default function InvestorAccessForm({
                   type="email"
                   autoComplete="email"
                   className={styles.input}
-                  placeholder={
-                    copy.emailPlaceholder
-                  }
+                  placeholder={copy.emailPlaceholder}
                   value={details.email}
                   onChange={(event) =>
-                    setDetails(
-                      (current) => ({
-                        ...current,
-
-                        email:
-                          event.target.value,
-                      }),
-                    )
+                    setDetails((current) => ({
+                      ...current,
+                      email: event.target.value,
+                    }))
                   }
                 />
               </div>
 
-              <div
-                className={styles.field}
-              >
-                <span
-                  className={styles.label}
-                >
+              <div className={styles.field}>
+                <span className={styles.label}>
                   {copy.phone} *
                 </span>
 
                 <InternationalPhoneInput
-                  country={
-                    details.phoneCountry
-                  }
-                  number={
-                    details.phoneNumber
-                  }
+                  country={details.phoneCountry}
+                  number={details.phoneNumber}
                   language={language}
-                  onCountryChange={(
-                    phoneCountry,
-                  ) =>
-                    setDetails(
-                      (current) => ({
-                        ...current,
-
-                        phoneCountry,
-
-                        phoneNumber: "",
-                      }),
-                    )
+                  onCountryChange={(phoneCountry) =>
+                    setDetails((current) => ({
+                      ...current,
+                      phoneCountry,
+                      phoneNumber: "",
+                    }))
                   }
-                  onNumberChange={(
-                    phoneNumber,
-                  ) =>
-                    setDetails(
-                      (current) => ({
-                        ...current,
-
-                        phoneNumber,
-                      }),
-                    )
+                  onNumberChange={(phoneNumber) =>
+                    setDetails((current) => ({
+                      ...current,
+                      phoneNumber,
+                    }))
                   }
                 />
               </div>
 
               <button
-                className={
-                  styles.submitButton
-                }
+                className={styles.submitButton}
                 type="submit"
-                disabled={
-                  isCheckingDetails
-                }
+                disabled={isCheckingDetails}
               >
                 <span>
                   {isCheckingDetails
@@ -596,32 +509,22 @@ export default function InvestorAccessForm({
                     : copy.continue}
                 </span>
 
-                <HiArrowRight
-                  aria-hidden="true"
-                />
+                <HiArrowRight aria-hidden="true" />
               </button>
 
-              {(validationMessage ||
-                error) && (
+              {(validationMessage || error) && (
                 <p
-                  className={
-                    styles.statusError
-                  }
+                  className={styles.statusError}
                   role="alert"
                 >
-                  {validationMessage ||
-                    error}
+                  {validationMessage || error}
                 </p>
               )}
             </form>
           </>
         ) : (
           <>
-            <div
-              className={
-                styles.headingBlock
-              }
-            >
+            <div className={styles.headingBlock}>
               <p className={styles.eyebrow}>
                 {copy.verifyEyebrow}
               </p>
@@ -630,11 +533,7 @@ export default function InvestorAccessForm({
                 {copy.verifyTitle}
               </h1>
 
-              <p
-                className={
-                  styles.description
-                }
-              >
+              <p className={styles.description}>
                 {copy.verifyDescription}
               </p>
             </div>
@@ -644,9 +543,7 @@ export default function InvestorAccessForm({
               onSubmit={handleCodeSubmit}
               noValidate
             >
-              <div
-                className={styles.field}
-              >
+              <div className={styles.field}>
                 <label
                   className={styles.label}
                   htmlFor="access-code"
@@ -657,13 +554,12 @@ export default function InvestorAccessForm({
                 <input
                   id="access-code"
                   type="text"
-                  inputMode="numeric"
+                  inputMode="text"
                   autoComplete="off"
+                  autoCapitalize="none"
                   spellCheck={false}
                   className={`${styles.input} ${styles.codeInput}`}
-                  placeholder={
-                    copy.codePlaceholder
-                  }
+                  placeholder={copy.codePlaceholder}
                   value={accessCode}
                   onChange={(event) => {
                     setAccessCode(
@@ -672,23 +568,16 @@ export default function InvestorAccessForm({
                       ),
                     );
 
-                    setCodeValidationError(
-                      false,
-                    );
+                    setCodeValidationError(false);
 
                     setError("");
                   }}
-                  maxLength={
-                    INVESTOR_CODE_LENGTH
-                  }
-                  pattern="[0-9]{11}"
+                  maxLength={MAX_ACCESS_CODE_LENGTH}
                 />
               </div>
 
               <button
-                className={
-                  styles.submitButton
-                }
+                className={styles.submitButton}
                 type="submit"
                 disabled={isSubmitting}
               >
@@ -698,28 +587,20 @@ export default function InvestorAccessForm({
                     : copy.enter}
                 </span>
 
-                <HiArrowRight
-                  aria-hidden="true"
-                />
+                <HiArrowRight aria-hidden="true" />
               </button>
 
               <button
                 type="button"
-                className={
-                  styles.editButton
-                }
+                className={styles.editButton}
                 onClick={() => {
                   setError("");
                   setValidationError("");
-                  setCodeValidationError(
-                    false,
-                  );
+                  setCodeValidationError(false);
                   setStep("details");
                 }}
               >
-                <HiArrowLeft
-                  aria-hidden="true"
-                />
+                <HiArrowLeft aria-hidden="true" />
 
                 <span>
                   {copy.edit}
@@ -728,9 +609,7 @@ export default function InvestorAccessForm({
 
               {codeValidationError && (
                 <p
-                  className={
-                    styles.statusError
-                  }
+                  className={styles.statusError}
                   role="alert"
                 >
                   {copy.invalidCode}
@@ -739,9 +618,7 @@ export default function InvestorAccessForm({
 
               {error && (
                 <p
-                  className={
-                    styles.statusError
-                  }
+                  className={styles.statusError}
                   role="alert"
                 >
                   {error}
