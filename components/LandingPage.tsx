@@ -1,25 +1,44 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import {
+  useEffect,
+  useState,
+} from "react";
+
+import Image from "next/image";
 
 import Header from "@/components/Header";
 import Hero from "@/components/Hero";
 
 import styles from "@/styles/landing.module.css";
 
-export type Language = "en" | "fr";
+export type Language =
+  | "en"
+  | "fr";
 
-export const LANGUAGE_STORAGE_KEY = "cashless-language";
+export const LANGUAGE_STORAGE_KEY =
+  "cashless-language";
 
-function isLanguage(value: string | null): value is Language {
-  return value === "en" || value === "fr";
+function isLanguage(
+  value: string | null,
+): value is Language {
+  return (
+    value === "en" ||
+    value === "fr"
+  );
 }
 
 export default function LandingPage() {
-  const [language, setLanguage] =
+  const [
+    language,
+    setLanguage,
+  ] =
     useState<Language>("en");
 
-  const [languageReady, setLanguageReady] =
+  const [
+    languageReady,
+    setLanguageReady,
+  ] =
     useState(false);
 
   useEffect(() => {
@@ -28,8 +47,14 @@ export default function LandingPage() {
         LANGUAGE_STORAGE_KEY,
       );
 
-    if (isLanguage(savedLanguage)) {
-      setLanguage(savedLanguage);
+    if (
+      isLanguage(
+        savedLanguage,
+      )
+    ) {
+      setLanguage(
+        savedLanguage,
+      );
     }
 
     setLanguageReady(true);
@@ -38,7 +63,9 @@ export default function LandingPage() {
   const handleLanguageChange = (
     nextLanguage: Language,
   ) => {
-    setLanguage(nextLanguage);
+    setLanguage(
+      nextLanguage,
+    );
 
     window.localStorage.setItem(
       LANGUAGE_STORAGE_KEY,
@@ -47,7 +74,33 @@ export default function LandingPage() {
   };
 
   return (
-    <main className={styles.page}>
+    <main
+      className={styles.page}
+    >
+      <div
+        className={
+          styles.background
+        }
+        aria-hidden="true"
+      >
+        <Image
+          src="/images/bcg.jpeg"
+          alt=""
+          fill
+          priority
+          sizes="100vw"
+          className={
+            styles.backgroundImage
+          }
+        />
+
+        <div
+          className={
+            styles.backgroundWash
+          }
+        />
+      </div>
+
       <Header
         language={language}
         onLanguageChange={
