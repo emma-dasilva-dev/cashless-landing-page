@@ -2,11 +2,17 @@ import Link from "next/link";
 
 import {
   FaApple,
+  FaFacebookF,
   FaGooglePlay,
+  FaInstagram,
+  FaLinkedinIn,
+  FaTiktok,
 } from "react-icons/fa";
 
 import {
   HiArrowUpRight,
+  HiGlobeAlt,
+  HiUserGroup,
 } from "react-icons/hi2";
 
 import LogoAnimation from "@/components/LogoAnimation";
@@ -32,6 +38,18 @@ const GOOGLE_PLAY_URL =
 const CASHLESS_WEBSITE_URL =
   "https://cashless.africa/fr";
 
+const FACEBOOK_URL =
+  "https://www.facebook.com/profile.php?id=61576438792271";
+
+const INSTAGRAM_URL =
+  "https://www.instagram.com/cashless.africa?igsh=MTk2eXlnZGdhMHF2ZQ%3D%3D&utm_source=qr&wa_status_inline=true";
+
+const TIKTOK_URL =
+  "https://www.tiktok.com/@cashless.africa?_r=1&_t=ZS-94x5FGuEEhY";
+
+const LINKEDIN_URL =
+  "https://www.linkedin.com/company/cashlessafrica";
+
 const copy = {
   en: {
     title:
@@ -52,11 +70,20 @@ const copy = {
     playStoreLarge:
       "Google Play",
 
-    website:
-      "Visit our website",
+    websiteSmall:
+      "Explore Cashless",
 
-    investor:
+    websiteLarge:
+      "Our website",
+
+    investorSmall:
+      "For investors",
+
+    investorLarge:
       "Investor access",
+
+    socialLabel:
+      "Follow Cashless on social media",
   },
 
   fr: {
@@ -78,11 +105,20 @@ const copy = {
     playStoreLarge:
       "Google Play",
 
-    website:
+    websiteSmall:
+      "Découvrir Cashless",
+
+    websiteLarge:
       "Visiter notre site",
 
-    investor:
+    investorSmall:
+      "Investisseurs",
+
+    investorLarge:
       "Espace investisseurs",
+
+    socialLabel:
+      "Suivez Cashless sur les réseaux sociaux",
   },
 };
 
@@ -127,6 +163,7 @@ export default function Hero({
       <div
         className={styles.heroActions}
       >
+        {/* ROW 1 — APP STORE + GOOGLE PLAY */}
         <div
           className={styles.storeLinks}
         >
@@ -209,6 +246,7 @@ export default function Hero({
           </a>
         </div>
 
+        {/* ROW 2 — WEBSITE + INVESTORS */}
         <div
           className={
             actionStyles.secondaryActions
@@ -220,29 +258,143 @@ export default function Hero({
             }
             target="_blank"
             rel="noopener noreferrer"
-            className={`${styles.investorLink} ${actionStyles.secondaryAction}`}
+            className={`${styles.storeButton} ${actionStyles.secondaryButton} ${actionStyles.websiteButton}`}
           >
-            <span>
-              {content.website}
+            <HiGlobeAlt
+              className={
+                styles.storeIcon
+              }
+              aria-hidden="true"
+            />
+
+            <span
+              className={
+                styles.storeLabel
+              }
+            >
+              <small>
+                {
+                  content.websiteSmall
+                }
+              </small>
+
+              <strong>
+                {
+                  content.websiteLarge
+                }
+              </strong>
             </span>
 
             <HiArrowUpRight
+              className={
+                styles.storeArrow
+              }
               aria-hidden="true"
             />
           </a>
 
           <Link
             href="/investors"
-            className={`${styles.investorLink} ${actionStyles.secondaryAction}`}
+            className={`${styles.storeButton} ${actionStyles.secondaryButton} ${actionStyles.investorButton}`}
           >
-            <span>
-              {content.investor}
+            <HiUserGroup
+              className={
+                styles.storeIcon
+              }
+              aria-hidden="true"
+            />
+
+            <span
+              className={
+                styles.storeLabel
+              }
+            >
+              <small>
+                {
+                  content.investorSmall
+                }
+              </small>
+
+              <strong>
+                {
+                  content.investorLarge
+                }
+              </strong>
             </span>
 
             <HiArrowUpRight
+              className={
+                styles.storeArrow
+              }
               aria-hidden="true"
             />
           </Link>
+        </div>
+
+        {/* SOCIAL MEDIA */}
+        <div
+          className={
+            actionStyles.socialLinks
+          }
+          aria-label={
+            content.socialLabel
+          }
+        >
+          <a
+            href={FACEBOOK_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={
+              actionStyles.socialLink
+            }
+            aria-label="Facebook"
+          >
+            <FaFacebookF
+              aria-hidden="true"
+            />
+          </a>
+
+          <a
+            href={INSTAGRAM_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={
+              actionStyles.socialLink
+            }
+            aria-label="Instagram"
+          >
+            <FaInstagram
+              aria-hidden="true"
+            />
+          </a>
+
+          <a
+            href={TIKTOK_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={
+              actionStyles.socialLink
+            }
+            aria-label="TikTok"
+          >
+            <FaTiktok
+              aria-hidden="true"
+            />
+          </a>
+
+          <a
+            href={LINKEDIN_URL}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={
+              actionStyles.socialLink
+            }
+            aria-label="LinkedIn"
+          >
+            <FaLinkedinIn
+              aria-hidden="true"
+            />
+          </a>
         </div>
       </div>
     </section>
