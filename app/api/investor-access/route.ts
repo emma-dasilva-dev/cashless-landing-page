@@ -8,6 +8,13 @@ import {
 
 export const runtime = "nodejs";
 
+function getInvestorIPAddress(request: NextRequest): string {
+  return request.headers.get("cf-connecting-ip")
+    ?? request.headers.get("x-real-ip")
+    ?? request.headers.get("x-forwarded-for")?.split(",")[0]?.trim()
+    ?? "";
+}
+
 export async function POST(request: NextRequest) {
   const body = await request.json().catch(() => null);
   const fullName = typeof body?.fullName === "string" ? body.fullName.trim() : "";
@@ -28,7 +35,7 @@ export async function POST(request: NextRequest) {
   const apiOrigin = backendUrl.replace(/\/$/, "").replace(/\/api\/v1$/, "");
   const response = await fetch(`${apiOrigin}/api/v1/investor-portal/redeem`, {
     method: "POST",
-    headers: { "Content-Type": "application/json", "x-app-source": "server", "x-client-token": clientToken, "x-investor-ip": request.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ?? "", "x-investor-user-agent": request.headers.get("user-agent") ?? "", "x-investor-language": request.headers.get("accept-language")?.slice(0, 32) ?? "", "x-investor-timezone": request.headers.get("x-timezone") ?? "" },
+    headers: { "Content-Type": "application/json", "x-app-source": "server", "x-client-token": clientToken, "x-investor-ip": getInvestorIPAddress(request), "x-investor-user-agent": request.headers.get("user-agent") ?? "", "x-investor-language": request.headers.get("accept-language")?.slice(0, 32) ?? "", "x-investor-timezone": request.headers.get("x-timezone") ?? "" },
     body: JSON.stringify({ full_name: fullName, email, phone, code, trusted_device: Boolean(body?.trustedDevice) }),
     cache: "no-store",
   });

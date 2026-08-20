@@ -16,6 +16,10 @@
   min-width: 194px;
   min-height: 54px;
 
+  border: 1px solid #111111;
+  background: #ffffff;
+  color: #111111;
+
   animation-delay: 650ms;
 }
 
@@ -24,7 +28,8 @@
 }
 
 /*
- * Keep all four buttons visually identical.
+ * These remain secondary, outlined actions. App-download buttons above stay
+ * filled, making the acquisition route visually primary.
  */
 .websiteButton,
 .investorButton {
@@ -95,6 +100,12 @@
    ========================================================= */
 
 @media (hover: hover) and (pointer: fine) {
+  .secondaryButton:hover {
+    border-color: #111111;
+    background: #f5f5f5;
+    box-shadow: none;
+  }
+
   .socialLink:hover {
     transform: translateY(-2px);
 

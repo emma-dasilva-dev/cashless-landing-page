@@ -64,11 +64,6 @@
   box-shadow: 0 0 0 3px rgba(17, 17, 17, 0.04);
 }
 
-.countrySelect, .numberWrap { border-color: #294157; background: #142334; }
-.countrySelect, .numberInput { color: #eef6ff; }
-.callingCode { border-color: #294157; color: #a6b6c7; }
-.countrySelect:focus, .numberWrap:focus-within { border-color: #0c9d83; box-shadow: 0 0 0 3px rgba(12,157,131,.16); }
-
 @media (max-width: 700px) {
   .wrapper {
     grid-template-columns: minmax(130px, 0.95fr) minmax(0, 1.05fr);
@@ -107,7 +102,3 @@
     width: 100%;
   }
 }
-
-.countrySelect, .numberWrap { border-color: #294157; background: #142334; }
-.countrySelect, .numberInput { color: #eef6ff; }
-.callingCode { border-color: #294157; color: #a6b6c7; }

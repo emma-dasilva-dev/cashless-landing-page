@@ -47,7 +47,7 @@ export default function LandingPage() {
   };
 
   return (
-    <main className={styles.page}>
+    <main className={`${styles.page} bg-white text-slate-950`}>
       <Header
         language={language}
         onLanguageChange={
