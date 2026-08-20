@@ -74,7 +74,7 @@ const copy = {
       "Explore Cashless",
 
     websiteLarge:
-      "Visit our website",
+      "Our website",
 
     investorSmall:
       "For investors",
