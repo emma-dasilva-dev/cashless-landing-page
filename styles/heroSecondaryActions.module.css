@@ -1,0 +1,44 @@
+.secondaryActions {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  width: 100%;
+}
+
+.secondaryAction {
+  min-width: 148px;
+  justify-content: center;
+  animation-delay: 650ms;
+}
+
+.secondaryAction:nth-child(2) {
+  animation-delay: 720ms;
+}
+
+@media (max-width: 700px) {
+  .secondaryActions {
+    gap: 7px;
+  }
+
+  .secondaryAction {
+    min-width: 0;
+    flex: 1;
+    max-width: 180px;
+    padding-inline: 11px;
+    white-space: nowrap;
+  }
+}
+
+@media (max-width: 360px) {
+  .secondaryAction {
+    font-size: 9px;
+    padding-inline: 9px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .secondaryAction {
+    animation: none;
+  }
+}

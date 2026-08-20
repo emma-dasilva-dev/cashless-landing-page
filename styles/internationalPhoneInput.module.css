@@ -1,0 +1,104 @@
+.wrapper {
+  display: grid;
+  grid-template-columns: minmax(150px, 0.9fr) minmax(0, 1.1fr);
+  gap: 7px;
+  width: 100%;
+}
+
+.countrySelect,
+.numberWrap {
+  height: 46px;
+  border: 1px solid #dddddd;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.94);
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease;
+}
+
+.countrySelect {
+  width: 100%;
+  min-width: 0;
+  padding: 0 10px;
+  color: #111111;
+  outline: none;
+  font-size: 11px;
+  cursor: pointer;
+}
+
+.numberWrap {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  padding: 0 11px;
+}
+
+.callingCode {
+  flex: 0 0 auto;
+  padding-right: 8px;
+  margin-right: 8px;
+  border-right: 1px solid #e4e4e4;
+  color: #555555;
+  font-size: 11px;
+  font-weight: 650;
+}
+
+.numberInput {
+  min-width: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: #111111;
+  font-size: 12.5px;
+}
+
+.numberInput::placeholder {
+  color: #a0a0a0;
+}
+
+.countrySelect:focus,
+.numberWrap:focus-within {
+  border-color: #9d9d9d;
+  box-shadow: 0 0 0 3px rgba(17, 17, 17, 0.04);
+}
+
+@media (max-width: 700px) {
+  .wrapper {
+    grid-template-columns: minmax(130px, 0.95fr) minmax(0, 1.05fr);
+    gap: 6px;
+  }
+
+  .countrySelect,
+  .numberWrap {
+    height: 41px;
+    border-radius: 10px;
+  }
+
+  .countrySelect {
+    padding-inline: 8px;
+    font-size: 9.5px;
+  }
+
+  .callingCode {
+    padding-right: 6px;
+    margin-right: 6px;
+    font-size: 9.5px;
+  }
+
+  .numberInput {
+    font-size: 11px;
+  }
+}
+
+@media (max-width: 390px) {
+  .wrapper {
+    grid-template-columns: 1fr;
+  }
+
+  .countrySelect,
+  .numberWrap {
+    width: 100%;
+  }
+}
