@@ -6,8 +6,10 @@ import {
   type CountryCode,
 } from "libphonenumber-js";
 import { HiArrowLeft, HiArrowRight } from "react-icons/hi2";
+
 import type { Language } from "@/components/LandingPage";
 import InternationalPhoneInput from "@/components/InternationalPhoneInput";
+
 import styles from "@/styles/investors.module.css";
 
 type InvestorAccessFormProps = {
@@ -31,82 +33,114 @@ type ValidationErrorCode =
 const INVESTOR_DESTINATION_URL =
   "https://staging.merchant/cashlessflo.com/auth/login";
 
+const INVESTOR_CODE_LENGTH = 11;
+
 const content = {
   en: {
     eyebrow: "FOR INVESTORS",
     title: "Investor access",
+
     description:
       "Enter your details to continue to Cashless investor access.",
+
     fullName: "Full name",
     fullNamePlaceholder: "Your full name",
+
     email: "Email",
     emailPlaceholder: "you@example.com",
+
     phone: "Phone number",
+
     continue: "Continue",
     checking: "Checking...",
+
     verifyEyebrow: "PRIVATE ACCESS",
     verifyTitle: "Verify access",
+
     verifyDescription:
       "Enter the code provided directly by Cashless.",
+
     code: "Access code",
-    codePlaceholder: "XXXX-XXX-XX",
+    codePlaceholder: "Enter your 11-digit code",
+
     enter: "Continue to registration",
+
     edit: "Edit information",
+
     invalidDetails:
       "Please complete your name, email and phone number correctly before proceeding to the access code.",
+
     invalidEmail:
       "Please enter a valid email address.",
+
     emailDomain:
       "This email domain does not appear to accept email. Please check the address.",
+
     invalidPhone:
       "Please enter a valid phone number for the selected country.",
+
+    invalidCode:
+      "Please enter the complete 11-digit access code.",
+
     genericError:
       "Unable to verify your information right now. Please try again.",
   },
+
   fr: {
     eyebrow: "POUR LES INVESTISSEURS",
     title: "Espace investisseurs",
+
     description:
       "Renseignez vos informations pour continuer vers l’espace investisseurs Cashless.",
+
     fullName: "Nom complet",
     fullNamePlaceholder: "Votre nom complet",
+
     email: "Email",
     emailPlaceholder: "vous@exemple.com",
+
     phone: "Numéro de téléphone",
+
     continue: "Continuer",
     checking: "Vérification...",
+
     verifyEyebrow: "ACCÈS PRIVÉ",
     verifyTitle: "Vérifier l’accès",
+
     verifyDescription:
       "Entrez le code fourni directement par Cashless.",
+
     code: "Code d’accès",
-    codePlaceholder: "XXXX-XXX-XX",
+    codePlaceholder: "Entrez votre code à 11 chiffres",
+
     enter: "Continuer vers l’inscription",
+
     edit: "Modifier les informations",
+
     invalidDetails:
       "Veuillez renseigner correctement votre nom, votre email et votre numéro de téléphone avant de passer au code d’accès.",
+
     invalidEmail:
       "Veuillez saisir une adresse email valide.",
+
     emailDomain:
       "Le domaine de cette adresse email ne semble pas pouvoir recevoir d’emails. Vérifiez l’adresse.",
+
     invalidPhone:
       "Veuillez saisir un numéro de téléphone valide pour le pays sélectionné.",
+
+    invalidCode:
+      "Veuillez saisir le code d’accès complet à 11 chiffres.",
+
     genericError:
       "Impossible de vérifier vos informations pour le moment. Veuillez réessayer.",
   },
 };
 
-function formatAccessCode(value: string): string {
-  const cleaned = value
-    .toUpperCase()
-    .replace(/[^A-Z0-9]/g, "")
-    .slice(0, 9);
-
-  const first = cleaned.slice(0, 4);
-  const second = cleaned.slice(4, 7);
-  const third = cleaned.slice(7, 9);
-
-  return [first, second, third].filter(Boolean).join("-");
+function sanitizeAccessCode(value: string): string {
+  return value
+    .replace(/\D/g, "")
+    .slice(0, INVESTOR_CODE_LENGTH);
 }
 
 export default function InvestorAccessForm({
@@ -123,12 +157,20 @@ export default function InvestorAccessForm({
   });
 
   const [accessCode, setAccessCode] = useState("");
+
   const [error, setError] = useState("");
+
   const [validationError, setValidationError] =
     useState<ValidationErrorCode>("");
+
+  const [codeValidationError, setCodeValidationError] =
+    useState(false);
+
   const [isCheckingDetails, setIsCheckingDetails] =
     useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  const [isSubmitting, setIsSubmitting] =
+    useState(false);
 
   const copy = content[language];
 
@@ -142,7 +184,8 @@ export default function InvestorAccessForm({
   );
 
   const localDetailsValid = useMemo(() => {
-    const nameValid = details.fullName.trim().length >= 2;
+    const nameValid =
+      details.fullName.trim().length >= 2;
 
     const emailValid =
       /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(
@@ -157,20 +200,31 @@ export default function InvestorAccessForm({
       nameValid,
       emailValid,
       phoneValid,
-      allValid: nameValid && emailValid && phoneValid,
+      allValid:
+        nameValid &&
+        emailValid &&
+        phoneValid,
     };
-  }, [details.fullName, details.email, parsedPhone]);
+  }, [
+    details.fullName,
+    details.email,
+    parsedPhone,
+  ]);
 
   const validationMessage = (() => {
     switch (validationError) {
       case "INVALID_EMAIL":
         return copy.invalidEmail;
+
       case "EMAIL_DOMAIN":
         return copy.emailDomain;
+
       case "INVALID_PHONE":
         return copy.invalidPhone;
+
       case "INVALID_DETAILS":
         return copy.invalidDetails;
+
       default:
         return "";
     }
@@ -183,6 +237,7 @@ export default function InvestorAccessForm({
 
     setError("");
     setValidationError("");
+    setCodeValidationError(false);
 
     if (!localDetailsValid.nameValid) {
       setValidationError("INVALID_DETAILS");
@@ -194,7 +249,10 @@ export default function InvestorAccessForm({
       return;
     }
 
-    if (!localDetailsValid.phoneValid || !parsedPhone) {
+    if (
+      !localDetailsValid.phoneValid ||
+      !parsedPhone
+    ) {
       setValidationError("INVALID_PHONE");
       return;
     }
@@ -206,13 +264,20 @@ export default function InvestorAccessForm({
         "/api/validate-investor-details",
         {
           method: "POST",
+
           headers: {
             "Content-Type": "application/json",
           },
+
           body: JSON.stringify({
-            fullName: details.fullName.trim(),
-            email: details.email.trim(),
-            phone: parsedPhone.number,
+            fullName:
+              details.fullName.trim(),
+
+            email:
+              details.email.trim(),
+
+            phone:
+              parsedPhone.number,
           }),
         },
       );
@@ -220,12 +285,24 @@ export default function InvestorAccessForm({
       const result = await response.json();
 
       if (!response.ok || !result.ok) {
-        if (result?.code === "INVALID_EMAIL") {
-          setValidationError("INVALID_EMAIL");
-        } else if (result?.code === "EMAIL_DOMAIN") {
-          setValidationError("EMAIL_DOMAIN");
-        } else if (result?.code === "INVALID_PHONE") {
-          setValidationError("INVALID_PHONE");
+        if (
+          result?.code === "INVALID_EMAIL"
+        ) {
+          setValidationError(
+            "INVALID_EMAIL",
+          );
+        } else if (
+          result?.code === "EMAIL_DOMAIN"
+        ) {
+          setValidationError(
+            "EMAIL_DOMAIN",
+          );
+        } else if (
+          result?.code === "INVALID_PHONE"
+        ) {
+          setValidationError(
+            "INVALID_PHONE",
+          );
         } else {
           setError(copy.genericError);
         }
@@ -248,25 +325,46 @@ export default function InvestorAccessForm({
 
     setError("");
     setValidationError("");
+    setCodeValidationError(false);
+
+    if (
+      accessCode.length !==
+      INVESTOR_CODE_LENGTH
+    ) {
+      setCodeValidationError(true);
+      return;
+    }
+
+    if (!parsedPhone) {
+      setValidationError(
+        "INVALID_PHONE",
+      );
+      return;
+    }
+
     setIsSubmitting(true);
 
     try {
-      if (!parsedPhone) {
-        setValidationError("INVALID_PHONE");
-        return;
-      }
-
       const response = await fetch(
         "/api/investor-access",
         {
           method: "POST",
+
           headers: {
-            "Content-Type": "application/json",
+            "Content-Type":
+              "application/json",
           },
+
           body: JSON.stringify({
-            fullName: details.fullName.trim(),
-            email: details.email.trim(),
-            phone: parsedPhone.number,
+            fullName:
+              details.fullName.trim(),
+
+            email:
+              details.email.trim(),
+
+            phone:
+              parsedPhone.number,
+
             accessCode,
           }),
         },
@@ -284,7 +382,15 @@ export default function InvestorAccessForm({
         return;
       }
 
-      window.location.assign(INVESTOR_DESTINATION_URL);
+      /*
+       * ACCESS GRANTED
+       *
+       * The API has verified the investor code.
+       * Now send the investor to Cashless merchant
+       * registration/login.
+       */
+      window.location.href =
+        INVESTOR_DESTINATION_URL;
     } catch {
       setError(copy.genericError);
     } finally {
@@ -294,10 +400,17 @@ export default function InvestorAccessForm({
 
   return (
     <div className={styles.formShell}>
-      <div key={step} className={styles.stepTransition}>
+      <div
+        key={step}
+        className={styles.stepTransition}
+      >
         {step === "details" ? (
           <>
-            <div className={styles.headingBlock}>
+            <div
+              className={
+                styles.headingBlock
+              }
+            >
               <p className={styles.eyebrow}>
                 {copy.eyebrow}
               </p>
@@ -306,17 +419,25 @@ export default function InvestorAccessForm({
                 {copy.title}
               </h1>
 
-              <p className={styles.description}>
+              <p
+                className={
+                  styles.description
+                }
+              >
                 {copy.description}
               </p>
             </div>
 
             <form
               className={styles.form}
-              onSubmit={handleDetailsSubmit}
+              onSubmit={
+                handleDetailsSubmit
+              }
               noValidate
             >
-              <div className={styles.field}>
+              <div
+                className={styles.field}
+              >
                 <label
                   className={styles.label}
                   htmlFor="full-name"
@@ -329,18 +450,29 @@ export default function InvestorAccessForm({
                   type="text"
                   autoComplete="name"
                   className={styles.input}
-                  placeholder={copy.fullNamePlaceholder}
-                  value={details.fullName}
+                  placeholder={
+                    copy.fullNamePlaceholder
+                  }
+                  value={
+                    details.fullName
+                  }
                   onChange={(event) =>
-                    setDetails((current) => ({
-                      ...current,
-                      fullName: event.target.value,
-                    }))
+                    setDetails(
+                      (current) => ({
+                        ...current,
+
+                        fullName:
+                          event.target
+                            .value,
+                      }),
+                    )
                   }
                 />
               </div>
 
-              <div className={styles.field}>
+              <div
+                className={styles.field}
+              >
                 <label
                   className={styles.label}
                   htmlFor="email"
@@ -353,46 +485,76 @@ export default function InvestorAccessForm({
                   type="email"
                   autoComplete="email"
                   className={styles.input}
-                  placeholder={copy.emailPlaceholder}
+                  placeholder={
+                    copy.emailPlaceholder
+                  }
                   value={details.email}
                   onChange={(event) =>
-                    setDetails((current) => ({
-                      ...current,
-                      email: event.target.value,
-                    }))
+                    setDetails(
+                      (current) => ({
+                        ...current,
+
+                        email:
+                          event.target
+                            .value,
+                      }),
+                    )
                   }
                 />
               </div>
 
-              <div className={styles.field}>
-                <span className={styles.label}>
+              <div
+                className={styles.field}
+              >
+                <span
+                  className={styles.label}
+                >
                   {copy.phone} *
                 </span>
 
                 <InternationalPhoneInput
-                  country={details.phoneCountry}
-                  number={details.phoneNumber}
-                  language={language}
-                  onCountryChange={(phoneCountry) =>
-                    setDetails((current) => ({
-                      ...current,
-                      phoneCountry,
-                      phoneNumber: "",
-                    }))
+                  country={
+                    details.phoneCountry
                   }
-                  onNumberChange={(phoneNumber) =>
-                    setDetails((current) => ({
-                      ...current,
-                      phoneNumber,
-                    }))
+                  number={
+                    details.phoneNumber
+                  }
+                  language={language}
+                  onCountryChange={(
+                    phoneCountry,
+                  ) =>
+                    setDetails(
+                      (current) => ({
+                        ...current,
+
+                        phoneCountry,
+
+                        phoneNumber: "",
+                      }),
+                    )
+                  }
+                  onNumberChange={(
+                    phoneNumber,
+                  ) =>
+                    setDetails(
+                      (current) => ({
+                        ...current,
+
+                        phoneNumber,
+                      }),
+                    )
                   }
                 />
               </div>
 
               <button
-                className={styles.submitButton}
+                className={
+                  styles.submitButton
+                }
                 type="submit"
-                disabled={isCheckingDetails}
+                disabled={
+                  isCheckingDetails
+                }
               >
                 <span>
                   {isCheckingDetails
@@ -400,22 +562,32 @@ export default function InvestorAccessForm({
                     : copy.continue}
                 </span>
 
-                <HiArrowRight aria-hidden="true" />
+                <HiArrowRight
+                  aria-hidden="true"
+                />
               </button>
 
-              {(validationMessage || error) && (
+              {(validationMessage ||
+                error) && (
                 <p
-                  className={styles.statusError}
+                  className={
+                    styles.statusError
+                  }
                   role="alert"
                 >
-                  {validationMessage || error}
+                  {validationMessage ||
+                    error}
                 </p>
               )}
             </form>
           </>
         ) : (
           <>
-            <div className={styles.headingBlock}>
+            <div
+              className={
+                styles.headingBlock
+              }
+            >
               <p className={styles.eyebrow}>
                 {copy.verifyEyebrow}
               </p>
@@ -424,7 +596,11 @@ export default function InvestorAccessForm({
                 {copy.verifyTitle}
               </h1>
 
-              <p className={styles.description}>
+              <p
+                className={
+                  styles.description
+                }
+              >
                 {copy.verifyDescription}
               </p>
             </div>
@@ -432,8 +608,11 @@ export default function InvestorAccessForm({
             <form
               className={styles.form}
               onSubmit={handleCodeSubmit}
+              noValidate
             >
-              <div className={styles.field}>
+              <div
+                className={styles.field}
+              >
                 <label
                   className={styles.label}
                   htmlFor="access-code"
@@ -444,30 +623,40 @@ export default function InvestorAccessForm({
                 <input
                   id="access-code"
                   type="text"
-                  inputMode="text"
-                  autoCapitalize="characters"
+                  inputMode="numeric"
                   autoComplete="off"
                   spellCheck={false}
                   className={`${styles.input} ${styles.codeInput}`}
-                  placeholder={copy.codePlaceholder}
-                  value={accessCode}
-                  onChange={(event) =>
-                    setAccessCode(
-                      formatAccessCode(event.target.value),
-                    )
+                  placeholder={
+                    copy.codePlaceholder
                   }
-                  maxLength={11}
-                  required
+                  value={accessCode}
+                  onChange={(event) => {
+                    setAccessCode(
+                      sanitizeAccessCode(
+                        event.target.value,
+                      ),
+                    );
+
+                    setCodeValidationError(
+                      false,
+                    );
+
+                    setError("");
+                  }}
+                  maxLength={
+                    INVESTOR_CODE_LENGTH
+                  }
+                  pattern="[0-9]{11}"
                 />
               </div>
 
               <button
-                className={styles.submitButton}
-                type="submit"
-                disabled={
-                  isSubmitting ||
-                  accessCode.length !== 11
+                className={
+                  styles.submitButton
                 }
+                type="submit"
+                disabled={isSubmitting}
               >
                 <span>
                   {isSubmitting
@@ -475,25 +664,50 @@ export default function InvestorAccessForm({
                     : copy.enter}
                 </span>
 
-                <HiArrowRight aria-hidden="true" />
+                <HiArrowRight
+                  aria-hidden="true"
+                />
               </button>
 
               <button
                 type="button"
-                className={styles.editButton}
+                className={
+                  styles.editButton
+                }
                 onClick={() => {
                   setError("");
                   setValidationError("");
+                  setCodeValidationError(
+                    false,
+                  );
                   setStep("details");
                 }}
               >
-                <HiArrowLeft aria-hidden="true" />
-                <span>{copy.edit}</span>
+                <HiArrowLeft
+                  aria-hidden="true"
+                />
+
+                <span>
+                  {copy.edit}
+                </span>
               </button>
+
+              {codeValidationError && (
+                <p
+                  className={
+                    styles.statusError
+                  }
+                  role="alert"
+                >
+                  {copy.invalidCode}
+                </p>
+              )}
 
               {error && (
                 <p
-                  className={styles.statusError}
+                  className={
+                    styles.statusError
+                  }
                   role="alert"
                 >
                   {error}
