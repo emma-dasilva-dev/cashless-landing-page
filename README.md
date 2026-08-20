@@ -104,3 +104,20 @@ GitHub: `emma-dasilva-dev`
 ## Status
 
 Active development.
+
+## Investor portal configuration
+
+The investor portal calls the admin backend only from Next.js route handlers;
+these values must stay server-side and must not be prefixed with `NEXT_PUBLIC_`.
+
+```env
+CASHLESS_ADMIN_API_URL=https://your-admin-api.example.com
+CASHLESS_ADMIN_CLIENT_TOKEN=the-same-server-client-token-as-the-admin-backend
+INVESTOR_SESSION_SECRET=a-long-random-secret
+```
+
+An administrator creates a one-time invitation through
+`POST /api/v1/investor-portal/invitations` with an admin bearer token and an
+`x-app-source: web` header. The response contains the code once; only its hash
+is stored by the backend. The investor uses the code on `/investors` and is
+then kept on the landing page at `/investors/portal`.

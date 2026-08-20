@@ -43,9 +43,6 @@ type ValidationErrorCode =
   | "INVALID_PHONE"
   | "";
 
-const INVESTOR_DESTINATION_URL =
-  "https://staging.merchant/cashlessflo.com/auth/register";
-
 const MAX_ACCESS_CODE_LENGTH = 64;
 
 const content = {
@@ -159,11 +156,10 @@ export default function InvestorAccessForm({
       phoneNumber: "",
     });
 
-  const [leadId, setLeadId] =
-    useState("");
-
   const [accessCode, setAccessCode] =
     useState("");
+
+  const [trustedDevice, setTrustedDevice] = useState(false);
 
   const [error, setError] =
     useState("");
@@ -177,12 +173,6 @@ export default function InvestorAccessForm({
   const [
     codeValidationError,
     setCodeValidationError,
-  ] =
-    useState(false);
-
-  const [
-    isCheckingDetails,
-    setIsCheckingDetails,
   ] =
     useState(false);
 
@@ -311,109 +301,7 @@ export default function InvestorAccessForm({
         return;
       }
 
-      setIsCheckingDetails(true);
-
-      try {
-        const response =
-          await fetch(
-            "/api/validate-investor-details",
-            {
-              method: "POST",
-
-              headers: {
-                "Content-Type":
-                  "application/json",
-              },
-
-              body:
-                JSON.stringify({
-                  fullName:
-                    details.fullName.trim(),
-
-                  email:
-                    details.email.trim(),
-
-                  phoneCountry:
-                    details.phoneCountry,
-
-                  phoneNumber:
-                    details.phoneNumber.trim(),
-
-                  phone:
-                    parsedPhone.number,
-                }),
-            },
-          );
-
-        const result =
-          await response.json();
-
-        if (
-          !response.ok ||
-          !result.ok
-        ) {
-          if (
-            result?.code ===
-            "INVALID_EMAIL"
-          ) {
-            setValidationError(
-              "INVALID_EMAIL",
-            );
-          } else if (
-            result?.code ===
-            "EMAIL_DOMAIN"
-          ) {
-            setValidationError(
-              "EMAIL_DOMAIN",
-            );
-          } else if (
-            result?.code ===
-            "INVALID_PHONE"
-          ) {
-            setValidationError(
-              "INVALID_PHONE",
-            );
-          } else if (
-            result?.code ===
-            "INVALID_DETAILS"
-          ) {
-            setValidationError(
-              "INVALID_DETAILS",
-            );
-          } else {
-            setError(
-              copy.genericError,
-            );
-          }
-
-          return;
-        }
-
-        if (
-          typeof result?.leadId !==
-            "string" ||
-          !result.leadId
-        ) {
-          setError(
-            copy.genericError,
-          );
-          return;
-        }
-
-        setLeadId(
-          result.leadId,
-        );
-
-        setStep("code");
-      } catch {
-        setError(
-          copy.genericError,
-        );
-      } finally {
-        setIsCheckingDetails(
-          false,
-        );
-      }
+      setStep("code");
     };
 
   const handleCodeSubmit =
@@ -434,13 +322,6 @@ export default function InvestorAccessForm({
       if (!parsedPhone) {
         setValidationError(
           "INVALID_PHONE",
-        );
-        return;
-      }
-
-      if (!leadId) {
-        setError(
-          copy.genericError,
         );
         return;
       }
@@ -471,8 +352,7 @@ export default function InvestorAccessForm({
                     parsedPhone.number,
 
                   accessCode,
-
-                  leadId,
+                  trustedDevice,
                 }),
             },
           );
@@ -494,9 +374,7 @@ export default function InvestorAccessForm({
           return;
         }
 
-        window.location.assign(
-          INVESTOR_DESTINATION_URL,
-        );
+        window.location.assign("/investors/portal");
       } catch {
         setError(
           copy.genericError,
@@ -694,19 +572,22 @@ export default function InvestorAccessForm({
                 />
               </div>
 
+              <label className={styles.checkboxLabel}>
+                <input type="checkbox" checked={trustedDevice} onChange={(event) => setTrustedDevice(event.target.checked)} />
+                <span>Faire confiance à cet appareil pendant 30 jours</span>
+              </label>
+
               <button
                 className={
                   styles.submitButton
                 }
                 type="submit"
                 disabled={
-                  isCheckingDetails
+                  false
                 }
               >
                 <span>
-                  {isCheckingDetails
-                    ? copy.checking
-                    : copy.continue}
+                  {copy.continue}
                 </span>
 
                 <HiArrowRight

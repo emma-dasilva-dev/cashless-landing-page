@@ -3,6 +3,7 @@ import Link from "next/link";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import FlowArtwork from "@/components/FlowArtwork";
+import InvestorCommercialStats from "@/components/InvestorCommercialStats";
 import {
   INVESTOR_COOKIE_NAME,
   verifyInvestorSessionToken,
@@ -18,7 +19,7 @@ export default async function InvestorPortalPage() {
   }
 
   return (
-    <main className={styles.page}>
+    <main className={`${styles.page} ${styles.investorPortal}`}>
       <FlowArtwork variant="investors" />
 
       <header className={styles.header}>
@@ -34,14 +35,7 @@ export default async function InvestorPortalPage() {
         </Link>
       </header>
 
-      <section className={styles.portalPlaceholder}>
-        <p className={styles.eyebrowStatic}>CASHLESS INVESTORS</p>
-        <h1 className={styles.portalTitle}>Investor resources</h1>
-        <p className={styles.portalDescription}>
-          This protected page is ready for the investor information and
-          resources Cashless will provide.
-        </p>
-      </section>
+      <InvestorCommercialStats />
     </main>
   );
 }

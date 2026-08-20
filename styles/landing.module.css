@@ -13,6 +13,21 @@
   isolation: isolate;
   
 }
+
+/* Dark theme */
+.page { background: oklch(0.11 0.005 258); color: oklch(0.95 0 0); }
+.bcg { background-color: #0d1723; opacity: .9; }
+.desktopLanguageButton, .languageOption, .mobileFlagButton { color: #eef6ff; }
+.languageChevron { color: #a6b6c7; }
+.languageMenu { border-color: #294157; background: #142334; box-shadow: 0 16px 36px rgba(0,0,0,.28); }
+.languageOption:hover, .mobileFlagButtonActive { background: #203449; }
+.mobileFlagButtonActive { border-color: #4b667d; }
+.animationStage { background: #0d1723; }
+.heroTitle { color: #eef6ff; }
+.heroDescription { color: #a6b6c7; }
+.storeButton { background: #0c9d83; color: #071411; }
+.investorLink { border-color: #294157; background: #142334; color: #eef6ff; }
+@media (hover: hover) and (pointer: fine) { .investorLink:hover { border-color: #4b667d; background: #203449; } }
 .bcg {
   background-color: white;
   position: absolute;
@@ -812,3 +827,13 @@
     animation: none;
   }
 }
+
+/* Keep dark colors above mobile-specific light declarations. */
+.page { background: oklch(0.11 0.005 258); color: oklch(0.95 0 0); }
+.bcg, .animationStage { background-color: #0d1723; }
+.desktopLanguageButton, .languageOption, .mobileFlagButton, .heroTitle { color: #eef6ff; }
+.heroDescription { color: #a6b6c7; }
+.languageMenu { border-color: #294157; background: #142334; }
+.languageOption:hover, .mobileFlagButtonActive { background: #203449; }
+.storeButton { background: #0c9d83; color: #071411; }
+.investorLink { border-color: #294157; background: #142334; color: #eef6ff; }

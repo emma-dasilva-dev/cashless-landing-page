@@ -15,6 +15,24 @@
   isolation: isolate;
 }
 
+.investorPortal {
+  min-height: 100vh;
+  background: #ffffff;
+  color: #10233a;
+  overflow-y: auto;
+}
+
+/* Dark theme */
+.page, .investorPortal { background: oklch(0.11 0.005 258); color: oklch(0.95 0 0); }
+.flagButtonActive { border-color: #4b667d; background: #203449; }
+.eyebrow, .eyebrowStatic, .description, .portalDescription, .editButton, .backLink { color: #a6b6c7; }
+.title, .portalTitle, .label { color: #eef6ff; }
+.input { border-color: #294157; background: #142334; color: #eef6ff; }
+.input:focus { border-color: #0c9d83; box-shadow: 0 0 0 3px rgba(12,157,131,.16); }
+.submitButton { background: #0c9d83; color: #071411; }
+.statusError { border-color: #7f3c49; background: #351d25; color: #ffb4ae; }
+@media (hover: hover) and (pointer: fine) { .backLink:hover { color: #eef6ff; } }
+
 /* =========================================================
    HEADER
    ========================================================= */
@@ -234,6 +252,14 @@
   flex-direction: column;
 
   gap: 11px;
+}
+
+.checkboxLabel {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 13px;
+  color: var(--text-secondary, #64748b);
 }
 
 .field {
@@ -755,3 +781,10 @@
     animation: none;
   }
 }
+
+/* Keep dark colors above small-screen form declarations. */
+.page, .investorPortal { background: oklch(0.11 0.005 258); color: oklch(0.95 0 0); }
+.title, .portalTitle, .label { color: #eef6ff; }
+.eyebrow, .eyebrowStatic, .description, .portalDescription, .editButton, .backLink { color: #a6b6c7; }
+.input { border-color: #294157; background: #142334; color: #eef6ff; }
+.submitButton { background: #0c9d83; color: #071411; }
