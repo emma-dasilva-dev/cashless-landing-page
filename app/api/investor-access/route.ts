@@ -1,4 +1,7 @@
-import { NextRequest, NextResponse } from "next/server";
+import {
+  NextRequest,
+  NextResponse,
+} from "next/server";
 
 import {
   createInvestorSessionToken,
@@ -6,7 +9,9 @@ import {
   investorCookieOptions,
 } from "@/lib/investorAuth";
 
-import { supabaseAdmin } from "@/lib/supabaseAdmin";
+import {
+  supabaseAdmin,
+} from "@/lib/supabaseAdmin";
 
 type RateLimitRecord = {
   count: number;
@@ -15,7 +20,10 @@ type RateLimitRecord = {
 };
 
 const attempts =
-  new Map<string, RateLimitRecord>();
+  new Map<
+    string,
+    RateLimitRecord
+  >();
 
 const WINDOW_MS =
   15 * 60 * 1000;
@@ -25,16 +33,24 @@ const MAX_ATTEMPTS = 5;
 const BLOCK_MS =
   15 * 60 * 1000;
 
+/*
+ * Access codes may contain both
+ * letters and numbers.
+ *
+ * We normalize them to uppercase
+ * so "abc123" and "ABC123" are
+ * treated consistently.
+ *
+ * Spaces and hyphens are removed
+ * before comparison.
+ */
 function normalizeAccessCode(
   value: string,
 ): string {
-  /*
-   * Your current investor access code is numeric.
-   * Remove spaces and anything that is not a digit.
-   */
   return value
     .trim()
-    .replace(/\D/g, "");
+    .toUpperCase()
+    .replace(/[\s-]/g, "");
 }
 
 function getClientKey(
@@ -107,7 +123,6 @@ export async function POST(
         error:
           "Too many attempts. Please try again later.",
       },
-
       {
         status: 429,
       },
@@ -147,10 +162,6 @@ export async function POST(
         )
       : "";
 
-  /*
-   * This is the UUID returned when Step 1
-   * created the investor_leads row.
-   */
   const leadId =
     typeof body?.leadId ===
     "string"
@@ -171,17 +182,12 @@ export async function POST(
         error:
           "Missing required information.",
       },
-
       {
         status: 400,
       },
     );
   }
 
-  /*
-   * The real investor code comes from Vercel/.env.local.
-   * It is never hardcoded here.
-   */
   const configuredCode =
     process.env
       .INVESTOR_ACCESS_CODE;
@@ -194,7 +200,6 @@ export async function POST(
         error:
           "Investor access is not configured yet.",
       },
-
       {
         status: 503,
       },
@@ -206,9 +211,6 @@ export async function POST(
       configuredCode,
     );
 
-  /*
-   * Wrong investor code.
-   */
   if (
     accessCode !==
     normalizedConfiguredCode
@@ -238,7 +240,6 @@ export async function POST(
             ? "Too many attempts. Please try again later."
             : "Invalid access code.",
       },
-
       {
         status:
           record.count >=
@@ -249,19 +250,8 @@ export async function POST(
     );
   }
 
-  /*
-   * Correct code.
-   *
-   * Remove the failed-attempt record.
-   */
   attempts.delete(clientKey);
 
-  /*
-   * Update the exact Supabase investor row.
-   *
-   * We also match the email as an additional safeguard
-   * so a lead ID cannot accidentally update another email.
-   */
   const {
     data: updatedLead,
     error: updateError,
@@ -297,17 +287,12 @@ export async function POST(
         error:
           "Unable to complete investor verification.",
       },
-
       {
         status: 500,
       },
     );
   }
 
-  /*
-   * If nothing was updated, something is inconsistent.
-   * Do not silently continue.
-   */
   if (!updatedLead) {
     return NextResponse.json(
       {
@@ -316,20 +301,12 @@ export async function POST(
         error:
           "Investor record could not be found.",
       },
-
       {
         status: 404,
       },
     );
   }
 
-  /*
-   * Keep your existing signed session cookie.
-   *
-   * Even though we currently redirect outside this site,
-   * preserving the session makes the architecture ready
-   * if Cashless later adds protected investor pages here.
-   */
   const response =
     NextResponse.json({
       ok: true,
