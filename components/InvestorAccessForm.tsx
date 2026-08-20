@@ -33,12 +33,13 @@ type ValidationErrorCode =
 const INVESTOR_DESTINATION_URL =
   "https://staging.merchant/cashlessflo.com/auth/login";
 
-const MAX_ACCESS_CODE_LENGTH = 32;
+const MAX_ACCESS_CODE_LENGTH = 64;
 
 const content = {
   en: {
     eyebrow: "FOR INVESTORS",
     title: "Investor access",
+
     description:
       "Enter your details to continue to Cashless investor access.",
 
@@ -55,6 +56,7 @@ const content = {
 
     verifyEyebrow: "PRIVATE ACCESS",
     verifyTitle: "Verify access",
+
     verifyDescription:
       "Enter the code provided directly by Cashless.",
 
@@ -77,7 +79,7 @@ const content = {
       "Please enter a valid phone number for the selected country.",
 
     invalidCode:
-      "Please enter the complete access code provided by Cashless.",
+      "Please enter the access code provided by Cashless.",
 
     genericError:
       "Unable to verify your information right now. Please try again.",
@@ -86,6 +88,7 @@ const content = {
   fr: {
     eyebrow: "POUR LES INVESTISSEURS",
     title: "Espace investisseurs",
+
     description:
       "Renseignez vos informations pour continuer vers l’espace investisseurs Cashless.",
 
@@ -102,6 +105,7 @@ const content = {
 
     verifyEyebrow: "ACCÈS PRIVÉ",
     verifyTitle: "Vérifier l’accès",
+
     verifyDescription:
       "Entrez le code fourni directement par Cashless.",
 
@@ -124,16 +128,12 @@ const content = {
       "Veuillez saisir un numéro de téléphone valide pour le pays sélectionné.",
 
     invalidCode:
-      "Veuillez saisir le code d’accès complet fourni par Cashless.",
+      "Veuillez saisir le code d’accès fourni par Cashless.",
 
     genericError:
       "Impossible de vérifier vos informations pour le moment. Veuillez réessayer.",
   },
 };
-
-function sanitizeAccessCode(value: string): string {
-  return value.slice(0, MAX_ACCESS_CODE_LENGTH);
-}
 
 export default function InvestorAccessForm({
   language,
@@ -281,9 +281,7 @@ export default function InvestorAccessForm({
       const result = await response.json();
 
       if (!response.ok || !result.ok) {
-        if (
-          result?.code === "INVALID_EMAIL"
-        ) {
+        if (result?.code === "INVALID_EMAIL") {
           setValidationError("INVALID_EMAIL");
         } else if (
           result?.code === "EMAIL_DOMAIN"
@@ -368,8 +366,7 @@ export default function InvestorAccessForm({
             phone:
               parsedPhone.number,
 
-            accessCode:
-              accessCode.trim(),
+            accessCode,
 
             leadId,
           }),
@@ -557,19 +554,20 @@ export default function InvestorAccessForm({
                   inputMode="text"
                   autoComplete="off"
                   autoCapitalize="none"
+                  autoCorrect="off"
                   spellCheck={false}
                   className={`${styles.input} ${styles.codeInput}`}
                   placeholder={copy.codePlaceholder}
                   value={accessCode}
                   onChange={(event) => {
                     setAccessCode(
-                      sanitizeAccessCode(
-                        event.target.value,
+                      event.target.value.slice(
+                        0,
+                        MAX_ACCESS_CODE_LENGTH,
                       ),
                     );
 
                     setCodeValidationError(false);
-
                     setError("");
                   }}
                   maxLength={MAX_ACCESS_CODE_LENGTH}

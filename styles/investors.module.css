@@ -306,10 +306,8 @@
 }
 
 .codeInput {
-  text-transform: uppercase;
-
-  letter-spacing: 0.17em;
-
+  text-transform: none;
+  letter-spacing: 0.08em;
   font-weight: 700;
 }
 
