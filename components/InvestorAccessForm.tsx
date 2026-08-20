@@ -39,7 +39,6 @@ const content = {
   en: {
     eyebrow: "FOR INVESTORS",
     title: "Investor access",
-
     description:
       "Enter your details to continue to Cashless investor access.",
 
@@ -56,7 +55,6 @@ const content = {
 
     verifyEyebrow: "PRIVATE ACCESS",
     verifyTitle: "Verify access",
-
     verifyDescription:
       "Enter the code provided directly by Cashless.",
 
@@ -64,7 +62,6 @@ const content = {
     codePlaceholder: "Enter your 11-digit code",
 
     enter: "Continue to registration",
-
     edit: "Edit information",
 
     invalidDetails:
@@ -89,7 +86,6 @@ const content = {
   fr: {
     eyebrow: "POUR LES INVESTISSEURS",
     title: "Espace investisseurs",
-
     description:
       "Renseignez vos informations pour continuer vers l’espace investisseurs Cashless.",
 
@@ -106,7 +102,6 @@ const content = {
 
     verifyEyebrow: "ACCÈS PRIVÉ",
     verifyTitle: "Vérifier l’accès",
-
     verifyDescription:
       "Entrez le code fourni directement par Cashless.",
 
@@ -114,7 +109,6 @@ const content = {
     codePlaceholder: "Entrez votre code à 11 chiffres",
 
     enter: "Continuer vers l’inscription",
-
     edit: "Modifier les informations",
 
     invalidDetails:
@@ -155,6 +149,12 @@ export default function InvestorAccessForm({
     phoneCountry: "NG",
     phoneNumber: "",
   });
+
+  /*
+   * This stores the database row ID returned by Supabase
+   * after Step 1 succeeds.
+   */
+  const [leadId, setLeadId] = useState("");
 
   const [accessCode, setAccessCode] = useState("");
 
@@ -200,10 +200,6 @@ export default function InvestorAccessForm({
       nameValid,
       emailValid,
       phoneValid,
-      allValid:
-        nameValid &&
-        emailValid &&
-        phoneValid,
     };
   }, [
     details.fullName,
@@ -276,6 +272,12 @@ export default function InvestorAccessForm({
             email:
               details.email.trim(),
 
+            phoneCountry:
+              details.phoneCountry,
+
+            phoneNumber:
+              details.phoneNumber.trim(),
+
             phone:
               parsedPhone.number,
           }),
@@ -303,12 +305,33 @@ export default function InvestorAccessForm({
           setValidationError(
             "INVALID_PHONE",
           );
+        } else if (
+          result?.code === "INVALID_DETAILS"
+        ) {
+          setValidationError(
+            "INVALID_DETAILS",
+          );
         } else {
           setError(copy.genericError);
         }
 
         return;
       }
+
+      if (
+        typeof result?.leadId !== "string" ||
+        !result.leadId
+      ) {
+        setError(copy.genericError);
+        return;
+      }
+
+      /*
+       * Save the Supabase row ID.
+       * We need this later so the correct database row
+       * can be marked access_verified = true.
+       */
+      setLeadId(result.leadId);
 
       setStep("code");
     } catch {
@@ -342,6 +365,11 @@ export default function InvestorAccessForm({
       return;
     }
 
+    if (!leadId) {
+      setError(copy.genericError);
+      return;
+    }
+
     setIsSubmitting(true);
 
     try {
@@ -366,6 +394,12 @@ export default function InvestorAccessForm({
               parsedPhone.number,
 
             accessCode,
+
+            /*
+             * This tells the backend which Supabase row
+             * belongs to this investor.
+             */
+            leadId,
           }),
         },
       );
@@ -383,14 +417,16 @@ export default function InvestorAccessForm({
       }
 
       /*
-       * ACCESS GRANTED
+       * At this point:
        *
-       * The API has verified the investor code.
-       * Now send the investor to Cashless merchant
-       * registration/login.
+       * 1. the investor code was correct
+       * 2. the database row was marked access_verified = true
+       *
+       * Now redirect to Cashless merchant registration.
        */
-      window.location.href =
-        INVESTOR_DESTINATION_URL;
+      window.location.assign(
+        INVESTOR_DESTINATION_URL,
+      );
     } catch {
       setError(copy.genericError);
     } finally {
@@ -462,8 +498,7 @@ export default function InvestorAccessForm({
                         ...current,
 
                         fullName:
-                          event.target
-                            .value,
+                          event.target.value,
                       }),
                     )
                   }
@@ -495,8 +530,7 @@ export default function InvestorAccessForm({
                         ...current,
 
                         email:
-                          event.target
-                            .value,
+                          event.target.value,
                       }),
                     )
                   }
