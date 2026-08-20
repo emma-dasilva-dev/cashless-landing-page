@@ -1,44 +1,200 @@
 .secondaryActions {
+  width: 100%;
+
   display: flex;
   align-items: center;
   justify-content: center;
-  gap: 9px;
-  width: 100%;
+
+  gap: 10px;
 }
 
-.secondaryAction {
-  min-width: 148px;
-  justify-content: center;
+/*
+ * Same dimensions as the App Store
+ * and Google Play buttons.
+ */
+.secondaryButton {
+  min-width: 194px;
+  min-height: 54px;
+
   animation-delay: 650ms;
 }
 
-.secondaryAction:nth-child(2) {
+.secondaryButton:nth-child(2) {
   animation-delay: 720ms;
 }
 
+/*
+ * Keep all four buttons visually identical.
+ */
+.websiteButton,
+.investorButton {
+  width: 194px;
+}
+
+/* =========================================================
+   SOCIAL MEDIA
+   ========================================================= */
+
+.socialLinks {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 8px;
+
+  margin-top: 3px;
+
+  opacity: 0;
+
+  transform: translateY(7px);
+
+  animation:
+    socialEnter
+    460ms
+    cubic-bezier(0.22, 1, 0.36, 1)
+    800ms
+    forwards;
+}
+
+.socialLink {
+  width: 34px;
+  height: 34px;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  border: 1px solid #dedede;
+  border-radius: 50%;
+
+  background: rgba(
+    255,
+    255,
+    255,
+    0.92
+  );
+
+  color: #111111;
+
+  text-decoration: none;
+
+  transition:
+    transform 180ms ease,
+    border-color 180ms ease,
+    background-color 180ms ease,
+    opacity 180ms ease;
+}
+
+.socialLink svg {
+  width: 14px;
+  height: 14px;
+}
+
+/* =========================================================
+   HOVER
+   ========================================================= */
+
+@media (hover: hover) and (pointer: fine) {
+  .socialLink:hover {
+    transform: translateY(-2px);
+
+    border-color: #b9b9b9;
+
+    background: #ffffff;
+  }
+}
+
+/* =========================================================
+   MOBILE
+   ========================================================= */
+
 @media (max-width: 700px) {
   .secondaryActions {
+    width: 100%;
+
     gap: 7px;
   }
 
-  .secondaryAction {
-    min-width: 0;
+  /*
+   * This mirrors the mobile App Store /
+   * Google Play behavior.
+   */
+  .secondaryButton {
     flex: 1;
-    max-width: 180px;
-    padding-inline: 11px;
-    white-space: nowrap;
+
+    width: auto;
+    min-width: 0;
+    min-height: 45px;
+
+    gap: 7px;
+
+    padding: 8px 9px;
+  }
+
+  .websiteButton,
+  .investorButton {
+    width: auto;
+  }
+
+  .socialLinks {
+    margin-top: 1px;
+
+    gap: 7px;
+  }
+
+  .socialLink {
+    width: 31px;
+    height: 31px;
+  }
+
+  .socialLink svg {
+    width: 13px;
+    height: 13px;
   }
 }
+
+/* =========================================================
+   VERY SMALL MOBILE
+   ========================================================= */
 
 @media (max-width: 360px) {
-  .secondaryAction {
-    font-size: 9px;
-    padding-inline: 9px;
+  .secondaryActions {
+    gap: 6px;
+  }
+
+  .secondaryButton {
+    padding-inline: 7px;
+  }
+
+  .socialLink {
+    width: 29px;
+    height: 29px;
   }
 }
 
+/* =========================================================
+   ENTRANCE
+   ========================================================= */
+
+@keyframes socialEnter {
+  to {
+    opacity: 1;
+
+    transform: translateY(0);
+  }
+}
+
+/* =========================================================
+   REDUCED MOTION
+   ========================================================= */
+
 @media (prefers-reduced-motion: reduce) {
-  .secondaryAction {
+  .secondaryButton,
+  .socialLinks {
+    opacity: 1;
+
+    transform: none;
+
     animation: none;
   }
 }
