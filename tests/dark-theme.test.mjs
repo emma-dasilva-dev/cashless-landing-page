@@ -10,7 +10,7 @@ test("the landing and investor portal keep the approved light palette", async ()
   ]);
 
   assert.ok(globalCss.includes('background: #ffffff'), "the site background must remain light");
-  assert.ok(landingCss.includes("background-color: white"), "the landing artwork must remain light");
+  assert.ok(landingCss.includes("background: #ffffff"), "the landing artwork must remain light");
   assert.ok(investorCss.includes("background: #ffffff"), "the investor access page must remain light");
 
   for (const source of [globalCss, landingCss, investorCss]) {

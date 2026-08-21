@@ -75,7 +75,7 @@ const content = {
     edit: "Edit information",
 
     invalidDetails:
-      "Please complete your name, email and phone number correctly before proceeding to the access code.",
+      "Please complete your name and email correctly before proceeding to the access code.",
 
     invalidEmail:
       "Please enter a valid email address.",
@@ -122,7 +122,7 @@ const content = {
     edit: "Modifier les informations",
 
     invalidDetails:
-      "Veuillez renseigner correctement votre nom, votre email et votre numéro de téléphone avant de passer au code d’accès.",
+      "Veuillez renseigner correctement votre nom et votre email avant de passer au code d’accès.",
 
     invalidEmail:
       "Veuillez saisir une adresse email valide.",
@@ -229,9 +229,8 @@ export default function InvestorAccessForm({
         );
 
       const phoneValid =
-        Boolean(
-          parsedPhone?.isValid(),
-        );
+        details.phoneNumber.trim() === "" ||
+        Boolean(parsedPhone?.isValid());
 
       return {
         nameValid,
@@ -291,10 +290,7 @@ export default function InvestorAccessForm({
         return;
       }
 
-      if (
-        !localDetailsValid.phoneValid ||
-        !parsedPhone
-      ) {
+      if (!localDetailsValid.phoneValid) {
         setValidationError(
           "INVALID_PHONE",
         );
@@ -316,13 +312,6 @@ export default function InvestorAccessForm({
 
       if (!accessCode.trim()) {
         setCodeValidationError(true);
-        return;
-      }
-
-      if (!parsedPhone) {
-        setValidationError(
-          "INVALID_PHONE",
-        );
         return;
       }
 
@@ -348,8 +337,7 @@ export default function InvestorAccessForm({
                   email:
                     details.email.trim(),
 
-                  phone:
-                    parsedPhone.number,
+                  phone: parsedPhone?.number ?? "",
 
                   accessCode,
                   trustedDevice,
@@ -531,7 +519,7 @@ export default function InvestorAccessForm({
                     styles.label
                   }
                 >
-                  {copy.phone} *
+                  {copy.phone}
                 </span>
 
                 <InternationalPhoneInput

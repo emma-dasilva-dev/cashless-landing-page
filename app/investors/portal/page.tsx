@@ -1,9 +1,7 @@
-import Image from "next/image";
-import Link from "next/link";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 import FlowArtwork from "@/components/FlowArtwork";
-import InvestorCommercialStats from "@/components/InvestorCommercialStats";
+import InvestorPortalClient from "@/components/InvestorPortalClient";
 import {
   INVESTOR_COOKIE_NAME,
   verifyInvestorSessionToken,
@@ -22,20 +20,7 @@ export default async function InvestorPortalPage() {
     <main className={`${styles.page} ${styles.investorPortal}`}>
       <FlowArtwork variant="investors" />
 
-      <header className={styles.header}>
-        <Link href="/" className={styles.brandLink}>
-          <Image
-            src="/images/cashless-mark.png"
-            alt="Cashless"
-            width={64}
-            height={40}
-            className={styles.logo}
-            priority
-          />
-        </Link>
-      </header>
-
-      <InvestorCommercialStats />
+      <InvestorPortalClient />
     </main>
   );
 }

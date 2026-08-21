@@ -22,7 +22,7 @@ export async function POST(request: NextRequest) {
   const phone = typeof body?.phone === "string" ? body.phone.trim() : "";
   const code = typeof body?.accessCode === "string" ? body.accessCode.trim() : "";
 
-  if (!fullName || !email || !phone || !code) {
+  if (!fullName || !email || !code) {
     return NextResponse.json({ ok: false, error: "Informations incomplètes." }, { status: 400 });
   }
 

@@ -26,7 +26,34 @@ test("the investor commercial board exposes every commercial section and graph",
     "AbortController",
     "signal: controller.signal",
     "investor-loading-overlay",
+    "Commercial statistics",
+    "This month",
   ]) {
     assert.ok(source.includes(requiredElement), `missing ${requiredElement}`);
   }
+});
+
+test("the investor portal uses the shared language switch", async () => {
+  const source = await readFile(new URL("../components/InvestorPortalClient.tsx", import.meta.url), "utf8");
+
+  for (const requiredElement of [
+    "LANGUAGE_STORAGE_KEY",
+    "NigeriaFlag",
+    "BeninFlag",
+    '<InvestorCommercialStats language={activeLanguage}',
+  ]) {
+    assert.ok(source.includes(requiredElement), `missing ${requiredElement}`);
+  }
+});
+
+test("the investor phone number is optional", async () => {
+  const [form, route, requestType] = await Promise.all([
+    readFile(new URL("../components/InvestorAccessForm.tsx", import.meta.url), "utf8"),
+    readFile(new URL("../app/api/investor-access/route.ts", import.meta.url), "utf8"),
+    readFile(new URL("../../cashless-cards-admin-backend/types/investor_portal.go", import.meta.url), "utf8"),
+  ]);
+
+  assert.ok(form.includes("phone: parsedPhone?.number ?? \"\""));
+  assert.ok(!route.includes("!fullName || !email || !phone || !code"));
+  assert.match(requestType, /Phone\s+string\s+`json:"phone" validate:"omitempty,min=8,max=20"`/);
 });
